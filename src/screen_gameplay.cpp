@@ -15,6 +15,8 @@
 #include"entity.h"
 #include"cat.h"
 
+#define INTERACT_KEY KEY_I
+
 static bool is_debugging=false;
 static bool isTyping=false;
 static int finish_screen=0;
@@ -37,7 +39,6 @@ static b2Body *wall;
 #define MAX_CHAT_TEXTS 100
 
 std::vector<std::string> commands;
-std::vector<std::string> changeable_object;
 
 void typeInChat(std::string text){
     if(texts.size()>MAX_CHAT_TEXTS)
@@ -116,10 +117,10 @@ static void typingCode(){
 
 static void UpdateTiles(){
 idk:
-    for(auto& tile:tiles){
+    for(auto& tile: tiles){
         if(tile.getName() == "transitionarea"){
-            if(CheckCollisionRecs(player.getBody(), tile.getBody()) && IsKeyPressed(KEY_I)){
-                switchLevel("res/maps/inside.json");
+            if(CheckCollisionRecs(player.getBody(), tile.getBody()) && IsKeyPressed(INTERACT_KEY)){
+                tiles = loadLevelFromFile(tile.getTransitionLevel());
                 goto idk;
             }
         }

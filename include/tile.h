@@ -25,7 +25,7 @@ class Tile{
 
         int z_level;
 
-        std::string fileName;
+        std::string filename;
 
         //animations
         bool hasAnimation;
@@ -53,9 +53,12 @@ class Tile{
         
         bool getIsRunningAnimation(){return isRunningAnimation;}
 
-        std::string getTransitionLevel(){return fileName;}
+        std::string getTransitionLevel(){return "res/maps/inside.json";}
 
         InventoryItem asItem(int total_count); //Will set idx/slot to 0
+
+        void attachLevel(std::string levelName);
+        void changeLevel(std::vector<Tile> tiles);
         
         Rectangle getBody(){return body;}
         Texture2D getTexture(){return texture;}
@@ -69,7 +72,6 @@ class Tile{
         void Update();
         void Draw(bool is_debugging);
 
-        void attachLevel(std::string levelName);
 
         //Constructors
         Tile();
@@ -77,6 +79,3 @@ class Tile{
 };
 
 std::vector<Tile> loadLevelFromFile(std::string file_path);
-
-Tile newItem(int id);
-Tile newItem(std::string name);

@@ -7,8 +7,13 @@
 #include<chrono>
 #include<sstream>
 #include<string>
+#include<cctype>
 
 namespace fs=std::filesystem;
+
+bool isEnglishAlphabet(char c) {
+    return std::isalpha(static_cast<unsigned char>(c)) != 0;
+}
 
 std::string getSecondWord(const std::string& input) {
     std::istringstream iss(input);

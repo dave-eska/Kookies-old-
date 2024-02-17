@@ -36,5 +36,5 @@ void ResetTitleFinishScreen(){
 }
 
 int FinishTitleScreen(){
-    return finish_screen;
+    return 2;
 }

@@ -5,6 +5,7 @@
 #include<fstream>
 #include<string>
 #include<string>
+#include<sstream>
 #include<iostream>
 
 #include<raylib.h>
@@ -33,15 +34,15 @@ std::vector<Tile> loadLevelFromFile(std::string file_path){
     int z = 0;
 
     std::string id;
+    std::string destination;
+
+    bool isReadingDestination;
 
     Vector2 starting_pos={root["x"].asFloat(), root["y"].asFloat()};
-    // Vector2 relative_pos{0, 0}; // we can remake this later, just simplifying things for now
-    //
 
     for (const auto& layer : root["layers"]) {
         y = 0;
         x = 0;
-        std::cout<<layer.asString()<<std::endl;
         for (const auto& e : layer.asString()) {
             if (e == '\n') {
                 Tile tile = Tile(std::stoi(id), {starting_pos.x+x*TILE_SIZE, starting_pos.y+(y*TILE_SIZE)}, z);
@@ -51,11 +52,17 @@ std::vector<Tile> loadLevelFromFile(std::string file_path){
                 x=0;
             }else if(e == ' ' && !id.empty()){
                 Tile tile = Tile(std::stoi(id), {starting_pos.x+x*TILE_SIZE, starting_pos.y+(y*TILE_SIZE)}, z);
+                if(!destination.empty()){
+                    tile.attachLevel(destination);
+                }
                 vec.push_back(tile);
                 id.clear();
+                destination.clear();
                 x++;
             }else if (isdigit(e)) {
                 id.push_back(e);
+            }else if(isEnglishAlphabet(e)){
+                destination.push_back(e);
             }
         }
         if(!id.empty()){
@@ -92,6 +99,10 @@ InventoryItem Tile::asItem(int total_count){
     };
 }
 
+void Tile::changeLevel(std::vector<Tile> tiles){
+    tiles = loadLevelFromFile(filename);
+}
+
 void Tile::Draw(bool is_debugging){
     if(isRunningAnimation) {
         DrawSpriteAnimationPro(animation, {body.x, body.y, TILE_SIZE, TILE_SIZE}, {0, 0}, 0, WHITE, isRunningAnimation);
@@ -105,7 +116,8 @@ void Tile::Draw(bool is_debugging){
 
 void Tile::attachLevel(std::string levelName){
     if(name=="transitionarea")
-        this->fileName = levelName;
+        this->filename = "res/maps/" + levelName + ".json";
+    std::cout<<this->filename<<std::endl;
 }
 
 Tile::Tile(){

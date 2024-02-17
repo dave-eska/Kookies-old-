@@ -17,3 +17,4 @@ bool IsAlphanumeric(char c);
 bool isStringInVector(const std::vector<std::string>& vec, const std::string& str);
 std::string getSecondWord(const std::string& input);
 std::string getFirstWord(const std::string& input);
+bool isEnglishAlphabet(char c);
