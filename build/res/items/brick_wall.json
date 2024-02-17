@@ -1,0 +1,12 @@
+{
+    "name": "brick_wall",
+    "texture": "res/img/brick_wall.png",
+    
+    "width": 32,
+    "height": 32,
+
+    "type": "Block",
+    "collision": true,
+
+    "id": 5
+}

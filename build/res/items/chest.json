@@ -1,0 +1,13 @@
+{
+    "name": "chest",
+    "texture": "res/img/chest.png",
+    "animation": true,
+
+    "width": 32,
+    "height": 32,
+
+    "type": "Item",
+    "collision": false,
+
+    "id": 3
+}

@@ -1,0 +1,13 @@
+{
+    "name": "grass",
+    "texture1": "res/img/grass1.png",
+    "texture2": "res/img/grass2.png",
+    
+    "width": 32,
+    "height": 32,
+
+    "type": "Block",
+    "collision": false,
+
+    "id": 1
+}

@@ -1,0 +1,12 @@
+{
+    "name": "cookie",
+    "texture": "res/img/cookie.png",
+    
+    "width": 32,
+    "height": 32,
+
+    "type": "Item",
+    "collision": false,
+
+    "id": 4
+}
