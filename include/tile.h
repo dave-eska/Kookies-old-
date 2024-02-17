@@ -80,8 +80,3 @@ std::vector<Tile> loadLevelFromFile(std::string file_path);
 
 Tile newItem(int id);
 Tile newItem(std::string name);
-
-class TransitionTile: public Tile{
-    public:
-        TransitionTile(Vector2 pos, int z_level);
-};

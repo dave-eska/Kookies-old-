@@ -61,7 +61,7 @@ int main(void)
     // Setup and init first screen
     currentScreen = TITLE;
     InitTitleScreen();
-    //ToggleFullscreen();
+    ToggleFullscreen();
 
     SetExitKey(KEY_NULL);
     SetTargetFPS(120);       // Set our game to run at 60 frames-per-second
