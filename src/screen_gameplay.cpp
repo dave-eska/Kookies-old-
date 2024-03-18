@@ -7,6 +7,7 @@
 #include"screens.h"
 
 #include"global_func.h"
+#include"tiling_util.h"
 
 #include"player.h"
 #include"tile.h"
@@ -21,9 +22,6 @@ static bool is_debugging=false;
 static bool isTyping=false;
 static int finish_screen=0;
 
-static b2Vec2 gravity(0.0f, 0.0f);
-static b2World world(gravity);
-
 static Player player;
 static std::vector<std::unique_ptr<Entity>> entities;
 
@@ -31,10 +29,8 @@ static Camera2D camera ;
 static Sound pickupsound;
 
 static std::vector<ChatText> texts;
-static std::vector<Tile> tiles;
+static std::vector<std::unique_ptr<Tile>> tiles;
 static std::string user_input;
-
-static b2Body *wall;
 
 #define MAX_CHAT_TEXTS 100
 
@@ -116,20 +112,44 @@ static void typingCode(){
 }
 
 static void UpdateTiles(){
-idk:
-    for(auto& tile: tiles){
-        if(tile.getName() == "transitionarea"){
-            if(CheckCollisionRecs(player.getBody(), tile.getBody()) && IsKeyPressed(INTERACT_KEY)){
-                tiles = loadLevelFromFile(tile.getTransitionLevel());
-                goto idk;
+    for(std::size_t i=0;i<tiles.size();i++){
+        if(tiles[i]->getName() == "transitionarea"){
+            if(CheckCollisionRecs(player.getBody(), tiles[i]->getBody()) && IsKeyPressed(INTERACT_KEY)){
+                switchLevel(tiles[i]->getDestination());
+                break;
+            }
+        }
+        //Taking tiles
+        if(tiles[i]->getType() == "Item"){
+            if(CheckCollisionRecs(player.getSelectArea(), tiles[i]->getBody()) &&
+                    CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tiles[i]->getBody())){
+                if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+                    player.addItemInv(tiles[i]->asItem(1));
+                    tiles.erase(tiles.begin() + i);
+
+                    PlaySound(pickupsound);
+                }
+            }
+        }
+        //Placing tiles
+        if(tiles[i]->getType() == "Special"){
+            if(tiles[i]->getName() == "placearea" && CheckCollisionRecs(player.getSelectArea(), tiles[i]->getBody()) &&
+                    CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tiles[i]->getBody())){
+                if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
+                    tiles.push_back(std::make_unique<Tile>
+                            (Tile(player.getCurrentInvIDSlot(), {tiles[i]->getX(), tiles[i]->getY()}, tiles[i]->getZ()+1)));
+                    player.decreaseItemInv(player.getCurrentInvSlot());
+
+                    PlaySound(pickupsound);
+                }
             }
         }
     }
 }
 
 static void drawInCamMode(){
-    for(Tile& e:tiles){
-        e.Draw(is_debugging);
+    for(auto& tile:tiles){
+        tile->Draw(is_debugging);
     }
 
     for(auto& e:entities)
@@ -152,26 +172,25 @@ void InitGameplayScreen(){
             /*inventory_selecting_texture=*/"res/img/Outline_selector.png",
             /*extra_inv_texture=*/"res/img/Extra_Inven.png",
 
-            /*world=*/world,
-
             /*display_name=*/"Daveeska"
             );
 
     tiles = loadLevelFromFile("res/maps/test.json");
 
+    for(auto& e:tiles){
+        if(e->getName()=="itemarea"){
+            int probability=GetRandomValue(1,4);
+            if(probability == 2 or probability == 3 or probability == 4){
+                tiles.push_back(std::make_unique<Tile>(Tile(probability, {e->getX(), e->getY()}, e->getZ()+1)));
+            }
+        }
+    }
+
     camera = { 0 };
     camera.target = { player.getBody().x + 18*7, player.getBody().y + 35*7 };
     camera.offset = { GetScreenWidth()/2.0f, GetScreenHeight()/2.0f };
     camera.rotation = 0.0f;
-    camera.zoom = 0.5f;
-
-    b2BodyDef groundBodyDef;
-    groundBodyDef.position.Set(0.0f, 0.0f);
-    wall = world.CreateBody(&groundBodyDef);
-
-    b2PolygonShape groundBox;
-    groundBox.SetAsBox(10.0f, 0.5f);
-    wall->CreateFixture(&groundBox, 0.0f);
+    camera.zoom = 0.65f;
 
     commands = {
         "/tell",
@@ -183,7 +202,7 @@ void InitGameplayScreen(){
 
     entities.push_back(std::make_unique<Cat>(Cat({40,50}, player)));
 
-    pickupsound=LoadSound("res/sound/pickup.wav");
+    pickupsound = LoadSound("res/sound/pickup.wav");
 }
 
 void UpdateGameplayScreen(){
@@ -191,9 +210,6 @@ void UpdateGameplayScreen(){
         player.UpdateInventory();
         player.UpdateVariables();
         player.move(GetFrameTime());
-        player.interactItem(tiles, camera, pickupsound);
-
-        UpdateTiles();
 
         camera.target = { player.getBody().x + 18*7, player.getBody().y + 35*7 };
     }
@@ -207,6 +223,8 @@ void UpdateGameplayScreen(){
 
     for(auto& e:entities)
         e->Update(player);
+
+    UpdateTiles();
 }
 
 void DrawGameplayScreen(){

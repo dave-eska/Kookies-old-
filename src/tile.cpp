@@ -1,11 +1,10 @@
 #include"tile.h"
 
-#include<algorithm>
 #include<vector>
+
 #include<fstream>
 #include<string>
 #include<string>
-#include<sstream>
 #include<iostream>
 
 #include<raylib.h>
@@ -14,93 +13,50 @@
 #include<json/json.h>
 
 #include"animation.h"
+
 #include"global_func.h"
+#include"tiling_util.h"
 
 bool compareTiles(Tile& tile1, Tile& tile2){
     return tile1.getZ() < tile2.getZ();
 }
 
-std::vector<Tile> loadLevelFromFile(std::string file_path){
-    std::vector<Tile> vec;
-    std::string text = readFile(file_path);
-    Json::Value root;
+InventoryItem Tile::asItem(int total_count){
+    std::vector<RecipeItem> resep;
+
     Json::Reader jsonreader;
 
-    jsonreader.parse(text, root);
+    std::ifstream file(filename);
+    Json::Value jsonvalue;
+    jsonreader.parse(file, jsonvalue);
 
-    Vector3 pos;
-    int x = 0;
-    int y = 0;
-    int z = 0;
+    if(jsonvalue.isMember("recipe")){
+        const Json::Value recipeArray = jsonvalue["recipe"];
 
-    std::string id;
-    std::string destination;
+        // Iterate through the JSON array and populate the vector
+        for (const auto& elem : recipeArray) {
+            RecipeItem arr;
+            arr.id = elem[0].asInt();
+            arr.count = elem[1].asInt();
 
-    bool isReadingDestination;
-
-    Vector2 starting_pos={root["x"].asFloat(), root["y"].asFloat()};
-
-    for (const auto& layer : root["layers"]) {
-        y = 0;
-        x = 0;
-        for (const auto& e : layer.asString()) {
-            if (e == '\n') {
-                Tile tile = Tile(std::stoi(id), {starting_pos.x+x*TILE_SIZE, starting_pos.y+(y*TILE_SIZE)}, z);
-                vec.push_back(tile);
-                id.clear();
-                y++;
-                x=0;
-            }else if(e == ' ' && !id.empty()){
-                Tile tile = Tile(std::stoi(id), {starting_pos.x+x*TILE_SIZE, starting_pos.y+(y*TILE_SIZE)}, z);
-                if(!destination.empty()){
-                    tile.attachLevel(destination);
-                }
-                vec.push_back(tile);
-                id.clear();
-                destination.clear();
-                x++;
-            }else if (isdigit(e)) {
-                id.push_back(e);
-            }else if(isEnglishAlphabet(e)){
-                destination.push_back(e);
-            }
-        }
-        if(!id.empty()){
-            Tile tile = Tile(std::stoi(id), {starting_pos.x+x*TILE_SIZE, starting_pos.y+(y*TILE_SIZE)}, z);
-            vec.push_back(tile);
-            id.clear();
-        }
-
-        z++;
-    }
-   
-    for(Tile e:vec){
-        if(e.getName()=="itemarea"){
-            int probability=GetRandomValue(0,5);
-            if(probability == 2 or probability == 3){
-                vec.push_back(Tile(probability, {e.getX(), e.getY()}, e.getZ()+1));
-            }
+            resep.push_back(arr);
         }
     }
 
-    std::sort(vec.begin(), vec.end(), compareTiles);
-
-    return vec;
-}
-
-InventoryItem Tile::asItem(int total_count){
     return{
         .tileID=id,
             .item_type=type,
             .item_name=name,
             .item_invslot=0,
             .item_count=total_count,
+            .recipe = resep,
             .iconTexture=texture
     };
 }
 
-void Tile::changeLevel(std::vector<Tile> tiles){
-    tiles = loadLevelFromFile(filename);
+void Tile::changeLevel(std::vector<std::unique_ptr<Tile>>& tiles){
+    tiles = loadLevelFromFile(dest);
+    std::cout<<dest<<std::endl;
 }
 
 void Tile::Draw(bool is_debugging){
@@ -112,12 +68,14 @@ void Tile::Draw(bool is_debugging){
     if(is_debugging){
         DrawTextureEx(debugbox, {body.x, body.y}, 0, 3, WHITE);
     }
+
+    if(name=="transitionarea")
+        DrawText(dest.c_str(), body.x, body.y, 20, BLACK);
 }
 
 void Tile::attachLevel(std::string levelName){
     if(name=="transitionarea")
-        this->filename = "res/maps/" + levelName + ".json";
-    std::cout<<this->filename<<std::endl;
+        this->dest = "res/maps/" + levelName + ".json";
 }
 
 Tile::Tile(){
@@ -127,7 +85,7 @@ Tile::Tile(){
 Tile::Tile(int id, Vector2 pos, int z_level){
     //Debug Variables
     isTouchingMouse=false;
-    isRunningAnimation=false;
+    isRunningAnimation=true;
 
     debugbox=LoadTexture("res/img/debugbox.png");
 
@@ -153,6 +111,8 @@ Tile::Tile(int id, Vector2 pos, int z_level){
             this->type = jsonvalue["type"].asString();
             this->hasAnimation = jsonvalue["animation"].asBool();
             this->hasCollision = jsonvalue["collision"].asBool();
+
+            this->filename = "res/items/"+e;
 
             if(jsonvalue.isMember("texture")){
                 texture=LoadTexture(jsonvalue["texture"].asString().c_str());

@@ -18,8 +18,8 @@ Font font = { 0 };
 //----------------------------------------------------------------------------------
 // Local Variables Definition (local to this module)
 //----------------------------------------------------------------------------------
-static const int screenWidth = 1280;
-static const int screenHeight = 720;
+static const int screenWidth = 1600;
+static const int screenHeight = 900;
 
 // Required variables to manage screen transitions (fade-in, fade-out)
 static float transAlpha = 0.0f;
@@ -63,7 +63,7 @@ int main(void)
     InitTitleScreen();
 
     SetExitKey(KEY_NULL);
-    SetTargetFPS(120);       // Set our game to run at 60 frames-per-second
+    SetTargetFPS(60);       // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
 
     // Main game loop

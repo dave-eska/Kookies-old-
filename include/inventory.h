@@ -1,6 +1,7 @@
 #pragma once
 
 #include<vector>
+#include<array>
 
 #include<raylib.h>
 
@@ -29,9 +30,16 @@ class Inventory{
         InventoryItem getItemIdFromSlot(int slot);
         InventoryItem getItemFromCurrentSot();
 
+        int getSlotWithItem(int id);
+
         int getCurrentSlot(){return current_slot;}
 
+        int getFirstEmptySlot(); //Returns slot
+
         void printItems();
+
+        bool has(int id);
+        bool has(RecipeItem item_data);
 
         //Setters;
         void setPos(Vector2 newPos){pos=newPos;}
@@ -41,10 +49,13 @@ class Inventory{
 
         //Function;
         void addItem(InventoryItem item);
+        void decreaseItemCount(int slot, int count);
         void decreaseItemCount(int slot);
         void toggleDrawUI();
 
         void changeCurrentSlot();
+
+        void craft(InventoryItem item);
 
         void Draw(Camera2D& camera);
         void DrawItemName();

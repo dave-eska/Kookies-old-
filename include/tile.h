@@ -3,6 +3,7 @@
 #include<vector>
 #include<string>
 #include<string>
+#include<memory>
 
 #include<raylib.h>
 
@@ -25,6 +26,8 @@ class Tile{
 
         int z_level;
 
+        std::string dest;
+
         std::string filename;
 
         //animations
@@ -36,6 +39,7 @@ class Tile{
         bool isTouchingMouse;
         bool hasCollision;
         bool isTouchingPlayer;
+        int slot;
     public:
 
         //Getters
@@ -48,25 +52,29 @@ class Tile{
         int getZ(){return z_level;}
         int getID(){return id;}
 
+        int getSlot(){return slot;}
+
         bool HasAnimFrame(){return hasAnimation;}
         bool HasCollision(){return hasCollision;}
-        
-        bool getIsRunningAnimation(){return isRunningAnimation;}
 
-        std::string getTransitionLevel(){return "res/maps/inside.json";}
+        bool getIsRunningAnimation(){return isRunningAnimation;}
 
         InventoryItem asItem(int total_count); //Will set idx/slot to 0
 
+        std::string getDestination(){return dest;}
+
         void attachLevel(std::string levelName);
-        void changeLevel(std::vector<Tile> tiles);
-        
+        void changeLevel(std::vector<std::unique_ptr<Tile>>& tiles);
+
         Rectangle getBody(){return body;}
         Texture2D getTexture(){return texture;}
-        
+
         //Seters
         void setBod(Rectangle bod){body=bod;}
         void setX(float x){body.x=x;}
         void setY(float y){body.y=y;}
+        void setSlot(int vec_slot){slot = vec_slot;}
+
         void runAnimation(){isRunningAnimation=true;}
 
         void Update();
@@ -77,5 +85,3 @@ class Tile{
         Tile();
         Tile(int id, Vector2 pos, int z_level);
 };
-
-std::vector<Tile> loadLevelFromFile(std::string file_path);

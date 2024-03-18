@@ -5,10 +5,7 @@
 
 #include<raylib.h>
 
-#include<box2d/box2d.h>
-
 #include"animation.h"
-#include"tile.h"
 #include"inventory.h"
 
 #define DIRECTION_UP 1
@@ -35,13 +32,6 @@ class Player{
 
         std::string display_name;
 
-        struct{
-            b2BodyDef bodyDef;
-            b2Body *body;
-            b2PolygonShape shape;
-            b2FixtureDef fixtureDef;
-        }b2;
-
         //Debug variable
         bool isToucingItem;
 
@@ -52,18 +42,29 @@ class Player{
     public:
         //Getter
         Rectangle getBody(){return body;}
+        Rectangle getSelectArea(){return selectArea;}
+
         int getSpeed(){return speed;}
         bool getIsToucingItem(){return isToucingItem;}
         std::string getDisplayName(){return display_name;}
+        Inventory getInv(){return inv;}
 
         //Setters
         void setTouchingBool(bool value){isToucingItem=value;}
         void setPos(Vector2 pos){body.x=pos.x; body.y=pos.y;}
 
+        //Inventoy functions
+        void addItemInv(InventoryItem item);
+        void decreaseItemInv(int slot);
+
+        int getCurrentInvIDSlot();        
+        int getCurrentInvSlot();
+
+        bool invHas(int id);
+        bool invHas(RecipeItem criteria);
+
         //Public Functions
         void move(float dt);
-
-        void interactItem(std::vector<Tile>& tileVec, Camera2D& camera, Sound pickupsound);
 
         void UpdateVariables();
         void animate();
@@ -80,8 +81,6 @@ class Player{
                 /*inv*/
                 int slots, Vector2 inventory_pos, 
                 std::string inventory_texture, std::string inventory_selecting_texture, std::string extra_inv_texture,
-                /*box2d stuff*/
-                b2World &world,
                 /*customization*/
                 std::string display_name);
 };

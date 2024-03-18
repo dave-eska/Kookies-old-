@@ -2,7 +2,14 @@
 
 #include<string>
 
+#include<vector>
+
 #include<raylib.h>
+
+struct RecipeItem{
+    int id;
+    int count;
+};
 
 struct InventoryItem{
     int tileID{};
@@ -11,6 +18,8 @@ struct InventoryItem{
 
     int item_invslot{};
     int item_count{};
+
+    std::vector<RecipeItem> recipe;
 
     Texture2D iconTexture{};
 };

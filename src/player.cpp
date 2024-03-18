@@ -4,8 +4,8 @@
 
 #include<string>
 
-#include"global_func.h"
 #include"inventory.h"
+#include"tile.h"
 
 //Private functions
 void Player::move(float dt){
@@ -48,45 +48,6 @@ void Player::animate(){
     DrawSpriteAnimationPro(animations[current_animation], dest, origin, 0, WHITE);
 }
 
-void Player::interactItem(std::vector<Tile>& tileVec, Camera2D& camera, Sound pickupsound){
-    for(int i=0;i<tileVec.size();i++){
-        auto tile=tileVec[i];
-        //Taking item
-        if(CheckCollisionRecs(selectArea, tile.getBody()) && tile.getType()=="Item"){
-            isToucingItem=true;
-            if(CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tile.getBody()) && 
-                    IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                inv.addItem(tile.asItem(1));
-                
-                tileVec.erase(tileVec.begin()+i);
-                PlaySound(pickupsound);
-            }
-        }
-        //Placing Item
-        if(CheckCollisionRecs(selectArea, tile.getBody()) && tile.getName()=="placearea" 
-                && inv.getItemFromCurrentSot().item_count > 0){
-
-            if(CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tile.getBody()) && 
-                    IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
-
-                tileVec.push_back(Tile(inv.getItemFromCurrentSot().tileID, {tile.getX(), tile.getY()}, tile.getZ()+1));
-                inv.decreaseItemCount(inv.getCurrentSlot());
-
-                PlaySound(pickupsound);
-            }
-        }
-        //Animating Item
-        if(CheckCollisionRecs(selectArea, tile.getBody()) && tile.HasAnimFrame()){
-            if(CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tile.getBody()) &&
-                    IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
-                tile.runAnimation();
-                typeInChat(tile.getName() + " Tile Is_Running_Animation: " + std::to_string(tile.getIsRunningAnimation()));
-            }
-        }
-    }
-    if(inv.getItemFromCurrentSot().item_count==0) inv.deleteItem(inv.getCurrentSlot());
-}
-
 //Public Functions
 void Player::UpdateVariables(){
     isToucingItem=false;
@@ -95,6 +56,10 @@ void Player::UpdateVariables(){
 void Player::UpdateInventory(){
     inv.changeCurrentSlot();
     inv.toggleDrawUI();
+
+    if(IsKeyPressed(KEY_F)){
+        inv.craft(Tile(4, {0,0}, 0).asItem(1));
+    }
 }
 
 void Player::Draw(bool isDebuggin){
@@ -103,20 +68,42 @@ void Player::Draw(bool isDebuggin){
     DrawText(display_name.c_str(), (body.x+35)-60, body.y-40, 50, BLACK);
     if(isDebuggin) {
         DrawRectangleRec(body, {0,200,0,150});
-        //DrawRectangleRec(selectArea, {0,0,0,100});
+        DrawRectangleRec(selectArea, {0,0,0,100});
     }
 }
 
+bool Player::invHas(int id){
+    return inv.has(id);
+}
+
+bool Player::invHas(RecipeItem criteria){
+    return inv.has(criteria);
+}
+
+void Player::addItemInv(InventoryItem item){
+    inv.addItem(item);
+}
+
+int Player::getCurrentInvSlot(){
+    return inv.getCurrentSlot();
+}
+
+int Player::getCurrentInvIDSlot(){
+    return inv.getItemFromCurrentSot().tileID;
+}
+
+void Player::decreaseItemInv(int slot){
+    inv.decreaseItemCount(slot);
+}
+
 void Player::InventoryDraw(Camera2D& camera){
-    inv.Draw(camera);;
+    inv.Draw(camera);
 }
 
 Player::Player(Rectangle body, int speed, const char* texture_path, Rectangle selectArea, Rectangle collisionBody,
                 /*inv*/
                 int slots, Vector2 inventory_pos, 
                 std::string inventory_texture, std::string inventory_selecting_texture, std::string extra_inv_texture,
-                /*box2d stuff*/
-                b2World &world,
                 /*customization*/
                 std::string display_name)
     :body{body},selectArea{selectArea},default_speed{speed},display_name{display_name},speed{speed}{
@@ -125,19 +112,6 @@ Player::Player(Rectangle body, int speed, const char* texture_path, Rectangle se
         inv = Inventory(inventory_pos, slots, 
                 LoadTexture(inventory_texture.c_str()), LoadTexture(inventory_selecting_texture.c_str()), 
                 LoadTexture(extra_inv_texture.c_str()));
-
-        b2.bodyDef.type = b2_dynamicBody;
-        b2.bodyDef.position.Set(body.x, body.y);
-
-        b2.body = world.CreateBody(&b2.bodyDef);
-
-        b2.shape.SetAsBox(collisionBody.width/2, collisionBody.height/2);
-
-        b2.fixtureDef.shape = &b2.shape;
-        b2.fixtureDef.density = 1.0f;
-        b2.fixtureDef.friction = 0.3;
-
-        b2.body->CreateFixture(&b2.fixtureDef);
 
         current_animation=1;
         //0=up || 1=down || 2=left || 3=right//
