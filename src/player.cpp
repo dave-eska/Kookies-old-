@@ -202,9 +202,6 @@ Player::Player(Rectangle body, int speed, const char* texture_path, Rectangle se
         CreateSpriteAnimation(texture, 11, walkRightRect, 6), //7
     };
 
-    inv.addItem(Tile(2, {0,0}, 0).asItem(99));
-    inv.addItem(Tile(3, {0,0}, 0).asItem(99));
-
 }
 
 Player::Player(){

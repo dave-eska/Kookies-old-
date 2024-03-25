@@ -88,11 +88,13 @@ bool Inventory::canCraft(InventoryItem item){
 void Inventory::UpdateCraftableTileID(){
     for(const auto& id:craftableTileID){
         auto it = std::find(canCraftTileID.begin(), canCraftTileID.end(), id);
-        if(canCraft(Tile(15, {0,0}, 0).asItem(1)) && it == canCraftTileID.end()){
+        if(canCraft(Tile(id, {0,0}, 0).asItem(1)) && it == canCraftTileID.end()){
             canCraftTileID.push_back(id);
+        }else if(!canCraft(Tile(id, {0,0}, 0).asItem(1)) && it != canCraftTileID.end()){
+            std::erase(canCraftTileID, id);
         }
     }
-    std::cout<<1;
+
     if(IsKeyPressed(KEY_RIGHT)){
         if(current_craftableTileId == canCraftTileID.size()-1){
             current_craftableTileId = 0;
@@ -106,9 +108,9 @@ void Inventory::UpdateCraftableTileID(){
         }else{
             current_craftableTileId--;
         }
-        if(IsKeyPressed(KEY_C))
-            craft(Tile(canCraftTileID[current_craftableTileId], {0,0}, 1).asItem(1));
     }
+    if(IsKeyPressed(KEY_C))
+        craft(Tile(canCraftTileID[current_craftableTileId], {0,0}, 1).asItem(1));
 }
 
 
@@ -208,10 +210,18 @@ void Inventory::Draw(Camera2D& camera){
     }
 
     if(isCrafting){
-        DrawTextureEx(CraftingMenu_texture, {1180, 560}, 0, 10, WHITE);
+        DrawTextureEx(CraftingMenu_texture, {1180, 560}, 0, 5, WHITE);
         if(!canCraftTileID.empty()){
-            DrawTextureEx(Tile(canCraftTileID[current_craftableTileId], {0,0}, 0).getTexture(), {1230, 610}, 0, 2.2, WHITE);
-            DrawText(Tile(canCraftTileID[current_craftableTileId], {0,0}, 0).getName().c_str(), 1320, 600, 30, BLACK);
+            InventoryItem target_item = Tile(canCraftTileID[current_craftableTileId], {0,0}, 0).asItem(1);
+
+            DrawTextureEx(target_item.iconTexture, {1230, 610}, 0, 2.2, WHITE);
+            DrawText(target_item.item_name.c_str(), 1320, 600, 30, BLACK);
+
+            DrawTextureEx(Tile(target_item.recipe[1].id, {0,0}, 0).getTexture(),
+                    {1220, 730}, 0, 1, WHITE);
+
+            DrawTextureEx(Tile(target_item.recipe[0].id, {0,0}, 0).getTexture(),
+                    {1280, 730}, 0, 1, WHITE);
         }
     }
 }
@@ -226,7 +236,7 @@ void Inventory::readCraftAbleFile(){
 
     Json::Value craftableArray = root["craftable"];
 
-    
+
     // Convert the JSON array to a vector of integers
     for (int i = 0; i < craftableArray.size(); ++i) {
         int value = craftableArray[i].asInt();
@@ -239,7 +249,7 @@ Inventory::Inventory(){
 }
 
 Inventory::Inventory(Vector2 pos, int slots, Texture2D Outline_texture,
-                Texture2D SelectOutline_texture, Texture2D Extra_Inv_Texture, Texture2D CraftingMenu_texture)
+        Texture2D SelectOutline_texture, Texture2D Extra_Inv_Texture, Texture2D CraftingMenu_texture)
     :pos{pos},
     Outline_texture{Outline_texture},SelectOutline_texture{SelectOutline_texture},Extra_Inv_Texture{Extra_Inv_Texture},
     CraftingMenu_texture{CraftingMenu_texture}
