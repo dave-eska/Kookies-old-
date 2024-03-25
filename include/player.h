@@ -56,9 +56,13 @@ class Player{
         //Inventoy functions
         void addItemInv(InventoryItem item);
         void decreaseItemInv(int slot);
+        void toggleInvenCrafting();
+        void setInvIsCrafting(bool value);
+        void updateCraftableItem();
 
         int getCurrentInvIDSlot();        
         int getCurrentInvSlot();
+        int getCurrentInvCraftAbleID();
 
         bool invHas(int id);
         bool invHas(RecipeItem criteria);
@@ -81,7 +85,7 @@ class Player{
                 /*inv*/
                 int slots, Vector2 inventory_pos, 
                 std::string inventory_texture, std::string inventory_selecting_texture, std::string extra_inv_texture,
+                std::string crafting_menu_texture,
                 /*customization*/
                 std::string display_name);
 };
-

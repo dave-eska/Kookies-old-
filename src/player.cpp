@@ -4,6 +4,8 @@
 
 #include<string>
 
+#include"global_func.h"
+
 #include"inventory.h"
 #include"tile.h"
 
@@ -55,11 +57,26 @@ void Player::UpdateVariables(){
 
 void Player::UpdateInventory(){
     inv.changeCurrentSlot();
-    inv.toggleDrawUI();
 
-    if(IsKeyPressed(KEY_F)){
-        inv.craft(Tile(4, {0,0}, 0).asItem(1));
-    }
+    inv.toggleDrawUI();
+    if(inv.getIsCrafting())
+        inv.UpdateCraftableTileID();
+
+    if(IsKeyPressed(KEY_SPACE))
+        typeInChat(std::to_string(inv.has({13, 4})));
+
+}
+
+void Player::updateCraftableItem(){
+    inv.UpdateCraftableTileID();
+}
+
+void Player::setInvIsCrafting(bool value){
+    inv.setIsCrafting(value);
+}
+
+void Player::toggleInvenCrafting(){
+    inv.toggleCrafting();
 }
 
 void Player::Draw(bool isDebuggin){
@@ -87,6 +104,9 @@ void Player::addItemInv(InventoryItem item){
 int Player::getCurrentInvSlot(){
     return inv.getCurrentSlot();
 }
+int Player::getCurrentInvCraftAbleID(){
+    return inv.getCurrent_craftableTileId();
+}
 
 int Player::getCurrentInvIDSlot(){
     return inv.getItemFromCurrentSot().tileID;
@@ -101,85 +121,89 @@ void Player::InventoryDraw(Camera2D& camera){
 }
 
 Player::Player(Rectangle body, int speed, const char* texture_path, Rectangle selectArea, Rectangle collisionBody,
-                /*inv*/
-                int slots, Vector2 inventory_pos, 
-                std::string inventory_texture, std::string inventory_selecting_texture, std::string extra_inv_texture,
-                /*customization*/
-                std::string display_name)
-    :body{body},selectArea{selectArea},default_speed{speed},display_name{display_name},speed{speed}{
-        texture=LoadTexture(texture_path);
+        /*inv*/
+        int slots, Vector2 inventory_pos, 
+        std::string inventory_texture, std::string inventory_selecting_texture, std::string extra_inv_texture,
+        std::string crafting_menu_texture,
+        /*customization*/
+        std::string display_name)
+:body{body},selectArea{selectArea},default_speed{speed},display_name{display_name},speed{speed}{
+    texture=LoadTexture(texture_path);
 
-        inv = Inventory(inventory_pos, slots, 
-                LoadTexture(inventory_texture.c_str()), LoadTexture(inventory_selecting_texture.c_str()), 
-                LoadTexture(extra_inv_texture.c_str()));
+    inv = Inventory(inventory_pos, slots, 
+            LoadTexture(inventory_texture.c_str()), LoadTexture(inventory_selecting_texture.c_str()), 
+            LoadTexture(extra_inv_texture.c_str()), LoadTexture(crafting_menu_texture.c_str()));
 
-        current_animation=1;
-        //0=up || 1=down || 2=left || 3=right//
-        direction=DIRECTION_DOWN;
-        // Define separate arrays for rectangles
-        Rectangle idleDownRect[] = {{0, 0, 18, 35},
-                                    {18, 0, 18, 35},
-                                    {36, 0, 18, 35},
-                                    {54, 0, 18, 35},
-                                    {72, 0, 18, 35}};
+    current_animation=1;
+    //0=up || 1=down || 2=left || 3=right//
+    direction=DIRECTION_DOWN;
+    // Define separate arrays for rectangles
+    Rectangle idleDownRect[] = {{0, 0, 18, 35},
+        {18, 0, 18, 35},
+        {36, 0, 18, 35},
+        {54, 0, 18, 35},
+        {72, 0, 18, 35}};
 
-        Rectangle walkDownRect[] = {{0, 35, 18, 35},
-                                    {18, 35, 18, 35},
-                                    {36, 35, 18, 35},
-                                    {54, 35, 18, 35},
-                                    {72, 35, 18, 35},
-                                    {90, 35, 18, 35}};
+    Rectangle walkDownRect[] = {{0, 35, 18, 35},
+        {18, 35, 18, 35},
+        {36, 35, 18, 35},
+        {54, 35, 18, 35},
+        {72, 35, 18, 35},
+        {90, 35, 18, 35}};
 
-        Rectangle idleLeftRect[] = {{0, 70, 18, 35},
-                                    {18, 70, 18, 35},
-                                    {36, 70, 18, 35},
-                                    {54, 70, 18, 35},
-                                    {72, 70, 18, 35}};
+    Rectangle idleLeftRect[] = {{0, 70, 18, 35},
+        {18, 70, 18, 35},
+        {36, 70, 18, 35},
+        {54, 70, 18, 35},
+        {72, 70, 18, 35}};
 
-        Rectangle walkLeftRect[] = {{0, 105, 18, 35},
-                                    {18, 105, 18, 35},
-                                    {36, 105, 18, 35},
-                                    {54, 105, 18, 35},
-                                    {72, 105, 18, 35},
-                                    {90, 105, 18, 35}};
+    Rectangle walkLeftRect[] = {{0, 105, 18, 35},
+        {18, 105, 18, 35},
+        {36, 105, 18, 35},
+        {54, 105, 18, 35},
+        {72, 105, 18, 35},
+        {90, 105, 18, 35}};
 
-        Rectangle idleUpRect[] = {{0, 140, 18, 35},
-                                 {18, 140, 18, 35},
-                                 {36, 140, 18, 35},
-                                 {54, 140, 18, 35},
-                                 {72, 140, 18, 35}};
+    Rectangle idleUpRect[] = {{0, 140, 18, 35},
+        {18, 140, 18, 35},
+        {36, 140, 18, 35},
+        {54, 140, 18, 35},
+        {72, 140, 18, 35}};
 
-        Rectangle walkUpRect[] = {{0, 175, 18, 35},
-                                 {18, 175, 18, 35},
-                                 {36, 175, 18, 35},
-                                 {54, 175, 18, 35},
-                                 {72, 175, 18, 35},
-                                 {90, 175, 18, 35}};
+    Rectangle walkUpRect[] = {{0, 175, 18, 35},
+        {18, 175, 18, 35},
+        {36, 175, 18, 35},
+        {54, 175, 18, 35},
+        {72, 175, 18, 35},
+        {90, 175, 18, 35}};
 
-        Rectangle idleRightRect[] = {{0, 210, 18, 35},
-                                    {18, 210, 18, 35},
-                                    {36, 210, 18, 35},
-                                    {54, 210, 18, 35},
-                                    {72, 210, 18, 35}};
-        
-        Rectangle walkRightRect[] = {{0, 245, 18, 35},
-                                    {18, 245, 18, 35},
-                                    {36, 245, 18, 35},
-                                    {54, 245, 18, 35},
-                                    {72, 245, 18, 35},
-                                    {90, 245, 18, 35}};
+    Rectangle idleRightRect[] = {{0, 210, 18, 35},
+        {18, 210, 18, 35},
+        {36, 210, 18, 35},
+        {54, 210, 18, 35},
+        {72, 210, 18, 35}};
 
-        // Use the arrays as arguments in CreateSpriteAnimation
-        animations = {
-            CreateSpriteAnimation(texture, 7, idleDownRect, 5), //0
-            CreateSpriteAnimation(texture, 11, walkDownRect, 6), //1
-            CreateSpriteAnimation(texture, 7, idleLeftRect, 5), //2
-            CreateSpriteAnimation(texture, 11, walkLeftRect, 6), //3
-            CreateSpriteAnimation(texture, 7, idleUpRect, 5), //4
-            CreateSpriteAnimation(texture, 11, walkUpRect, 6), //5
-            CreateSpriteAnimation(texture, 7, idleRightRect, 5), //6
-            CreateSpriteAnimation(texture, 11, walkRightRect, 6), //7
-        };
+    Rectangle walkRightRect[] = {{0, 245, 18, 35},
+        {18, 245, 18, 35},
+        {36, 245, 18, 35},
+        {54, 245, 18, 35},
+        {72, 245, 18, 35},
+        {90, 245, 18, 35}};
+
+    // Use the arrays as arguments in CreateSpriteAnimation
+    animations = {
+        CreateSpriteAnimation(texture, 7, idleDownRect, 5), //0
+        CreateSpriteAnimation(texture, 11, walkDownRect, 6), //1
+        CreateSpriteAnimation(texture, 7, idleLeftRect, 5), //2
+        CreateSpriteAnimation(texture, 11, walkLeftRect, 6), //3
+        CreateSpriteAnimation(texture, 7, idleUpRect, 5), //4
+        CreateSpriteAnimation(texture, 11, walkUpRect, 6), //5
+        CreateSpriteAnimation(texture, 7, idleRightRect, 5), //6
+        CreateSpriteAnimation(texture, 11, walkRightRect, 6), //7
+    };
+
+    inv.addItem(Tile(2, {0,0}, 0).asItem(99));
+    inv.addItem(Tile(3, {0,0}, 0).asItem(99));
 
 }
 

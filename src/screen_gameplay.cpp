@@ -63,6 +63,8 @@ static void drawDebugInfo(){
     printText("Total Tiles: ", std::to_string(tiles.size()), {0,160}, 20);
 
     printText("Total texts: ", std::to_string(texts.size()), {0,200}, 20);
+
+    printText("Inventory current craftable id: ", std::to_string(player.getCurrentInvCraftAbleID()), {0,240}, 20);
 }
 
 static void switchLevel(std::string fileName){
@@ -144,6 +146,16 @@ static void UpdateTiles(){
                 }
             }
         }
+        //Crafting
+        if(tiles[i]->getName() == "crafting_table" ){
+            if(CheckCollisionRecs(player.getBody(), tiles[i]->getBody())){
+                if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
+                    player.toggleInvenCrafting();
+                }
+            }else{
+                player.setInvIsCrafting(false);
+            }
+        }
     }
 }
 
@@ -171,10 +183,10 @@ void InitGameplayScreen(){
             /*inventory_texture=*/"res/img/inventory_outline.png",
             /*inventory_selecting_texture=*/"res/img/Outline_selector.png",
             /*extra_inv_texture=*/"res/img/Extra_Inven.png",
+            /*crafting_menu_texture=*/"res/img/Crafting_UI.png",
 
             /*display_name=*/"Daveeska"
             );
-
     tiles = loadLevelFromFile("res/maps/test.json");
 
     for(auto& e:tiles){
@@ -242,8 +254,6 @@ void DrawGameplayScreen(){
         DrawRectangleRec({30,(float)GetScreenHeight()-50,500,35}, {20,20,20,130});
         DrawText(user_input.c_str(), 30, (float)GetScreenHeight()-50, 35, BLACK);
     }
-
-    DrawText("PRESS 'I' TO INTERACT", GetScreenWidth()-400, GetScreenHeight()-30, 30, BLACK);
 
     if(is_debugging)
         drawDebugInfo();

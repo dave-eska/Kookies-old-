@@ -2,11 +2,9 @@
     "name": "cookie",
     "texture": "res/img/cookie.png",
     
-    "width": 32,
-    "height": 32,
-
     "type": "Item",
-    "collision": false,
 
+    "recipe": [[2, 3], [3,13]],
+    
     "id": 4
 }

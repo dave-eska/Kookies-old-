@@ -4,12 +4,16 @@
 #include<algorithm>
 #include<string>
 
+#include<json/value.h>
+#include<json/json.h>
+
 #include<raylib.h>
 
 #include"global_func.h"
+
+#include"tile.h"
 #include"item.h"
 #include"timer.h"
-#include"tile.h"
 
 #define OUTLINE_SIZE 32*2
 
@@ -77,6 +81,37 @@ void Inventory::changeCurrentSlot(){
     updateTimer(&drawingNameTimer);
 }
 
+bool Inventory::canCraft(InventoryItem item){
+    return has(item.recipe[0]) && has(item.recipe[1]);
+}
+
+void Inventory::UpdateCraftableTileID(){
+    for(const auto& id:craftableTileID){
+        auto it = std::find(canCraftTileID.begin(), canCraftTileID.end(), id);
+        if(canCraft(Tile(15, {0,0}, 0).asItem(1)) && it == canCraftTileID.end()){
+            canCraftTileID.push_back(id);
+        }
+    }
+    std::cout<<1;
+    if(IsKeyPressed(KEY_RIGHT)){
+        if(current_craftableTileId == canCraftTileID.size()-1){
+            current_craftableTileId = 0;
+        }else{
+            current_craftableTileId++;
+        }
+    }
+    else if(IsKeyPressed(KEY_LEFT)){
+        if(current_craftableTileId == 0){
+            current_craftableTileId = canCraftTileID.size()-1;
+        }else{
+            current_craftableTileId--;
+        }
+        if(IsKeyPressed(KEY_C))
+            craft(Tile(canCraftTileID[current_craftableTileId], {0,0}, 1).asItem(1));
+    }
+}
+
+
 void Inventory::craft(InventoryItem item){
     bool has_all_ingredients = false;
     if(has(item.recipe[0]) && has(item.recipe[1])){
@@ -84,7 +119,7 @@ void Inventory::craft(InventoryItem item){
 
         addItem(item);
         decreaseItemCount(getSlotWithItem(item.recipe[0].id), item.recipe[0].count);
-        decreaseItemCount(getSlotWithItem(item.recipe[1].id), item.recipe[0].count);
+        decreaseItemCount(getSlotWithItem(item.recipe[1].id), item.recipe[1].count);
     }
 }
 
@@ -121,7 +156,7 @@ void Inventory::decreaseItemCount(int slot){
 }
 
 void Inventory::decreaseItemCount(int slot, int count){
-    if(items[slot].item_invslot > count){
+    if(items[slot].item_count > count){
         items[slot].item_count -= count;
     }else{
         deleteItem(slot);
@@ -131,6 +166,11 @@ void Inventory::decreaseItemCount(int slot, int count){
 void Inventory::toggleDrawUI(){
     if(IsKeyPressed(KEY_E))
         isDrawingUI = !isDrawingUI;
+}
+
+
+void Inventory::toggleCrafting(){
+    isCrafting = !isCrafting;
 }
 
 void Inventory::Draw(Camera2D& camera){
@@ -166,6 +206,32 @@ void Inventory::Draw(Camera2D& camera){
     }else{
         outline_transparancy = 255;
     }
+
+    if(isCrafting){
+        DrawTextureEx(CraftingMenu_texture, {1180, 560}, 0, 10, WHITE);
+        if(!canCraftTileID.empty()){
+            DrawTextureEx(Tile(canCraftTileID[current_craftableTileId], {0,0}, 0).getTexture(), {1230, 610}, 0, 2.2, WHITE);
+            DrawText(Tile(canCraftTileID[current_craftableTileId], {0,0}, 0).getName().c_str(), 1320, 600, 30, BLACK);
+        }
+    }
+}
+
+void Inventory::readCraftAbleFile(){
+    std::string text = readFile("res/items/craftableItems.json");
+
+    Json::Value root;
+    Json::Reader jsonreader;
+
+    jsonreader.parse(text, root);
+
+    Json::Value craftableArray = root["craftable"];
+
+    
+    // Convert the JSON array to a vector of integers
+    for (int i = 0; i < craftableArray.size(); ++i) {
+        int value = craftableArray[i].asInt();
+        craftableTileID.push_back(value);
+    }
 }
 
 //Constructors
@@ -173,12 +239,19 @@ Inventory::Inventory(){
 }
 
 Inventory::Inventory(Vector2 pos, int slots, Texture2D Outline_texture,
-        Texture2D SelectOutline_texture, Texture2D Extra_Inv_Texture)
-    :pos{pos},Outline_texture{Outline_texture},SelectOutline_texture{SelectOutline_texture},Extra_Inv_Texture{Extra_Inv_Texture}
+                Texture2D SelectOutline_texture, Texture2D Extra_Inv_Texture, Texture2D CraftingMenu_texture)
+    :pos{pos},
+    Outline_texture{Outline_texture},SelectOutline_texture{SelectOutline_texture},Extra_Inv_Texture{Extra_Inv_Texture},
+    CraftingMenu_texture{CraftingMenu_texture}
 {
     current_slot=0;
-    isDrawingUI=false;
     outline_transparancy=255;
+    current_craftableTileId=0;
+
+    isDrawingUI = false;
+    isCrafting = false;
+
+    readCraftAbleFile();
 
     for(int i=0;i<slots;i++){
         items.push_back({
