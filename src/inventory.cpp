@@ -214,14 +214,14 @@ void Inventory::Draw(Camera2D& camera){
         if(!canCraftTileID.empty()){
             InventoryItem target_item = Tile(canCraftTileID[current_craftableTileId], {0,0}, 0).asItem(1);
 
-            DrawTextureEx(target_item.iconTexture, {1230, 610}, 0, 2.2, WHITE);
-            DrawText(target_item.item_name.c_str(), 1320, 600, 30, BLACK);
+            DrawTextureEx(target_item.iconTexture, {1220, 600}, 0, 2.2, WHITE);
+            DrawText(target_item.item_name.c_str(), 1320, 590, 33, BLACK);
 
             DrawTextureEx(Tile(target_item.recipe[1].id, {0,0}, 0).getTexture(),
-                    {1220, 730}, 0, 1, WHITE);
+                    {1240, 715}, 0, 1.3, WHITE);
 
             DrawTextureEx(Tile(target_item.recipe[0].id, {0,0}, 0).getTexture(),
-                    {1280, 730}, 0, 1, WHITE);
+                    {1300, 715}, 0, 1.3, WHITE);
         }
     }
 }

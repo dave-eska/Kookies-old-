@@ -1,0 +1,8 @@
+{
+    "name": "Bag Of Cherry",
+    "texture": "res/img/bag_of_cherrySeed.png",
+    
+    "type": "Item",
+
+    "id": 16
+}

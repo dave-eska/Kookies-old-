@@ -24,4 +24,6 @@ struct InventoryItem{
     Texture2D iconTexture{};
 };
 
+InventoryItem newItem(int tileID);
+
 void assignInvSlot(InventoryItem& item, int slot);
