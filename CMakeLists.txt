@@ -11,7 +11,8 @@ set(BOX2D_BUILD_UNIT_TESTS OFF CACHE BOOL "" FORCE)
 #project
 project(main1)
 include(FetchContent)
-set(CMAKE_CXX_STANDARD 17)
+
+set(CMAKE_CXX_STANDARD 20)
 
 FetchContent_Declare(
 box2d

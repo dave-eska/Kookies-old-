@@ -16,6 +16,8 @@
 #include"entity.h"
 #include"cat.h"
 
+#include"message.h"
+
 #define INTERACT_KEY KEY_I
 
 static bool is_debugging=false;
@@ -32,9 +34,12 @@ static std::vector<ChatText> texts;
 static std::vector<std::unique_ptr<Tile>> tiles;
 static std::string user_input;
 
+static std::vector<std::string> commands;
+
+static Message* msg;
+
 #define MAX_CHAT_TEXTS 100
 
-std::vector<std::string> commands;
 
 void typeInChat(std::string text){
     if(texts.size()>MAX_CHAT_TEXTS)
@@ -215,6 +220,8 @@ void InitGameplayScreen(){
     entities.push_back(std::make_unique<Cat>(Cat({40,50}, player)));
 
     pickupsound = LoadSound("res/sound/pickup.wav");
+
+    msg = new Message("res/texts/opening_convo.json");
 }
 
 void UpdateGameplayScreen(){
@@ -249,6 +256,8 @@ void DrawGameplayScreen(){
     player.InventoryDraw(camera);
 
     for(auto e:texts) e.Draw();
+
+    msg->Draw();
 
     if(isTyping){
         DrawRectangleRec({30,(float)GetScreenHeight()-50,500,35}, {20,20,20,130});
