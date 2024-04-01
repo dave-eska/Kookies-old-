@@ -1,8 +1,6 @@
 #include"cat.h"
 #include "raylib.h"
 
-#include"global_func.h"
-
 #define CAT_WIDTH 26*4
 #define CAT_HEIGHT 29*4
 

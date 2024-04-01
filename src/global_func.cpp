@@ -111,3 +111,17 @@ bool isStringInVector(
                     str);
     return it != vec.end();
 }
+
+
+int GetCharacterDistance(char* str, int char1Index, int char2Index) {
+    // Get default font
+    Font font = GetFontDefault();
+
+    // Calculate the position of the characters
+    int char1Width = MeasureText(TextSubtext(str, char1Index, 1), font.baseSize);
+    int char2Width = MeasureText(TextSubtext(str, char2Index, 1), font.baseSize);
+
+    int distance = std::abs(char2Width - char1Width);
+
+    return distance;
+}

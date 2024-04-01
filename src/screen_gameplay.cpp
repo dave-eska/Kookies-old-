@@ -16,7 +16,7 @@
 #include"entity.h"
 #include"cat.h"
 
-#include"message.h"
+#include"conversation.h"
 
 #define INTERACT_KEY KEY_I
 
@@ -36,7 +36,7 @@ static std::string user_input;
 
 static std::vector<std::string> commands;
 
-static Message* msg;
+static Conversation conversation;
 
 #define MAX_CHAT_TEXTS 100
 
@@ -87,7 +87,6 @@ static void typingCode(){
     if (c){
         user_input.push_back(c);
     }
-
 
     if(IsKeyPressed(KEY_BACKSPACE) && !user_input.empty())
         user_input.pop_back();
@@ -221,7 +220,7 @@ void InitGameplayScreen(){
 
     pickupsound = LoadSound("res/sound/pickup.wav");
 
-    msg = new Message("res/texts/opening_convo.json");
+    conversation = Conversation("Opening", "opening.json", 7);
 }
 
 void UpdateGameplayScreen(){
@@ -243,6 +242,8 @@ void UpdateGameplayScreen(){
     for(auto& e:entities)
         e->Update(player);
 
+    if(!conversation.hasFinised()) conversation.respond();
+
     UpdateTiles();
 }
 
@@ -255,9 +256,9 @@ void DrawGameplayScreen(){
 
     player.InventoryDraw(camera);
 
-    for(auto e:texts) e.Draw();
+    if(!conversation.hasFinised()) conversation.Draw();
 
-    msg->Draw();
+    for(auto e:texts) e.Draw();
 
     if(isTyping){
         DrawRectangleRec({30,(float)GetScreenHeight()-50,500,35}, {20,20,20,130});
