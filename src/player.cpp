@@ -7,7 +7,6 @@
 #include"global_func.h"
 
 #include"inventory.h"
-#include"tile.h"
 
 //Private functions
 void Player::move(float dt){

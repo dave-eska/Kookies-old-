@@ -8,6 +8,8 @@
 class Conversation{
     private:
         std::vector<std::string> filenames;
+
+        std::string first_file;
         std::string directory;
 
         Message current_message;
@@ -16,7 +18,10 @@ class Conversation{
         bool has_finished;
     public:
 
+        void setHas_Finished(bool value){has_finished = value;}
         bool hasFinised(){return has_finished;}
+
+        void restart();
 
         void respond();
         void Draw();

@@ -6,16 +6,18 @@
 
 #include"player.h"
 
+#include"conversation.h"
+
 class NPC: public Entity{
     private:
-        int health;
-        bool isFollowing;
-        Vector2 pos_diff;
+        Conversation conv;
+        bool isTalking;
     public:
         void Update(Player& plr) override;
         void Draw() override;
+
+        void Draw_UI() override;
         
         NPC();
-        NPC(Vector2 pos);
-        NPC(Vector2 max_diff_pos, Player& player);
+        NPC(Vector2 pos, std::string conv_dir, std::string first_message, int last_message_id);
 };

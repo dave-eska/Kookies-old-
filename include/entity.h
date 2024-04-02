@@ -13,5 +13,7 @@ class Entity{
         virtual void Update(Player& plr);
         virtual void Draw();
 
+        virtual void Draw_UI();
+
         Entity();
 };

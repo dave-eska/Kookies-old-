@@ -1,3 +1,4 @@
+#include<iostream>
 #include<vector>
 #include<string>
 #include<memory>
@@ -15,8 +16,7 @@
 
 #include"entity.h"
 #include"cat.h"
-
-#include"conversation.h"
+#include"npc.h"
 
 #define INTERACT_KEY KEY_I
 
@@ -35,8 +35,6 @@ static std::vector<std::unique_ptr<Tile>> tiles;
 static std::string user_input;
 
 static std::vector<std::string> commands;
-
-static Conversation conversation;
 
 #define MAX_CHAT_TEXTS 100
 
@@ -62,8 +60,8 @@ static void drawDebugInfo(){
 
     printText("Player Is Toucing Item: ", std::to_string(player.getIsToucingItem()), {0,60}, 20);
 
-    printText("Mouse X: ", std::to_string((int)GetScreenToWorld2D(GetMousePosition(), camera).x), {0,100}, 20);
-    printText("Mouse Y: ", std::to_string((int)GetScreenToWorld2D(GetMousePosition(), camera).y), {0,120}, 20);
+    printText("Mouse X: ", std::to_string((int)GetMousePosition().x), {0,100}, 20);
+    printText("Mouse Y: ", std::to_string((int)GetMousePosition().y), {0,120}, 20);
 
     printText("Total Tiles: ", std::to_string(tiles.size()), {0,160}, 20);
 
@@ -153,7 +151,8 @@ static void UpdateTiles(){
         //Crafting
         if(tiles[i]->getName() == "crafting_table" ){
             if(CheckCollisionRecs(player.getBody(), tiles[i]->getBody())){
-                if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
+                if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) && 
+                        CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tiles[i]->getBody())){
                     player.toggleInvenCrafting();
                 }
             }else{
@@ -217,10 +216,9 @@ void InitGameplayScreen(){
 
 
     entities.push_back(std::make_unique<Cat>(Cat({40,50}, player)));
+    entities.push_back(std::make_unique<NPC>(NPC({288, 572}, "Opening", "opening.json", 7)));
 
     pickupsound = LoadSound("res/sound/pickup.wav");
-
-    conversation = Conversation("Opening", "opening.json", 7);
 }
 
 void UpdateGameplayScreen(){
@@ -242,8 +240,6 @@ void UpdateGameplayScreen(){
     for(auto& e:entities)
         e->Update(player);
 
-    if(!conversation.hasFinised()) conversation.respond();
-
     UpdateTiles();
 }
 
@@ -254,9 +250,9 @@ void DrawGameplayScreen(){
 
     EndMode2D();
 
-    player.InventoryDraw(camera);
+    for(auto& entity : entities) entity->Draw_UI();
 
-    if(!conversation.hasFinised()) conversation.Draw();
+    player.InventoryDraw(camera);
 
     for(auto e:texts) e.Draw();
 

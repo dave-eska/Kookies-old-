@@ -67,6 +67,8 @@ void Tile::Draw(bool is_debugging){
 
     if(is_debugging){
         DrawTextureEx(debugbox, {body.x, body.y}, 0, 3, WHITE);
+        DrawText(std::to_string((int)body.x).c_str(), body.x, body.y, 25, BLACK);
+        DrawText(std::to_string((int)body.y).c_str(), body.x, body.y+30, 25, BLACK);
     }
 
     if(name=="transitionarea")

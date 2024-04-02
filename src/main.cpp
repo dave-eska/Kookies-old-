@@ -245,7 +245,7 @@ static void UpdateDrawFrame(void)
         // Draw full screen rectangle in front of everything
         if (onTransition) DrawTransition();
 
-        //DrawFPS(10, 10);
+        DrawFPS(10, GetScreenHeight()-30);
 
     EndDrawing();
     //----------------------------------------------------------------------------------

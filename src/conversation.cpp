@@ -3,6 +3,11 @@
 #include"global_func.h"
 #include <string>
 
+void Conversation::restart(){
+    current_message = Message("res/texts/" + directory + "/" + first_file);
+    has_finished = false;
+}
+
 void Conversation::respond(){
     current_message.respond();
     if(current_message.hasResponded()){
@@ -26,6 +31,7 @@ Conversation::Conversation(){
 Conversation::Conversation(std::string dir, std::string first_message, int last_message_id):last_message_id{last_message_id}{
     directory = dir;
     filenames = getAllFileNamesInDirectory("res/texts/" + dir);
+    first_file = first_message;
     current_message = Message("res/texts/" + dir + "/" + first_message);
 
     has_finished = false;
