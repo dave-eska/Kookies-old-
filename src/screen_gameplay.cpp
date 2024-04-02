@@ -1,4 +1,3 @@
-#include<iostream>
 #include<vector>
 #include<string>
 #include<memory>
@@ -15,8 +14,6 @@
 #include"chat.h"
 
 #include"entity.h"
-#include"cat.h"
-#include"npc.h"
 
 #define INTERACT_KEY KEY_I
 
@@ -116,47 +113,59 @@ static void typingCode(){
 }
 
 static void UpdateTiles(){
-    for(std::size_t i=0;i<tiles.size();i++){
-        if(tiles[i]->getName() == "transitionarea"){
-            if(CheckCollisionRecs(player.getBody(), tiles[i]->getBody()) && IsKeyPressed(INTERACT_KEY)){
-                switchLevel(tiles[i]->getDestination());
+    for(auto& tile : tiles){
+        if(tile->getName() == "transitionarea"){
+            if(CheckCollisionRecs(player.getBody(), tile->getBody()) && IsKeyPressed(INTERACT_KEY)){
+                switchLevel(tile->getDestination());
                 break;
             }
         }
         //Taking tiles
-        if(tiles[i]->getType() == "Item"){
-            if(CheckCollisionRecs(player.getSelectArea(), tiles[i]->getBody()) &&
-                    CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tiles[i]->getBody())){
+        if(tile->getType() == "Item"){
+            if(CheckCollisionRecs(player.getSelectArea(), tile->getBody()) &&
+                    CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tile->getBody())){
                 if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                    player.addItemInv(tiles[i]->asItem(1));
-                    tiles.erase(tiles.begin() + i);
-
+                    player.addItemInv(tile->asItem(1));
                     PlaySound(pickupsound);
+                    std::erase(tiles, tile);
+                    break;
                 }
             }
         }
         //Placing tiles
-        if(tiles[i]->getType() == "Special"){
-            if(tiles[i]->getName() == "placearea" && CheckCollisionRecs(player.getSelectArea(), tiles[i]->getBody()) &&
-                    CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tiles[i]->getBody())){
-                if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
-                    tiles.push_back(std::make_unique<Tile>
-                            (Tile(player.getCurrentInvIDSlot(), {tiles[i]->getX(), tiles[i]->getY()}, tiles[i]->getZ()+1)));
-                    player.decreaseItemInv(player.getCurrentInvSlot());
+        if(tile->getName() == "placearea" && CheckCollisionRecs(player.getSelectArea(), tile->getBody()) &&
+                CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tile->getBody())){
+            if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
+                tiles.push_back(std::make_unique<Tile>
+                        (Tile(player.getCurrentInvIDSlot(), {tile->getX(), tile->getY()}, tile->getZ()+1)));
+                player.decreaseItemInv(player.getCurrentInvSlot());
 
-                    PlaySound(pickupsound);
-                }
+                PlaySound(pickupsound);
             }
         }
         //Crafting
-        if(tiles[i]->getName() == "crafting_table" ){
-            if(CheckCollisionRecs(player.getBody(), tiles[i]->getBody())){
+        if(tile->getName() == "crafting_table" ){
+            if(CheckCollisionRecs(player.getSelectArea(), tile->getBody())){
                 if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) && 
-                        CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tiles[i]->getBody())){
+                        CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tile->getBody())){
                     player.toggleInvenCrafting();
                 }
             }else{
                 player.setInvIsCrafting(false);
+            }
+        }
+        //Planting
+        if(tile->getName() == "farmland"){
+            if(CheckCollisionRecs(player.getSelectArea(), tile->getBody()) &&
+                    player.getInv().getItemFromCurrentSot().item_name == "Bag Of Cherry"){
+                if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) &&
+                        CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tile->getBody())){
+                    tiles.push_back(std::make_unique<Tile>
+                            (Tile(17, {tile->getX(), tile->getY()}, tile->getZ()+1)));
+                    player.decreaseItemInv(player.getCurrentInvSlot());
+
+                    PlaySound(pickupsound);
+                }
             }
         }
     }
@@ -215,8 +224,10 @@ void InitGameplayScreen(){
     };
 
 
-    entities.push_back(std::make_unique<Cat>(Cat({40,50}, player)));
-    entities.push_back(std::make_unique<NPC>(NPC({288, 572}, "Opening", "opening.json", 7)));
+    /*
+       entities.push_back(std::make_unique<Cat>(Cat({40,50}, player)));
+       entities.push_back(std::make_unique<NPC>(NPC({288, 572}, "Opening", "opening.json", 7)));
+       */
 
     pickupsound = LoadSound("res/sound/pickup.wav");
 }

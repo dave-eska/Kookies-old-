@@ -1,0 +1,8 @@
+{
+    "name": "cherrySeeds",
+    "texture": "res/img/CHERRY_SEEDS.png",
+    
+    "type": "Block",
+
+    "id": 17
+}
