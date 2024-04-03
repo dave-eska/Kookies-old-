@@ -7,6 +7,8 @@
 
 #include<raylib.h>
 
+#include<json/value.h>
+
 #include"item.h"
 #include"animation.h"
 
@@ -26,9 +28,12 @@ class Tile{
 
         int z_level;
 
-        std::string dest;
+        std::string dest /*Only being used by `transation` tile*/;
 
-        std::string filename;
+        std::string filename /*Only being used by `transation` tile*/;
+
+        //Collision
+        bool collision;
 
         //animations
         bool hasAnimation;
@@ -61,13 +66,14 @@ class Tile{
 
         InventoryItem asItem(int total_count); //Will set idx/slot to 0
 
-        std::string getDestination(){return dest;}
+        std::string getDestination(){return dest;} /*Only being used by `transation` tile*/
 
-        void attachLevel(std::string levelName);
-        void changeLevel(std::vector<std::unique_ptr<Tile>>& tiles);
+        void attachLevel(std::string levelName); /*Only being used by `transation` tile*/
+        void changeLevel(std::vector<std::unique_ptr<Tile>>& tiles); /*Only being used by `transation` tile*/
 
         Rectangle getBody(){return body;}
         Texture2D getTexture(){return texture;}
+        Vector2 getPos(){return {body.x, body.y};}
 
         //Seters
         void setBod(Rectangle bod){body=bod;}

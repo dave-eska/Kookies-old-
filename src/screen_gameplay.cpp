@@ -1,3 +1,4 @@
+#include <algorithm>
 #include<vector>
 #include<string>
 #include<memory>
@@ -126,21 +127,26 @@ static void UpdateTiles(){
                     CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tile->getBody())){
                 if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
                     player.addItemInv(tile->asItem(1));
-                    PlaySound(pickupsound);
                     std::erase(tiles, tile);
                     break;
                 }
             }
         }
         //Placing tiles
-        if(tile->getName() == "placearea" && CheckCollisionRecs(player.getSelectArea(), tile->getBody()) &&
-                CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tile->getBody())){
-            if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
-                tiles.push_back(std::make_unique<Tile>
-                        (Tile(player.getCurrentInvIDSlot(), {tile->getX(), tile->getY()}, tile->getZ()+1)));
-                player.decreaseItemInv(player.getCurrentInvSlot());
-
-                PlaySound(pickupsound);
+        if(tile->getName() == "placearea" && CheckCollisionRecs(player.getSelectArea(), tile->getBody())){
+            if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) &&
+                    CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tile->getBody())){
+                Vector2 belowPos = {tile->getBody().x, tile->getBody().y};
+                int below_z = tile->getZ();
+                auto it = std::find_if(tiles.begin(), tiles.end(),
+                        [belowPos, below_z](const auto& item) {
+                        return item->getPos().x == belowPos.x && item->getPos().y == belowPos.y && item->getZ() > below_z && item->getType() == "Item";
+                        });
+                if(it == tiles.end()){
+                    tiles.push_back(std::make_unique<Tile>
+                            (Tile(player.getCurrentInvIDSlot(), {tile->getX(), tile->getY()}, tile->getZ()+1)));
+                    player.decreaseItemInv(player.getCurrentInvSlot());
+                }
             }
         }
         //Crafting
@@ -163,8 +169,6 @@ static void UpdateTiles(){
                     tiles.push_back(std::make_unique<Tile>
                             (Tile(17, {tile->getX(), tile->getY()}, tile->getZ()+1)));
                     player.decreaseItemInv(player.getCurrentInvSlot());
-
-                    PlaySound(pickupsound);
                 }
             }
         }

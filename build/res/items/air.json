@@ -1,9 +1,6 @@
 {
     "name": "air",
     //"texture": "res/img/air.png",
-    
-    "width": 32,
-    "height": 32,
 
     "type": "Block",
     "collision": false,
