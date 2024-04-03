@@ -122,7 +122,7 @@ static void UpdateTiles(){
             }
         }
         //Taking tiles
-        if(tile->getType() == "Item"){
+        if(tile->getType() == "Item" || tile->getType() == "BagOfSeed"){
             if(CheckCollisionRecs(player.getSelectArea(), tile->getBody()) &&
                     CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tile->getBody())){
                 if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
@@ -163,18 +163,19 @@ static void UpdateTiles(){
         //Planting
         if(tile->getName() == "farmland"){
             if(CheckCollisionRecs(player.getSelectArea(), tile->getBody()) &&
-                    player.getInv().getItemFromCurrentSot().item_name == "Bag Of Cherry"){
+                    player.getInv().getItemFromCurrentSot().item_type == "BagOfSeed"){
                 if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) &&
                         CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tile->getBody())){
                     Vector2 belowPos = {tile->getBody().x, tile->getBody().y};
                     int below_z = tile->getZ();
                     auto it = std::find_if(tiles.begin(), tiles.end(),
                             [belowPos, below_z](const auto& item) {
-                            return item->getPos().x == belowPos.x && item->getPos().y == belowPos.y && item->getZ() > below_z && item->getID() == 17;
+                            return item->getPos().x == belowPos.x && item->getPos().y == belowPos.y && item->getZ() > below_z && item->getType() == "Seeds";
                             });
                     if(it == tiles.end()){
                         tiles.push_back(std::make_unique<Tile>
-                                (Tile(17, {tile->getX(), tile->getY()}, tile->getZ()+1)));
+                                (Tile(Tile(player.getInv().getItemFromCurrentSot().tileID, {0,0}, 0).getSeed(),
+                                      {tile->getX(), tile->getY()}, tile->getZ()+1)));
                         player.decreaseItemInv(player.getCurrentInvSlot());
                     }
                 }
@@ -211,7 +212,7 @@ void InitGameplayScreen(){
 
             /*display_name=*/"Daveeska"
             );
-    tiles = loadLevelFromFile("res/maps/test.json");
+    tiles = loadLevelFromFile("res/maps/items.json");
 
     for(auto& e:tiles){
         if(e->getName()=="itemarea"){

@@ -2,9 +2,11 @@
     "name": "Bag Of Cherry",
     "texture": "res/img/bag_of_cherrySeed.png",
     
-    "type": "Item",
+    "type": "BagOfSeed",
 
     "recipe": [[19, 1], [14, 1]],
+
+    "seed": 17,
 
     "id": 16
 }

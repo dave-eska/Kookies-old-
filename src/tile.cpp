@@ -113,11 +113,14 @@ Tile::Tile(int id, Vector2 pos, int z_level){
             this->type = jsonvalue["type"].asString();
             this->hasAnimation = jsonvalue["animation"].asBool();
             this->hasCollision = jsonvalue["collision"].asBool();
+
             if(jsonvalue.isMember("collision"))
                 this->collision = jsonvalue["collision"].asBool();
             else
                 this->collision = false;
 
+            if(type == "BagOfSeed")
+                this->seedID = jsonvalue["seed"].asInt();
 
             this->filename = "res/items/"+e;
 

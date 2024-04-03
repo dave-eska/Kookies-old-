@@ -1,8 +1,8 @@
 {
     "name": "cherrySeeds",
-    "texture": "res/img/CHERRY_SEEDS.png",
+    "texture": "res/img/cherry_seeds.png",
     
-    "type": "Block",
+    "type": "Seeds",
 
     "id": 17
 }

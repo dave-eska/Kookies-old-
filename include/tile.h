@@ -32,6 +32,8 @@ class Tile{
 
         std::string filename /*Only being used by `transation` tile*/;
 
+        int seedID; /*Only being used by 'type=BagOfSeed' tile*/
+
         //Collision
         bool collision;
 
@@ -58,6 +60,8 @@ class Tile{
         int getID(){return id;}
 
         int getSlot(){return slot;}
+
+        int getSeed(){return seedID;} /*Only being used by 'type=BagOfSeed' tile*/
 
         bool HasAnimFrame(){return hasAnimation;}
         bool HasCollision(){return hasCollision;}
