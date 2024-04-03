@@ -62,6 +62,7 @@ void Message::respond(){
         dark_button_pos = {604, 811};
         if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
             user_response = next_file[0];;
+            scroll_level = 0;
             has_responded = true;
         }
     }else if(CheckCollisionPointRec(GetMousePosition(), {926, 811, button_dark_body.width, button_dark_body.height})){
@@ -69,6 +70,7 @@ void Message::respond(){
         dark_button_pos = {926, 811};
         if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
             user_response = next_file[1];
+            scroll_level = 0;
             has_responded = true;
         }
     }
@@ -79,8 +81,14 @@ void Message::Draw(){
     DrawTextureEx(texture, {body.x, body.y}, 0, 7, WHITE);
     if(isDrawingDarkButton) DrawRectangleV(dark_button_pos, {button_dark_body.width, button_dark_body.height}, {66, 20, 13, 255});
 
-    for(int i=0;i<3;i++){
-        DrawText(text[i+scroll_level].c_str(), text_pos.x, text_pos.y+(i*64), 30, BLACK);
+    if(text.size() >= 3){
+        for(int i=0;i<3;i++){
+            DrawText(text[i+scroll_level].c_str(), text_pos.x, text_pos.y+(i*64), 30, BLACK);
+        }
+    }else if(text.size() < 3){
+        for(int i=0;i<text.size();i++){
+            DrawText(text[i].c_str(), text_pos.x, text_pos.y+(i*64), 30, BLACK);
+        }
     }
 
     if(IsKeyPressed(KEY_UP) && scroll_level > 0)
