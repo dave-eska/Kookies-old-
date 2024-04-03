@@ -15,6 +15,7 @@
 #include"chat.h"
 
 #include"entity.h"
+#include"npc.h"
 
 #define INTERACT_KEY KEY_I
 
@@ -239,8 +240,8 @@ void InitGameplayScreen(){
 
     /*
        entities.push_back(std::make_unique<Cat>(Cat({40,50}, player)));
-       entities.push_back(std::make_unique<NPC>(NPC({288, 572}, "Opening", "opening.json", 7)));
        */
+    entities.push_back(std::make_unique<NPC>(NPC({288, 572}, "Opening", "opening.json", 7)));
 
     pickupsound = LoadSound("res/sound/pickup.wav");
 }

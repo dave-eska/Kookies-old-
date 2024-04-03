@@ -32,6 +32,7 @@ Message::Message(std::string filename){
     }
     this->text.push_back(temp_text);
     this->text_pos = {331, 607};
+    this->scroll_level = 0;
 
     for(int i=0;i<root["response"].size();i++){
         responses.push_back(root["response"][i][0].asString());
@@ -78,9 +79,14 @@ void Message::Draw(){
     DrawTextureEx(texture, {body.x, body.y}, 0, 7, WHITE);
     if(isDrawingDarkButton) DrawRectangleV(dark_button_pos, {button_dark_body.width, button_dark_body.height}, {66, 20, 13, 255});
 
-    for(int i=0;i<text.size();i++){
-        DrawText(text[i].c_str(), text_pos.x, text_pos.y+(i*64), 30, BLACK);
+    for(int i=0;i<3;i++){
+        DrawText(text[i+scroll_level].c_str(), text_pos.x, text_pos.y+(i*64), 30, BLACK);
     }
+
+    if(IsKeyPressed(KEY_UP) && scroll_level > 0)
+        scroll_level--;
+    if(IsKeyPressed(KEY_DOWN) && scroll_level < text.size()-3)
+        scroll_level++;
 
     DrawText(responses[0].c_str(), 604, 814, 30, BLACK);
     DrawText(responses[1].c_str(), 926, 814, 30, BLACK);
