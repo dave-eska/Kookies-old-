@@ -32,10 +32,12 @@ void NPC::Draw_UI(){
 NPC::NPC(){
 }
 
-NPC::NPC(Vector2 pos, std::string conv_dir, std::string first_message, int last_message_id){
+NPC::NPC(std::string levelName, Vector2 pos, std::string conv_dir, std::string first_message, int last_message_id){
     body = {pos.x, pos.y, 13*9, 34*9};
     texture = LoadTexture("res/img/npc.png");
 
     conv = Conversation(conv_dir, first_message, last_message_id);
     isTalking = false;
+
+    this->levelName = levelName;
 }

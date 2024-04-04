@@ -19,5 +19,5 @@ class NPC: public Entity{
         void Draw_UI() override;
         
         NPC();
-        NPC(Vector2 pos, std::string conv_dir, std::string first_message, int last_message_id);
+        NPC(std::string levelName, Vector2 pos, std::string conv_dir, std::string first_message, int last_message_id);
 };

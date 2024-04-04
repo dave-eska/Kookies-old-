@@ -1,4 +1,5 @@
-#include <algorithm>
+#include<iostream>
+#include<algorithm>
 #include<vector>
 #include<string>
 #include<memory>
@@ -8,7 +9,8 @@
 #include"screens.h"
 
 #include"global_func.h"
-#include"tiling_util.h"
+
+#include"level.h"
 
 #include"player.h"
 #include"tile.h"
@@ -30,7 +32,7 @@ static Camera2D camera ;
 static Sound pickupsound;
 
 static std::vector<ChatText> texts;
-static std::vector<std::unique_ptr<Tile>> tiles;
+static Level level;
 static std::string user_input;
 
 static std::vector<std::string> commands;
@@ -62,15 +64,11 @@ static void drawDebugInfo(){
     printText("Mouse X: ", std::to_string((int)GetMousePosition().x), {0,100}, 20);
     printText("Mouse Y: ", std::to_string((int)GetMousePosition().y), {0,120}, 20);
 
-    printText("Total Tiles: ", std::to_string(tiles.size()), {0,160}, 20);
+    printText("Total Tiles: ", std::to_string(level.tiles.size()), {0,160}, 20);
 
     printText("Total texts: ", std::to_string(texts.size()), {0,200}, 20);
 
     printText("Inventory current craftable id: ", std::to_string(player.getCurrentInvCraftAbleID()), {0,240}, 20);
-}
-
-static void switchLevel(std::string fileName){
-    tiles = loadLevelFromFile(fileName);
 }
 
 static void typingCode(){
@@ -115,36 +113,36 @@ static void typingCode(){
 }
 
 static void UpdateTiles(){
-    for(auto& tile : tiles){
+    for(auto& tile : level.tiles){
         if(tile->getName() == "transitionarea"){
             if(CheckCollisionRecs(player.getBody(), tile->getBody()) && IsKeyPressed(INTERACT_KEY)){
-                switchLevel(tile->getDestination());
+                level.changeLevel(tile->getDestination());
                 break;
             }
         }
-        //Taking tiles
+        //Taking level.tiles
         if(tile->getType() == "Item" || tile->getType() == "BagOfSeed"){
             if(CheckCollisionRecs(player.getSelectArea(), tile->getBody()) &&
                     CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tile->getBody())){
                 if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
                     player.addItemInv(tile->asItem(1));
-                    std::erase(tiles, tile);
+                    std::erase(level.tiles, tile);
                     break;
                 }
             }
         }
-        //Placing tiles
+        //Placing level.tiles
         if(tile->getName() == "placearea" && CheckCollisionRecs(player.getSelectArea(), tile->getBody())){
             if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) &&
                     CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tile->getBody())){
                 Vector2 belowPos = {tile->getBody().x, tile->getBody().y};
                 int below_z = tile->getZ();
-                auto it = std::find_if(tiles.begin(), tiles.end(),
+                auto it = std::find_if(level.tiles.begin(), level.tiles.end(),
                         [belowPos, below_z](const auto& item) {
                         return item->getPos().x == belowPos.x && item->getPos().y == belowPos.y && item->getZ() > below_z && item->getType() == "Item";
                         });
-                if(it == tiles.end()){
-                    tiles.push_back(std::make_unique<Tile>
+                if(it == level.tiles.end()){
+                    level.tiles.push_back(std::make_unique<Tile>
                             (Tile(player.getCurrentInvIDSlot(), {tile->getX(), tile->getY()}, tile->getZ()+1)));
                     player.decreaseItemInv(player.getCurrentInvSlot());
                 }
@@ -169,12 +167,12 @@ static void UpdateTiles(){
                         CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tile->getBody())){
                     Vector2 belowPos = {tile->getBody().x, tile->getBody().y};
                     int below_z = tile->getZ();
-                    auto it = std::find_if(tiles.begin(), tiles.end(),
+                    auto it = std::find_if(level.tiles.begin(), level.tiles.end(),
                             [belowPos, below_z](const auto& item) {
                             return item->getPos().x == belowPos.x && item->getPos().y == belowPos.y && item->getZ() > below_z && item->getType() == "Seeds";
                             });
-                    if(it == tiles.end()){
-                        tiles.push_back(std::make_unique<Tile>
+                    if(it == level.tiles.end()){
+                        level.tiles.push_back(std::make_unique<Tile>
                                 (Tile(Tile(player.getInv().getItemFromCurrentSot().tileID, {0,0}, 0).getSeed(),
                                       {tile->getX(), tile->getY()}, tile->getZ()+1)));
                         player.decreaseItemInv(player.getCurrentInvSlot());
@@ -186,12 +184,12 @@ static void UpdateTiles(){
 }
 
 static void drawInCamMode(){
-    for(auto& tile:tiles){
+    for(auto& tile:level.tiles){
         tile->Draw(is_debugging);
     }
 
-    for(auto& e:entities)
-        e->Draw();
+    for(auto& entity:entities)
+       if(entity->getLevelName() == level.level_name) entity->Draw();
 
     player.Draw(is_debugging);
 }
@@ -200,8 +198,7 @@ void InitGameplayScreen(){
     player = Player(
             /*Body*/{50,200,18*9, 35*9},
             /*Speed*/500,
-            /*texture_path=*/"res/img/player_atlas.png",
-            /*selectArea*/{0,0,450, 450},
+            /*texture_path=*/"res/img/player_atlas.png", /*selectArea*/{0,0,450, 450},
             /*collisionBody=*/{0,0,18*9,10*9},
 
             /*slots=*/10,
@@ -213,13 +210,13 @@ void InitGameplayScreen(){
 
             /*display_name=*/"Daveeska"
             );
-    tiles = loadLevelFromFile("res/maps/items.json");
+    level.changeLevel("res/maps/items.json");
 
-    for(auto& e:tiles){
+    for(auto& e:level.tiles){
         if(e->getName()=="itemarea"){
             int probability=GetRandomValue(1,4);
             if(probability == 2 or probability == 3 or probability == 4){
-                tiles.push_back(std::make_unique<Tile>(Tile(probability, {e->getX(), e->getY()}, e->getZ()+1)));
+                level.tiles.push_back(std::make_unique<Tile>(Tile(probability, {e->getX(), e->getY()}, e->getZ()+1)));
             }
         }
     }
@@ -237,11 +234,7 @@ void InitGameplayScreen(){
         "/debug"
     };
 
-
-    /*
-       entities.push_back(std::make_unique<Cat>(Cat({40,50}, player)));
-       */
-    entities.push_back(std::make_unique<NPC>(NPC({288, 572}, "Opening", "opening.json", 7)));
+    entities.push_back(std::make_unique<NPC>(NPC("res/maps/items.json", {288, 572}, "Opening", "opening.json", 7)));
 
     pickupsound = LoadSound("res/sound/pickup.wav");
 }
@@ -262,8 +255,8 @@ void UpdateGameplayScreen(){
     if(isTyping)
         typingCode();
 
-    for(auto& e:entities)
-        e->Update(player);
+    for(auto& entity:entities)
+        if(entity->getLevelName() == level.level_name) entity->Update(player);
 
     UpdateTiles();
 }
@@ -275,7 +268,9 @@ void DrawGameplayScreen(){
 
     EndMode2D();
 
-    for(auto& entity : entities) entity->Draw_UI();
+    for(auto& entity : entities){
+        if(entity->getLevelName() == level.level_name) entity->Draw_UI();
+    }
 
     player.InventoryDraw(camera);
 
