@@ -80,7 +80,7 @@ static void typingCode(){
 
     char c = GetCharPressed();
     if (c){
-        user_input.push_back(c);
+        typeInChat(std::to_string(c));
     }
 
     if(IsKeyPressed(KEY_BACKSPACE) && !user_input.empty())

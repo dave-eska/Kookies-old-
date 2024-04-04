@@ -8,6 +8,7 @@
 #include<json/json.h>
 
 #include<raylib.h>
+#include <utility>
 
 #include"global_func.h"
 
@@ -79,6 +80,10 @@ void Inventory::changeCurrentSlot(){
     clamp(current_slot, 0, items.size()-1);
     DrawItemName();
     updateTimer(&drawingNameTimer);
+}
+
+void Inventory::moveItemToSlot(int slot1, int slot2){
+    std::swap(items[slot1], items[slot2]);
 }
 
 bool Inventory::canCraft(InventoryItem item){

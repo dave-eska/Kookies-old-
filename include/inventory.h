@@ -70,6 +70,7 @@ class Inventory{
         void UpdateCraftableTileID();
 
         void changeCurrentSlot();
+        void moveItemToSlot(int slot1, int slot2);
 
         void craft(InventoryItem item);
         bool canCraft(InventoryItem item);

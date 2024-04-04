@@ -2,6 +2,7 @@
 
 #include<raylib.h>
 
+#include<iostream>
 #include<string>
 
 #include"global_func.h"
@@ -64,6 +65,15 @@ void Player::UpdateInventory(){
     if(IsKeyPressed(KEY_SPACE))
         typeInChat(std::to_string(inv.has({13, 4})));
 
+    if(IsKeyDown(KEY_LEFT_SHIFT)){
+        for (int i = KEY_ONE; i <= KEY_NINE; ++i) {
+            if (IsKeyPressed(i))
+                inv.moveItemToSlot(i - KEY_ONE, inv.getCurrentSlot());
+        }
+        if(IsKeyPressed(KEY_ZERO)){
+            inv.moveItemToSlot(9, inv.getCurrentSlot());
+        }
+    }
 }
 
 void Player::updateCraftableItem(){
