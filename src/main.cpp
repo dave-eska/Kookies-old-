@@ -52,6 +52,12 @@ int main(void)
     InitWindow(screenWidth, screenHeight, "Kookies 0.1");
 
     InitAudioDevice();      // Initialize audio device
+                            //
+    // Load the icon image
+    Image icon = LoadImage("build/res/icon.png");
+
+    // Set the window icon
+    SetWindowIcon(icon);
 
     // Load global data (assets that must be available in all screens, i.e. font)
     font = LoadFont("resources/mecha.png");
@@ -61,6 +67,8 @@ int main(void)
     // Setup and init first screen
     currentScreen = TITLE;
     InitTitleScreen();
+
+    ToggleFullscreen();
 
     SetExitKey(KEY_NULL);
     SetTargetFPS(60);       // Set our game to run at 60 frames-per-second

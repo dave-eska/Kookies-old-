@@ -5,7 +5,6 @@
 #include<fstream>
 #include<string>
 #include<string>
-#include<iostream>
 
 #include<raylib.h>
 
@@ -15,7 +14,6 @@
 #include"animation.h"
 
 #include"global_func.h"
-#include"tiling_util.h"
 
 bool compareTiles(Tile& tile1, Tile& tile2){
     return tile1.getZ() < tile2.getZ();
@@ -54,11 +52,6 @@ InventoryItem Tile::asItem(int total_count){
     };
 }
 
-void Tile::changeLevel(std::vector<std::unique_ptr<Tile>>& tiles){
-    tiles = loadLevelFromFile(dest);
-    std::cout<<dest<<std::endl;
-}
-
 void Tile::Draw(bool is_debugging){
     if(isRunningAnimation) {
         DrawSpriteAnimationPro(animation, {body.x, body.y, TILE_SIZE, TILE_SIZE}, {0, 0}, 0, WHITE, isRunningAnimation);
@@ -70,14 +63,9 @@ void Tile::Draw(bool is_debugging){
         DrawText(std::to_string((int)body.x).c_str(), body.x, body.y, 25, BLACK);
         DrawText(std::to_string((int)body.y).c_str(), body.x, body.y+30, 25, BLACK);
     }
-
-    if(name=="transitionarea")
-        DrawText(dest.c_str(), body.x, body.y, 20, BLACK);
 }
 
-void Tile::attachLevel(std::string levelName){
-    if(name=="transitionarea")
-        this->dest = "res/maps/" + levelName + ".json";
+void Tile::Update(){
 }
 
 Tile::Tile(){
@@ -112,7 +100,6 @@ Tile::Tile(int id, Vector2 pos, int z_level){
             this->id = jsonvalue["id"].asInt();
             this->type = jsonvalue["type"].asString();
             this->hasAnimation = jsonvalue["animation"].asBool();
-            this->hasCollision = jsonvalue["collision"].asBool();
 
             if(jsonvalue.isMember("collision"))
                 this->collision = jsonvalue["collision"].asBool();

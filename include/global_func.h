@@ -21,3 +21,5 @@ void typeInChat(std::string text);
 void typeInChat(std::string text, Color color);
 
 int GetCharacterDistance(char* str, int char1Index, int char2Index);
+
+void changeMainLevel(std::string levelName);

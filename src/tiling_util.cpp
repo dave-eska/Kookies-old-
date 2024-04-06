@@ -5,6 +5,8 @@
 #include<fstream>
 #include<memory>
 
+#include"transition.h"
+
 static bool compareTiles(std::unique_ptr<Tile>& tile1, std::unique_ptr<Tile>& tile2){
     return tile1->getZ() < tile2->getZ();
 }
@@ -62,14 +64,22 @@ std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path){
             }else if(e == ' ' && !id.empty()){
                 int tile_id = std::stoi(id);
                 switch(tile_id){
-                    default:
+                    case 7:
                         {
-                            Tile tile = Tile(tile_id, {starting_pos.x+x*TILE_SIZE, starting_pos.y+(y*TILE_SIZE)}, z);
+                            TransitionTile tile = TransitionTile({starting_pos.x+x*TILE_SIZE, starting_pos.y+(y*TILE_SIZE)}, z);
                             tile.setSlot(vec.size());
                             if(!destination.empty()){
                                 tile.attachLevel(destination);
                                 destination.clear();
                             }
+                            vec.push_back(std::make_unique<TransitionTile>(tile));
+                            id.clear();
+
+                        }
+                    default:
+                        {
+                            Tile tile = Tile(tile_id, {starting_pos.x+x*TILE_SIZE, starting_pos.y+(y*TILE_SIZE)}, z);
+                            tile.setSlot(vec.size());
                             vec.push_back(std::make_unique<Tile>(tile));
                             id.clear();
                         }

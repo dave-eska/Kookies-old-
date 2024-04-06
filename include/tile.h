@@ -1,9 +1,7 @@
 #pragma once
 
-#include<vector>
 #include<string>
 #include<string>
-#include<memory>
 
 #include<raylib.h>
 
@@ -28,9 +26,7 @@ class Tile{
 
         int z_level;
 
-        std::string dest /*Only being used by `transation` tile*/;
-
-        std::string filename /*Only being used by `transation` tile*/;
+        std::string filename;
 
         int seedID; /*Only being used by 'type=BagOfSeed' tile*/
 
@@ -46,6 +42,7 @@ class Tile{
         bool isTouchingMouse;
         bool hasCollision;
         bool isTouchingPlayer;
+        bool isTouchingSelectAreaPlayer;
         int slot;
     public:
 
@@ -70,11 +67,6 @@ class Tile{
 
         InventoryItem asItem(int total_count); //Will set idx/slot to 0
 
-        std::string getDestination(){return dest;} /*Only being used by `transation` tile*/
-
-        void attachLevel(std::string levelName); /*Only being used by `transation` tile*/
-        void changeLevel(std::vector<std::unique_ptr<Tile>>& tiles); /*Only being used by `transation` tile*/
-
         Rectangle getBody(){return body;}
         Texture2D getTexture(){return texture;}
         Vector2 getPos(){return {body.x, body.y};}
@@ -85,13 +77,18 @@ class Tile{
         void setY(float y){body.y=y;}
         void setSlot(int vec_slot){slot = vec_slot;}
 
+        void setIsTouchingMouse(bool val){isTouchingMouse = val;}
+        void setIsTouchingPlayer(bool val){isTouchingPlayer = val;}
+        void setIsTouchingSelectAreaPlayer(bool val){isTouchingSelectAreaPlayer = val;}
+
         void runAnimation(){isRunningAnimation=true;}
 
-        void Update();
-        void Draw(bool is_debugging);
-
+        virtual void Update();
+        virtual void Draw(bool is_debugging);
 
         //Constructors
         Tile();
         Tile(int id, Vector2 pos, int z_level);
+
+        virtual ~Tile() = default;
 };

@@ -2,7 +2,6 @@
 
 #include<raylib.h>
 
-#include<iostream>
 #include<string>
 
 #include"global_func.h"

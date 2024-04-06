@@ -1,4 +1,3 @@
-#include<iostream>
 #include<algorithm>
 #include<vector>
 #include<string>
@@ -47,10 +46,13 @@ void typeInChat(std::string text){
 }
 
 void typeInChat(std::string text, Color color){
-    typeInChat(std::to_string(texts.size()));
     if(texts.size()>MAX_CHAT_TEXTS)
         texts.erase(texts.begin());
     addChatText(texts, text, color);
+}
+
+void changeMainLevel(std::string levelName){
+    level.changeLevel(levelName);
 }
 
 static void drawDebugInfo(){
@@ -80,7 +82,7 @@ static void typingCode(){
 
     char c = GetCharPressed();
     if (c){
-        typeInChat(std::to_string(c));
+        user_input.push_back(c);
     }
 
     if(IsKeyPressed(KEY_BACKSPACE) && !user_input.empty())
@@ -114,12 +116,26 @@ static void typingCode(){
 
 static void UpdateTiles(){
     for(auto& tile : level.tiles){
-        if(tile->getName() == "transitionarea"){
-            if(CheckCollisionRecs(player.getBody(), tile->getBody()) && IsKeyPressed(INTERACT_KEY)){
-                level.changeLevel(tile->getDestination());
-                break;
-            }
+        //Globally updating every Tile
+        tile->Update();
+
+        tile->setIsTouchingSelectAreaPlayer(false);
+        tile->setIsTouchingPlayer(false);
+        tile->setIsTouchingMouse(false);
+
+        //Chechking for collision
+        if(CheckCollisionRecs(tile->getBody(), player.getSelectArea())){
+            tile->setIsTouchingSelectAreaPlayer(true);
         }
+
+        if(CheckCollisionRecs(tile->getBody(), player.getBody())){
+            tile->setIsTouchingPlayer(true);
+        }
+
+        if(CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tile->getBody())){
+            tile->setIsTouchingMouse(true);
+        }
+
         //Taking level.tiles
         if(tile->getType() == "Item" || tile->getType() == "BagOfSeed"){
             if(CheckCollisionRecs(player.getSelectArea(), tile->getBody()) &&
@@ -189,7 +205,7 @@ static void drawInCamMode(){
     }
 
     for(auto& entity:entities)
-       if(entity->getLevelName() == level.level_name) entity->Draw();
+        if(entity->getLevelName() == level.level_name) entity->Draw();
 
     player.Draw(is_debugging);
 }
