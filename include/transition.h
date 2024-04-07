@@ -15,11 +15,9 @@ class TransitionTile: public Tile{
 
         void attachLevel(std::string levelName); /*Only being used by `transation` tile*/
 
-        void Update() override;
+        void Interact() override;
         void Draw(bool is_debugging) override;
 
         TransitionTile();
         TransitionTile(Vector2 pos, int z_level);
-
-        virtual ~TransitionTile() = default;
 };

@@ -1,9 +1,8 @@
 #include"tile.h"
 
+#include<iostream>
 #include<vector>
-
 #include<fstream>
-#include<string>
 #include<string>
 
 #include<raylib.h>
@@ -65,7 +64,7 @@ void Tile::Draw(bool is_debugging){
     }
 }
 
-void Tile::Update(){
+void Tile::Interact(){
 }
 
 Tile::Tile(){

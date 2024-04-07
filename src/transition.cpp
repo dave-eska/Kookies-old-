@@ -1,5 +1,6 @@
 #include"transition.h"
 
+#include<iostream>
 #include<fstream>
 
 #include<json/json.h>
@@ -12,15 +13,18 @@ void TransitionTile::attachLevel(std::string levelName){
     this->dest = "res/maps/" + levelName + ".json";
 }
 
-void TransitionTile::Update(){
-    if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
+void TransitionTile::Interact(){
+    if(!dest.empty())
         changeMainLevel(dest);
-    }
+
+    std::cout<<1<<std::endl;
 }
 
 void TransitionTile::Draw(bool is_debugging){
     Tile::Draw(is_debugging);
 
+    if(is_debugging)
+        DrawRectangleRec(body, {RED.r, RED.g, RED.b, 255/2});
     DrawText(dest.c_str(), body.x, body.y, 20, BLACK);
 }
 
@@ -65,5 +69,6 @@ TransitionTile::TransitionTile(Vector2 pos, int z_level){
         {TILE_SIZE*2,0,32,32},
         {TILE_SIZE*3,0,32,32}
     };
+
     animation = CreateSpriteAnimation(texture, 8, animRect, 4);
 }

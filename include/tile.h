@@ -65,6 +65,10 @@ class Tile{
 
         bool getIsRunningAnimation(){return isRunningAnimation;}
 
+        bool getIsTouchingMouse(){return isTouchingMouse;}
+        bool getIsTouchingPlayer(){return isTouchingPlayer;}
+        bool getIsTouchinSelectAreaPlayer(){return isTouchingSelectAreaPlayer;}
+
         InventoryItem asItem(int total_count); //Will set idx/slot to 0
 
         Rectangle getBody(){return body;}
@@ -83,7 +87,7 @@ class Tile{
 
         void runAnimation(){isRunningAnimation=true;}
 
-        virtual void Update();
+        virtual void Interact();
         virtual void Draw(bool is_debugging);
 
         //Constructors

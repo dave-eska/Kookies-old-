@@ -1,4 +1,5 @@
 #include<algorithm>
+#include<iostream>
 #include<vector>
 #include<string>
 #include<memory>
@@ -116,8 +117,6 @@ static void typingCode(){
 
 static void UpdateTiles(){
     for(auto& tile : level.tiles){
-        //Globally updating every Tile
-        tile->Update();
 
         tile->setIsTouchingSelectAreaPlayer(false);
         tile->setIsTouchingPlayer(false);
@@ -136,21 +135,33 @@ static void UpdateTiles(){
             tile->setIsTouchingMouse(true);
         }
 
+        if(IsKeyPressed(KEY_I)) {
+            tile->Interact();
+            break;
+        }
+
         //Taking level.tiles
-        if(tile->getType() == "Item" || tile->getType() == "BagOfSeed"){
-            if(CheckCollisionRecs(player.getSelectArea(), tile->getBody()) &&
-                    CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tile->getBody())){
-                if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                    player.addItemInv(tile->asItem(1));
-                    std::erase(level.tiles, tile);
-                    break;
-                }
+        if(tile->getType() == "Item" || tile->getType() == "BagOfSeed" && tile->getIsTouchinSelectAreaPlayer() && tile->getIsTouchingMouse()){
+            if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+                player.addItemInv(tile->asItem(1));
+                std::erase(level.tiles, tile);
+                break;
             }
         }
+
+        //Crafting
+        if(tile->getName() == "crafting_table" && tile->getIsTouchinSelectAreaPlayer()){
+            if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) && tile->getIsTouchingMouse()){
+                player.toggleInvenCrafting();
+            }else{
+                player.setInvIsCrafting(false);
+            }
+        }
+
         //Placing level.tiles
-        if(tile->getName() == "placearea" && CheckCollisionRecs(player.getSelectArea(), tile->getBody())){
+        if(tile->getName() == "placearea" && tile->getIsTouchinSelectAreaPlayer()){
             if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) &&
-                    CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tile->getBody())){
+                    tile->getIsTouchingMouse()){
                 Vector2 belowPos = {tile->getBody().x, tile->getBody().y};
                 int below_z = tile->getZ();
                 auto it = std::find_if(level.tiles.begin(), level.tiles.end(),
@@ -164,35 +175,21 @@ static void UpdateTiles(){
                 }
             }
         }
-        //Crafting
-        if(tile->getName() == "crafting_table" ){
-            if(CheckCollisionRecs(player.getSelectArea(), tile->getBody())){
-                if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) && 
-                        CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tile->getBody())){
-                    player.toggleInvenCrafting();
-                }
-            }else{
-                player.setInvIsCrafting(false);
-            }
-        }
         //Planting
-        if(tile->getName() == "farmland"){
-            if(CheckCollisionRecs(player.getSelectArea(), tile->getBody()) &&
-                    player.getInv().getItemFromCurrentSot().item_type == "BagOfSeed"){
-                if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) &&
-                        CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tile->getBody())){
-                    Vector2 belowPos = {tile->getBody().x, tile->getBody().y};
-                    int below_z = tile->getZ();
-                    auto it = std::find_if(level.tiles.begin(), level.tiles.end(),
-                            [belowPos, below_z](const auto& item) {
-                            return item->getPos().x == belowPos.x && item->getPos().y == belowPos.y && item->getZ() > below_z && item->getType() == "Seeds";
-                            });
-                    if(it == level.tiles.end()){
-                        level.tiles.push_back(std::make_unique<Tile>
-                                (Tile(Tile(player.getInv().getItemFromCurrentSot().tileID, {0,0}, 0).getSeed(),
-                                      {tile->getX(), tile->getY()}, tile->getZ()+1)));
-                        player.decreaseItemInv(player.getCurrentInvSlot());
-                    }
+        if(tile->getName() == "farmland" && tile->getIsTouchinSelectAreaPlayer() && player.getInv().getItemFromCurrentSot().item_type == "BagOfSeed"){
+            if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) &&
+                    tile->getIsTouchingMouse()){
+                Vector2 belowPos = {tile->getBody().x, tile->getBody().y};
+                int below_z = tile->getZ();
+                auto it = std::find_if(level.tiles.begin(), level.tiles.end(),
+                        [belowPos, below_z](const auto& item) {
+                        return item->getPos().x == belowPos.x && item->getPos().y == belowPos.y && item->getZ() > below_z && item->getType() == "Seeds";
+                        });
+                if(it == level.tiles.end()){
+                    level.tiles.push_back(std::make_unique<Tile>
+                            (Tile(Tile(player.getInv().getItemFromCurrentSot().tileID, {0,0}, 0).getSeed(),
+                                  {tile->getX(), tile->getY()}, tile->getZ()+1)));
+                    player.decreaseItemInv(player.getCurrentInvSlot());
                 }
             }
         }
