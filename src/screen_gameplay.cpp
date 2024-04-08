@@ -135,13 +135,12 @@ static void UpdateTiles(){
             tile->setIsTouchingMouse(true);
         }
 
-        if(IsKeyPressed(KEY_I)) {
+        if(IsKeyPressed(KEY_I)){
             tile->Interact();
-            break;
         }
 
         //Taking level.tiles
-        if(tile->getType() == "Item" || tile->getType() == "BagOfSeed" && tile->getIsTouchinSelectAreaPlayer() && tile->getIsTouchingMouse()){
+        if((tile->getType() == "Item" || tile->getType() == "BagOfSeed")&& tile->getIsTouchinSelectAreaPlayer() && tile->getIsTouchingMouse()){
             if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
                 player.addItemInv(tile->asItem(1));
                 std::erase(level.tiles, tile);
@@ -224,15 +223,6 @@ void InitGameplayScreen(){
             /*display_name=*/"Daveeska"
             );
     level.changeLevel("res/maps/items.json");
-
-    for(auto& e:level.tiles){
-        if(e->getName()=="itemarea"){
-            int probability=GetRandomValue(1,4);
-            if(probability == 2 or probability == 3 or probability == 4){
-                level.tiles.push_back(std::make_unique<Tile>(Tile(probability, {e->getX(), e->getY()}, e->getZ()+1)));
-            }
-        }
-    }
 
     camera = { 0 };
     camera.target = { player.getBody().x + 18*7, player.getBody().y + 35*7 };
