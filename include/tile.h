@@ -2,6 +2,7 @@
 
 #include<string>
 #include<string>
+#include<tuple>
 
 #include<raylib.h>
 
@@ -87,7 +88,7 @@ class Tile{
 
         void runAnimation(){isRunningAnimation=true;}
 
-        virtual void Interact();
+        virtual std::string Interact();
         virtual void Draw(bool is_debugging);
 
         //Constructors
@@ -95,4 +96,29 @@ class Tile{
         Tile(int id, Vector2 pos, int z_level);
 
         virtual ~Tile() = default;
+};
+
+enum TileID{
+    AIR_TILE,
+    GRASS_TILE,
+    MILK_TILE,
+    CHEST_TILE,
+    COOKIE_TILE,
+    BRICKWALL_TILE,
+    TRANSITION_TILE,
+    FLOOR_TILE,
+    ITEMAREA_TILE,
+    DOORUP_TILE,
+    DOORDOWN_TILE,
+    CRAFTINGTABLE_TILE,
+    CHOCOLATE_TILE,
+    CHERRY_TILE,
+    CHOCOLATECAKE_TILE,
+    BAGOFCHERRY_TILE,
+    CHERRYSEEDS_TILE,
+    FARMLAND_TILE,
+    EMPTYBAG_TILE,
+    COCOABEANS_TILE,
+    BAGOFCOCOABEANS_TILE,
+    COCOABEANSSEES_TILE,
 };

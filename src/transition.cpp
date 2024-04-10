@@ -13,19 +13,17 @@ void TransitionTile::attachLevel(std::string levelName){
     this->dest = "res/maps/" + levelName + ".json";
 }
 
-void TransitionTile::Interact(){
-    if(!dest.empty())
-        changeMainLevel(dest);
-
-    std::cout<<1<<std::endl;
+std::string TransitionTile::Interact(){
+    return dest;
 }
 
 void TransitionTile::Draw(bool is_debugging){
     Tile::Draw(is_debugging);
 
-    if(is_debugging)
+    if(is_debugging){
         DrawRectangleRec(body, {RED.r, RED.g, RED.b, 255/2});
-    DrawText(dest.c_str(), body.x, body.y, 20, BLACK);
+        DrawText(dest.c_str(), body.x, body.y, 20, BLACK);
+    }
 }
 
 TransitionTile::TransitionTile(){

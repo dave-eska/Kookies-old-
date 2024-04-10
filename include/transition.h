@@ -15,7 +15,7 @@ class TransitionTile: public Tile{
 
         void attachLevel(std::string levelName); /*Only being used by `transation` tile*/
 
-        void Interact() override;
+        std::string Interact() override;
         void Draw(bool is_debugging) override;
 
         TransitionTile();

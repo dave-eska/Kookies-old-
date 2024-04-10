@@ -1,6 +1,6 @@
 #include"tile.h"
 
-#include<iostream>
+#include <iostream>
 #include<vector>
 #include<fstream>
 #include<string>
@@ -59,12 +59,23 @@ void Tile::Draw(bool is_debugging){
 
     if(is_debugging){
         DrawTextureEx(debugbox, {body.x, body.y}, 0, 3, WHITE);
-        DrawText(std::to_string((int)body.x).c_str(), body.x, body.y, 25, BLACK);
-        DrawText(std::to_string((int)body.y).c_str(), body.x, body.y+30, 25, BLACK);
+        //DrawText(std::to_string((int)body.x).c_str(), body.x, body.y, 25, BLACK);
+        //DrawText(std::to_string((int)body.y).c_str(), body.x, body.y+30, 25, BLACK);
+        
+        if(isTouchingPlayer){
+            DrawRectangleRec(body, {0, 200, 10, 255/2});
+        }
+        if(isTouchingSelectAreaPlayer){
+            DrawRectangleRec(body, {0, 0, 210, 255/2});
+        }
+        if(isTouchingMouse){
+            DrawRectangleRec({(float)body.x+(body.width/2 - 15), body.y+(body.height/2-15), 30, 30}, BLACK);
+        }
     }
 }
 
-void Tile::Interact(){
+std::string Tile::Interact(){
+    return "";
 }
 
 Tile::Tile(){
