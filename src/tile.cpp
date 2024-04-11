@@ -74,6 +74,9 @@ void Tile::Draw(bool is_debugging){
     }
 }
 
+void Tile::Update(){
+}
+
 std::string Tile::Interact(){
     return "";
 }

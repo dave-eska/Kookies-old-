@@ -6,6 +6,7 @@
 #include<memory>
 
 #include"transition.h"
+#include"seed.h"
 
 static bool compareTiles(std::unique_ptr<Tile>& tile1, std::unique_ptr<Tile>& tile2){
     return tile1->getZ() < tile2->getZ();
@@ -64,6 +65,13 @@ std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path){
             }else if(e == ' ' && !id.empty()){
                 int tile_id = std::stoi(id);
                 switch(tile_id){
+                    case 17:
+                        {
+                            SeedTile tile = SeedTile(tile_id, {starting_pos.x+x*TILE_SIZE, starting_pos.y+(y*TILE_SIZE)}, z);
+                            tile.setSlot(vec.size());
+                            vec.push_back(std::make_unique<SeedTile>(tile));
+                            id.clear();
+                        }
                     case 7:
                         {
                             TransitionTile tile = TransitionTile({starting_pos.x+x*TILE_SIZE, starting_pos.y+(y*TILE_SIZE)}, z);

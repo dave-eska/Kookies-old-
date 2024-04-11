@@ -1,5 +1,5 @@
-#include<algorithm>
 #include<iostream>
+#include<algorithm>
 #include<vector>
 #include<string>
 #include<memory>
@@ -38,7 +38,6 @@ static std::string user_input;
 static std::vector<std::string> commands;
 
 #define MAX_CHAT_TEXTS 100
-
 
 void typeInChat(std::string text){
     if(texts.size()>MAX_CHAT_TEXTS)
@@ -116,8 +115,8 @@ static void typingCode(){
 }
 
 static void UpdateTiles(){
+    std::string new_level_name;
     for(auto& tile : level.tiles){
-
         tile->setIsTouchingSelectAreaPlayer(false);
         tile->setIsTouchingPlayer(false);
         tile->setIsTouchingMouse(false);
@@ -135,8 +134,14 @@ static void UpdateTiles(){
             tile->setIsTouchingMouse(true);
         }
 
-        if(IsKeyPressed(KEY_I)){
-            tile->Interact();
+        tile->Update();
+
+        //Interacting with tiles
+        if(tile->getIsTouchingPlayer() && tile->getIsTouchingMouse() && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
+            if(!tile->Interact().empty()){
+                new_level_name = tile->Interact();
+            }else
+                tile->Interact();
         }
 
         //Taking level.tiles
@@ -193,6 +198,10 @@ static void UpdateTiles(){
             }
         }
     }
+
+    if(!new_level_name.empty()){
+        level.changeLevel(new_level_name);
+    }
 }
 
 static void drawInCamMode(){
@@ -220,9 +229,9 @@ void InitGameplayScreen(){
             /*extra_inv_texture=*/"res/img/Extra_Inven.png",
             /*crafting_menu_texture=*/"res/img/Crafting_UI.png",
 
-            /*display_name=*/"Daveeska"
+            /*display_name=*/"Dave"
             );
-    level.changeLevel("res/maps/items.json");
+    level.changeLevel("res/maps/test.json");
 
     camera = { 0 };
     camera.target = { player.getBody().x + 18*7, player.getBody().y + 35*7 };

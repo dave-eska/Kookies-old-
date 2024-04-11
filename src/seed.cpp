@@ -1,4 +1,6 @@
-#include"transition.h"
+#include"seed.h"
+
+#include<raylib.h>
 
 #include<fstream>
 
@@ -6,32 +8,31 @@
 #include<json/value.h>
 
 #include"global_func.h"
-#include"raylib.h"
 
-void TransitionTile::attachLevel(std::string levelName){
-    this->dest = "res/maps/" + levelName + ".json";
-}
+#define GROW_TIME 2.0f
 
-void TransitionTile::Update(){
-}
+void SeedTile::Update(){
+    timer += GetFrameTime();
 
-std::string TransitionTile::Interact(){
-    return dest;
-}
-
-void TransitionTile::Draw(bool is_debugging){
-    Tile::Draw(is_debugging);
-
-    if(is_debugging){
-        DrawRectangleRec(body, {RED.r, RED.g, RED.b, 255/2});
-        DrawText(dest.c_str(), body.x, body.y, 20, BLACK);
+    if(timer >= GROW_TIME){
+        state += 1;
+        timer = 0.0f;
     }
 }
 
-TransitionTile::TransitionTile(){
+std::string SeedTile::Interact(){
+    return "";
 }
 
-TransitionTile::TransitionTile(Vector2 pos, int z_level){
+void SeedTile::Draw(bool is_debugging){
+    Tile::Draw(is_debugging);
+    DrawText(std::to_string(state).c_str(), body.x, body.y, 40, WHITE);
+}
+
+SeedTile::SeedTile(){
+}
+
+SeedTile::SeedTile(int id, Vector2 pos, int z_level){
     //Debug Variables
     isTouchingMouse=false;
     isRunningAnimation=true;
@@ -58,8 +59,25 @@ TransitionTile::TransitionTile(Vector2 pos, int z_level){
             this->name = jsonvalue["name"].asString();
             this->id = jsonvalue["id"].asInt();
             this->type = jsonvalue["type"].asString();
+            this->hasAnimation = jsonvalue["animation"].asBool();
+
+            if(jsonvalue.isMember("collision"))
+                this->collision = jsonvalue["collision"].asBool();
+            else
+                this->collision = false;
+
+            if(type == "BagOfSeed")
+                this->seedID = jsonvalue["seed"].asInt();
 
             this->filename = "res/items/"+e;
+
+            if(jsonvalue.isMember("texture")){
+                texture=LoadTexture(jsonvalue["texture"].asString().c_str());
+            }else{
+                int probability=GetRandomValue(1,2);
+                if(probability==1) texture=LoadTexture(jsonvalue["texture1"].asString().c_str());
+                if(probability==2) texture=LoadTexture(jsonvalue["texture2"].asString().c_str());
+            }
         }
     }
 
@@ -69,6 +87,8 @@ TransitionTile::TransitionTile(Vector2 pos, int z_level){
         {TILE_SIZE*2,0,32,32},
         {TILE_SIZE*3,0,32,32}
     };
-
     animation = CreateSpriteAnimation(texture, 8, animRect, 4);
+
+    state = 0;
+    timer = 0.0f;
 }

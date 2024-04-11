@@ -88,6 +88,7 @@ class Tile{
 
         void runAnimation(){isRunningAnimation=true;}
 
+        virtual void Update();
         virtual std::string Interact();
         virtual void Draw(bool is_debugging);
 
