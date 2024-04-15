@@ -1,6 +1,9 @@
 #pragma once
 
 #include<string>
+#include<vector>
+
+#include<raylib.h>
 
 #include"tile.h"
 
@@ -8,6 +11,8 @@ class SeedTile: public Tile{
     private:
         int state;
         float timer;
+
+        std::vector<Texture2D> state_textures;
     public:
         void Update() override;
         std::string Interact() override;

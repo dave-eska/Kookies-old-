@@ -94,7 +94,7 @@ void Player::Draw(bool isDebuggin){
     if(isDebuggin) {
         DrawRectangleRec(body, {0,200,0,150});
         DrawRectangleRec(selectArea, {0,0,0,100});
-        DrawRectangleRec(collisionArea, {213, 70, 90, 150});
+        //DrawRectangleRec(collisionArea, {213, 70, 90, 150});
     }
 }
 
@@ -136,7 +136,7 @@ Player::Player(Rectangle body, int speed, const char* texture_path, Rectangle se
         std::string crafting_menu_texture,
         /*customization*/
         std::string display_name)
-:body{body},selectArea{selectArea},default_speed{speed},display_name{display_name},speed{speed},collisionArea{collisionBody}{
+:body{body},selectArea{selectArea},default_speed{speed},display_name{display_name},speed{speed}{
     texture=LoadTexture(texture_path);
 
     inv = Inventory(inventory_pos, slots, 

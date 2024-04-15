@@ -17,7 +17,7 @@ class Player{
     private:
         Rectangle body;
         Rectangle selectArea;
-        Rectangle collisionArea;
+        //Rectangle collisionArea;
 
         int speed;
         int default_speed;
