@@ -1,6 +1,5 @@
 #include"seed.h"
 
-#include <iostream>
 #include<raylib.h>
 
 #include<fstream>
@@ -21,6 +20,10 @@ void SeedTile::Update(){
         state += 1;
         timer = 0.0f;
     }
+    
+    if(state >= MAX_STATE && isTouchingSelectAreaPlayer && isTouchingMouse && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
+        getPlayer().addItemInv(Tile(fruitID, {}, 1).asItem(1));
+    }
 }
 
 std::string SeedTile::Interact(){
@@ -28,7 +31,8 @@ std::string SeedTile::Interact(){
 }
 
 void SeedTile::Draw(bool is_debugging){
-    DrawTexturePro(state_textures[state], {0,0,32,32}, {body.x,body.y,TILE_SIZE,TILE_SIZE}, {0,0}, 0, WHITE);
+    if(!state_textures.empty())
+        DrawTexturePro(state_textures[state], {0,0,32,32}, {body.x,body.y,TILE_SIZE,TILE_SIZE}, {0,0}, 0, WHITE);
 
     if(is_debugging){
         DrawTextureEx(debugbox, {body.x, body.y}, 0, 3, WHITE);
@@ -50,7 +54,6 @@ void SeedTile::Draw(bool is_debugging){
 }
 
 SeedTile::SeedTile(){
-    typeInChat("helloo");
 }
 
 SeedTile::SeedTile(int id, Vector2 pos, int z_level){
@@ -76,16 +79,17 @@ SeedTile::SeedTile(int id, Vector2 pos, int z_level){
                 TILE_SIZE,
                 TILE_SIZE
             };
+
             this->z_level=z_level;
             this->name = jsonvalue["name"].asString();
             this->id = jsonvalue["id"].asInt();
             this->type = jsonvalue["type"].asString();
-            this->collision = false;
+            this->fruitID = (TileID)jsonvalue["fruitID"].asInt();
 
+            this->collision = false;
             this->filename = "res/items/"+e;
 
             for(int i=0;i<jsonvalue["textures"].size();i++){
-                std::cout<<"'"<<i<<"': "<<jsonvalue["textures"][i].asString().c_str()<<std::endl;
                 state_textures.push_back(LoadTexture(jsonvalue["textures"][i].asString().c_str()));
             }
         }

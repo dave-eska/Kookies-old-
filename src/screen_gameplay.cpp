@@ -55,6 +55,10 @@ void changeMainLevel(std::string levelName){
     level.changeLevel(levelName);
 }
 
+Player &getPlayer(){
+    return player;
+}
+
 static void drawDebugInfo(){
     printText("FPS: ", std::to_string(GetFPS()), {0,0}, 20);
 
@@ -213,7 +217,8 @@ void InitGameplayScreen(){
     player = Player(
             /*Body*/{50,200,18*9, 35*9},
             /*Speed*/500,
-            /*texture_path=*/"res/img/player_atlas.png", /*selectArea*/{0,0,450, 450},
+            /*texture_path=*/"res/img/player_atlas.png",
+            /*selectArea*/{0,0,450, 450},
             /*collisionBody=*/{0,0,18*9,10*9},
 
             /*slots=*/10,
@@ -226,7 +231,7 @@ void InitGameplayScreen(){
             /*display_name=*/"Dave"
             );
 
-    player.addItemInv(Tile(Bagofcherry_Tile, {}, 1).asItem(99));
+    //player.addItemInv(Tile(Bagofcherry_Tile, {}, 1).asItem(99));
 
     level.changeLevel("res/maps/test.json");
 
