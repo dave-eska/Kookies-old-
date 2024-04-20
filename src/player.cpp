@@ -61,9 +61,6 @@ void Player::UpdateInventory(){
     if(inv.getIsCrafting())
         inv.UpdateCraftableTileID();
 
-    if(IsKeyPressed(KEY_SPACE))
-        typeInChat(std::to_string(inv.has({13, 4})));
-
     if(IsKeyDown(KEY_LEFT_SHIFT)){
         for (int i = KEY_ONE; i <= KEY_NINE; ++i) {
             if (IsKeyPressed(i))

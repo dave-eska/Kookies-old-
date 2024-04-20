@@ -11,10 +11,10 @@
 #include"global_func.h"
 
 #define GROW_TIME 2.0f
-#define MAX_STATE 3
+#define MAX_STATE 4
 
 void SeedTile::Update(){
-    if(state < MAX_STATE)
+    if(state < MAX_STATE && state < state_textures.size())
         timer += GetFrameTime();
 
     if(timer >= GROW_TIME){
@@ -50,6 +50,7 @@ void SeedTile::Draw(bool is_debugging){
 }
 
 SeedTile::SeedTile(){
+    typeInChat("helloo");
 }
 
 SeedTile::SeedTile(int id, Vector2 pos, int z_level){
@@ -84,6 +85,7 @@ SeedTile::SeedTile(int id, Vector2 pos, int z_level){
             this->filename = "res/items/"+e;
 
             for(int i=0;i<jsonvalue["textures"].size();i++){
+                std::cout<<"'"<<i<<"': "<<jsonvalue["textures"][i].asString().c_str()<<std::endl;
                 state_textures.push_back(LoadTexture(jsonvalue["textures"][i].asString().c_str()));
             }
         }

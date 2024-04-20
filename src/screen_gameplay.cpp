@@ -12,6 +12,7 @@
 #include"level.h"
 
 #include"player.h"
+#include "seed.h"
 #include"tile.h"
 #include"chat.h"
 
@@ -153,11 +154,13 @@ static void UpdateTiles(){
         }
 
         //Crafting
-        if(tile->getName() == "crafting_table" && tile->getIsTouchinSelectAreaPlayer()){
-            if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) && tile->getIsTouchingMouse()){
-                player.toggleInvenCrafting();
+        if(tile->getName() == "crafting_table"){
+            if(tile->getIsTouchingPlayer()){
+                if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) && tile->getIsTouchingMouse()){
+                    player.toggleInvenCrafting();
+                }
             }else{
-                player.setInvIsCrafting(false);
+                player.getInv().setIsCrafting(false);
             }
         }
 
@@ -182,18 +185,10 @@ static void UpdateTiles(){
         if(tile->getName() == "farmland" && tile->getIsTouchinSelectAreaPlayer() && player.getInv().getItemFromCurrentSot().item_type == "BagOfSeed"){
             if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) &&
                     tile->getIsTouchingMouse()){
-                Vector2 belowPos = {tile->getBody().x, tile->getBody().y};
-                int below_z = tile->getZ();
-                auto it = std::find_if(level.tiles.begin(), level.tiles.end(),
-                        [belowPos, below_z](const auto& item) {
-                        return item->getPos().x == belowPos.x && item->getPos().y == belowPos.y && item->getZ() > below_z && item->getType() == "Seeds";
-                        });
-                if(it == level.tiles.end()){
-                    level.tiles.push_back(std::make_unique<Tile>
-                            (Tile(Tile(player.getInv().getItemFromCurrentSot().tileID, {0,0}, 0).getSeed(),
-                                  {tile->getX(), tile->getY()}, tile->getZ()+1)));
-                    player.decreaseItemInv(player.getCurrentInvSlot());
-                }
+                SeedTile temp_tile = SeedTile(player.getInv().getItemFromCurrentSot().tileID, tile->getPos(), tile->getZ()+1);
+                level.tiles.push_back(std::make_unique<SeedTile>(temp_tile));
+
+                player.decreaseItemInv(player.getCurrentInvSlot());
             }
         }
     }
@@ -222,7 +217,7 @@ void InitGameplayScreen(){
             /*collisionBody=*/{0,0,18*9,10*9},
 
             /*slots=*/10,
-            /*inventory_pos=*/{10, 12},
+            /*inventory_pos=*/{13, 13},
             /*inventory_texture=*/"res/img/inventory_outline.png",
             /*inventory_selecting_texture=*/"res/img/Outline_selector.png",
             /*extra_inv_texture=*/"res/img/Extra_Inven.png",
@@ -230,6 +225,9 @@ void InitGameplayScreen(){
 
             /*display_name=*/"Dave"
             );
+
+    player.addItemInv(Tile(Bagofcherry_Tile, {}, 1).asItem(99));
+
     level.changeLevel("res/maps/test.json");
 
     camera = { 0 };

@@ -99,27 +99,35 @@ class Tile{
         virtual ~Tile() = default;
 };
 
-enum TileID{
-    AIR_TILE,
-    GRASS_TILE,
-    MILK_TILE,
-    CHEST_TILE,
-    COOKIE_TILE,
-    BRICKWALL_TILE,
-    TRANSITION_TILE,
-    FLOOR_TILE,
-    ITEMAREA_TILE,
-    DOORUP_TILE,
-    DOORDOWN_TILE,
-    CRAFTINGTABLE_TILE,
-    CHOCOLATE_TILE,
-    CHERRY_TILE,
-    CHOCOLATECAKE_TILE,
-    BAGOFCHERRY_TILE,
-    CHERRYSEEDS_TILE,
-    FARMLAND_TILE,
-    EMPTYBAG_TILE,
-    COCOABEANS_TILE,
-    BAGOFCOCOABEANS_TILE,
-    COCOABEANSSEES_TILE,
+enum TileID {
+    Air_Tile = 0,
+
+    Grass_Tile = 1,
+    Farmland_Tile,
+    Brickwall_Tile,
+    Floor_Tile,
+
+    Doorup_Tile = 5,
+    Doordown_Tile,
+
+    Chest_Tile = 7,
+    Craftingtable_Tile,
+
+    Transition_Tile = 9,
+    Itemarea_Tile,
+    PlaceArea_Tile,
+
+    Chocolate_Tile = 12,
+    Chocolatecake_Tile,
+    Cherry_Tile,
+    Milk_Tile,
+    Cookie_Tile,
+    Cocoabeans_Tile,
+
+    Emptybag_Tile = 18,
+    Bagofcherry_Tile,
+    Bagofcocoabeans_Tile,
+
+    Cherryseeds_Tile = 21,
+    Cocoabeansseed_Tile,
 };

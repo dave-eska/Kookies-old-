@@ -195,7 +195,7 @@ void Inventory::Draw(Camera2D& camera){
 
     DrawTextureEx(SelectOutline_texture, {(float)current_slot*OUTLINE_SIZE+pos.x, pos.y}, 0, 2, {255,255,255,outline_transparancy});
     if(!timerDone(&drawingNameTimer) && getItemFromCurrentSot().item_name!="air")
-        DrawText(getItemFromCurrentSot().item_name.c_str(), 20, GetScreenHeight()-60, 40, BLACK);
+        DrawText(getItemFromCurrentSot().item_name.c_str(), current_slot*OUTLINE_SIZE+pos.x, OUTLINE_SIZE+pos.y, 40, BLACK);
 
     if(isDrawingUI){
         for(int i=0;i<5;i++){

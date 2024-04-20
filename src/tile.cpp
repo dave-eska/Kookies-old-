@@ -82,7 +82,7 @@ std::string Tile::Interact(){
 }
 
 Tile::Tile(){
-    typeInChat("WARNING: CREATED A TILE WITH DEFAULT CONSTRUCTOR", YELLOW);
+    //typeInChat("WARNING: CREATED A TILE WITH DEFAULT CONSTRUCTOR", YELLOW);
 }
 
 Tile::Tile(int id, Vector2 pos, int z_level){
