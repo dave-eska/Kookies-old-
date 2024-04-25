@@ -18,7 +18,7 @@ void TileUpdateFunction::UseCraftingTable(std::unique_ptr<Tile>& tile){
                 getPlayer().toggleInvenCrafting();
             }
         }else{
-            getPlayer().getInv().setIsCrafting(false);
+            getPlayer().setInvIsCrafting(false);
         }
     }
 }

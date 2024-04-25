@@ -210,7 +210,7 @@ void InitGameplayScreen(){
     camera.target = { player.getBody().x + 18*7, player.getBody().y + 35*7 };
     camera.offset = { GetScreenWidth()/2.0f, GetScreenHeight()/2.0f };
     camera.rotation = 0.0f;
-    camera.zoom = 0.65f;
+    camera.zoom = 0.5f;
 
     commands = {
         "/tell",
@@ -219,9 +219,7 @@ void InitGameplayScreen(){
         "/debug"
     };
 
-    entities.push_back(std::make_unique<NPC>(NPC("res/maps/items.json", {288, 572}, "Opening", "opening.json", 7)));
-
-    pickupsound = LoadSound("res/sound/pickup.wav");
+    entities.push_back(std::make_unique<NPC>(NPC("res/maps/test.json", {288, 572}, "Opening", "opening.json", 7)));
 }
 
 void UpdateGameplayScreen(){
