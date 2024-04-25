@@ -157,22 +157,7 @@ static void UpdateTiles(){
 
         TileUpdateFunction::UseCraftingTable(tile);
 
-        if(tile->getID() == PlaceArea_Tile && tile->getIsTouchinSelectAreaPlayer()){
-            if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) &&
-                    tile->getIsTouchingMouse()){
-                Vector2 belowPos = {tile->getBody().x, tile->getBody().y};
-                int below_z = tile->getZ();
-                auto it = std::find_if(level.tiles.begin(), level.tiles.end(),
-                        [belowPos, below_z](const auto& item) {
-                        return item->getPos().x == belowPos.x && item->getPos().y == belowPos.y && item->getZ() > below_z && item->getType() == "Item";
-                        });
-                if(it == level.tiles.end()){
-                    level.tiles.push_back(std::make_unique<Tile>
-                            (Tile(player.getCurrentInvIDSlot(), {tile->getX(), tile->getY()}, tile->getZ()+1)));
-                    player.decreaseItemInv(player.getCurrentInvSlot());
-                }
-            }
-        }
+        TileUpdateFunction::PlaceItem(tile, level);
 
         if(tile->getID() == Farmland_Tile && tile->getIsTouchinSelectAreaPlayer() && player.getInv().getItemFromCurrentSot().item_type == "BagOfSeed"){
             if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) &&
