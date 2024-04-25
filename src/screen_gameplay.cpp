@@ -19,6 +19,7 @@
 
 #include"entity.h"
 #include"npc.h"
+#include "updateTile_func.h"
 
 #define INTERACT_KEY KEY_I
 
@@ -144,12 +145,7 @@ static void UpdateTiles(){
 
         tile->Update();
 
-        if(tile->getIsTouchingPlayer() && tile->getIsTouchingMouse() && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
-            if(!tile->Interact().empty()){
-                tile_interect_return_code = tile->Interact();
-            }else
-                tile->Interact();
-        }
+        TileUpdateFunction::Interact(tile, tile_interect_return_code);
 
         if((tile->getType() == "Item" || tile->getType() == "BagOfSeed")&& tile->getIsTouchinSelectAreaPlayer() && tile->getIsTouchingMouse()){
             if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
@@ -211,10 +207,9 @@ static void UpdateTiles(){
 }
 
 static void drawInCamMode(){
-    for(auto& tile : level.tiles){
+    for(auto& tile : level.tiles)
         tile->Draw(is_debugging);
-        DrawText(std::to_string(tile->getSlot()).c_str(), tile->getX(), tile->getY(), 20, BLACK);
-    }
+
 
     for(auto& entity:entities)
         if(entity->getLevelName() == level.level_name) entity->Draw();

@@ -29,6 +29,7 @@ std::string SeedTile::Interact(){
     if(state >= MAX_STATE){
         getPlayer().addItemInv(Tile(fruitID, {}, 1).asItem(0));
         hasBeenHarved = true;
+        typeInChat("Taken Some Cherries");
     }
 
     if(hasBeenHarved){
