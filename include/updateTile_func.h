@@ -12,5 +12,5 @@ namespace TileUpdateFunction{
 
     void PlaceItem(std::unique_ptr<Tile>& tile, Level& level);
 
-    void PlantSeed(std::unique_ptr<Tile>& tile);
+    void PlantSeed(std::unique_ptr<Tile>& tile, Level& level);
 };

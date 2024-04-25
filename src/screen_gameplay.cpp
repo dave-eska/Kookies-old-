@@ -159,15 +159,7 @@ static void UpdateTiles(){
 
         TileUpdateFunction::PlaceItem(tile, level);
 
-        if(tile->getID() == Farmland_Tile && tile->getIsTouchinSelectAreaPlayer() && player.getInv().getItemFromCurrentSot().item_type == "BagOfSeed"){
-            if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) &&
-                    tile->getIsTouchingMouse()){
-                SeedTile temp_tile = SeedTile(player.getInv().getItemFromCurrentSot().tileID, tile->getPos(), tile->getZ()+1);
-                level.tiles.push_back(std::make_unique<SeedTile>(temp_tile));
-
-                player.decreaseItemInv(player.getCurrentInvSlot());
-            }
-        }
+        TileUpdateFunction::PlantSeed(tile, level);
     }
 
     if(!tile_interect_return_code.empty()){

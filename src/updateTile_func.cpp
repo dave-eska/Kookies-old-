@@ -1,5 +1,6 @@
 #include "updateTile_func.h"
 #include "global_func.h"
+#include "seed.h"
 
 void TileUpdateFunction::Interact(std::unique_ptr<Tile>& tile, std::string& tile_interect_return_code){
     if(tile->getIsTouchingPlayer() && tile->getIsTouchingMouse() && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
@@ -41,5 +42,14 @@ void TileUpdateFunction::PlaceItem(std::unique_ptr<Tile>& tile, Level& level){
     }
 }
 
-void TileUpdateFunction::PlantSeed(std::unique_ptr<Tile>& tile){
+void TileUpdateFunction::PlantSeed(std::unique_ptr<Tile>& tile, Level& level){
+    if(tile->getID() == Farmland_Tile && tile->getIsTouchinSelectAreaPlayer() && getPlayer().getInv().getItemFromCurrentSot().item_type == "BagOfSeed"){
+        if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) &&
+                tile->getIsTouchingMouse()){
+            SeedTile temp_tile = SeedTile(getPlayer().getInv().getItemFromCurrentSot().tileID, tile->getPos(), tile->getZ()+1);
+            level.tiles.push_back(std::make_unique<SeedTile>(temp_tile));
+
+            getPlayer().decreaseItemInv(getPlayer().getCurrentInvSlot());
+        }
+    }
 }
