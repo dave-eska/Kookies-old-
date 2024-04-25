@@ -6,6 +6,9 @@
 
 #include<raylib.h>
 
+#include"level.h"
+#include"player.h"
+
 std::string readFile(const std::string& filename);
 std::vector<std::string> getAllFileNamesInDirectory(const std::string& path);
 void clamp(int &val, int low, int high);
@@ -23,3 +26,6 @@ void typeInChat(std::string text, Color color);
 int GetCharacterDistance(char* str, int char1Index, int char2Index);
 
 void changeMainLevel(std::string levelName);
+
+Player &getPlayer();
+Level &getCurrentLevel();

@@ -119,9 +119,6 @@ Tile::Tile(int id, Vector2 pos, int z_level){
             else
                 this->collision = false;
 
-            if(type == "BagOfSeed")
-                this->seedID = jsonvalue["seed"].asInt();
-
             this->filename = "res/items/"+e;
 
             if(jsonvalue.isMember("texture")){

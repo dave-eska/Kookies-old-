@@ -10,7 +10,9 @@
 class SeedTile: public Tile{
     private:
         int state;
+        TileID fruitID;
         float timer;
+        bool hasBeenHarved;
 
         std::vector<Texture2D> state_textures;
     public:

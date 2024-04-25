@@ -1,11 +1,14 @@
 #include"seed.h"
 
+#include <iostream>
 #include<raylib.h>
 
 #include<fstream>
 
 #include<json/json.h>
 #include<json/value.h>
+#include <string>
+#include <vector>
 
 #include"global_func.h"
 
@@ -20,13 +23,20 @@ void SeedTile::Update(){
         state += 1;
         timer = 0.0f;
     }
-    
-    if(state >= MAX_STATE && isTouchingSelectAreaPlayer && isTouchingMouse && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
-        getPlayer().addItemInv(Tile(fruitID, {}, 1).asItem(1));
-    }
 }
 
 std::string SeedTile::Interact(){
+    if(state >= MAX_STATE){
+        getPlayer().addItemInv(Tile(fruitID, {}, 1).asItem(0));
+        hasBeenHarved = true;
+    }
+
+    if(hasBeenHarved){
+        std::string tile_return_code = "x001 " + std::to_string(slot);
+        std::cout<<tile_return_code<<std::endl;
+        return tile_return_code;
+    }
+
     return "";
 }
 
@@ -97,4 +107,5 @@ SeedTile::SeedTile(int id, Vector2 pos, int z_level){
 
     state = 0;
     timer = 0.0f;
+    hasBeenHarved = false;
 }

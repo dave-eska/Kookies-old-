@@ -29,8 +29,6 @@ class Tile{
 
         std::string filename;
 
-        int seedID; /*Only being used by 'type=BagOfSeed' tile*/
-
         //Collision
         bool collision;
 
@@ -59,8 +57,6 @@ class Tile{
 
         int getSlot(){return slot;}
 
-        int getSeed(){return seedID;} /*Only being used by 'type=BagOfSeed' tile*/
-
         bool HasAnimFrame(){return hasAnimation;}
         bool HasCollision(){return hasCollision;}
 
@@ -81,7 +77,6 @@ class Tile{
         void setX(float x){body.x=x;}
         void setY(float y){body.y=y;}
         void setSlot(int vec_slot){slot = vec_slot;}
-
         void setIsTouchingMouse(bool val){isTouchingMouse = val;}
         void setIsTouchingPlayer(bool val){isTouchingPlayer = val;}
         void setIsTouchingSelectAreaPlayer(bool val){isTouchingSelectAreaPlayer = val;}

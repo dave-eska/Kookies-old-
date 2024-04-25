@@ -1,4 +1,5 @@
 #include<algorithm>
+#include<iostream>
 #include<vector>
 #include<string>
 #include<memory>
@@ -57,6 +58,10 @@ void changeMainLevel(std::string levelName){
 
 Player &getPlayer(){
     return player;
+}
+
+Level &getCurrentLevel(){
+    return level;
 }
 
 static void drawDebugInfo(){
@@ -119,13 +124,12 @@ static void typingCode(){
 }
 
 static void UpdateTiles(){
-    std::string new_level_name;
+    std::string tile_interect_return_code;
     for(auto& tile : level.tiles){
         tile->setIsTouchingSelectAreaPlayer(false);
         tile->setIsTouchingPlayer(false);
         tile->setIsTouchingMouse(false);
 
-        //Chechking for collision
         if(CheckCollisionRecs(tile->getBody(), player.getSelectArea())){
             tile->setIsTouchingSelectAreaPlayer(true);
         }
@@ -140,15 +144,13 @@ static void UpdateTiles(){
 
         tile->Update();
 
-        //Interacting with tiles
         if(tile->getIsTouchingPlayer() && tile->getIsTouchingMouse() && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
             if(!tile->Interact().empty()){
-                new_level_name = tile->Interact();
+                tile_interect_return_code = tile->Interact();
             }else
                 tile->Interact();
         }
 
-        //Taking level.tiles
         if((tile->getType() == "Item" || tile->getType() == "BagOfSeed")&& tile->getIsTouchinSelectAreaPlayer() && tile->getIsTouchingMouse()){
             if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
                 player.addItemInv(tile->asItem(1));
@@ -157,8 +159,7 @@ static void UpdateTiles(){
             }
         }
 
-        //Crafting
-        if(tile->getName() == "crafting_table"){
+        if(tile->getID() == Craftingtable_Tile){
             if(tile->getIsTouchingPlayer()){
                 if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) && tile->getIsTouchingMouse()){
                     player.toggleInvenCrafting();
@@ -168,8 +169,7 @@ static void UpdateTiles(){
             }
         }
 
-        //Placing level.tiles
-        if(tile->getName() == "placearea" && tile->getIsTouchinSelectAreaPlayer()){
+        if(tile->getID() == PlaceArea_Tile && tile->getIsTouchinSelectAreaPlayer()){
             if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) &&
                     tile->getIsTouchingMouse()){
                 Vector2 belowPos = {tile->getBody().x, tile->getBody().y};
@@ -185,8 +185,8 @@ static void UpdateTiles(){
                 }
             }
         }
-        //Planting
-        if(tile->getName() == "farmland" && tile->getIsTouchinSelectAreaPlayer() && player.getInv().getItemFromCurrentSot().item_type == "BagOfSeed"){
+
+        if(tile->getID() == Farmland_Tile && tile->getIsTouchinSelectAreaPlayer() && player.getInv().getItemFromCurrentSot().item_type == "BagOfSeed"){
             if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) &&
                     tile->getIsTouchingMouse()){
                 SeedTile temp_tile = SeedTile(player.getInv().getItemFromCurrentSot().tileID, tile->getPos(), tile->getZ()+1);
@@ -197,14 +197,23 @@ static void UpdateTiles(){
         }
     }
 
-    if(!new_level_name.empty()){
-        level.changeLevel(new_level_name);
+    if(!tile_interect_return_code.empty()){
+        //x001 is the code to remove that tile. For now being use only to remove SeedTIle when harved.
+        if(getFirstWord(tile_interect_return_code) == "x001" && !getSecondWord(tile_interect_return_code).empty()){
+            level.tiles.erase(std::remove_if(level.tiles.begin(), level.tiles.end(), [tile_interect_return_code](const auto& tile){
+                        return tile->getSlot() == std::stoi(getSecondWord(tile_interect_return_code));
+                        }), level.tiles.end());
+        }
+        else{
+            level.changeLevel(tile_interect_return_code);
+        }
     }
 }
 
 static void drawInCamMode(){
-    for(auto& tile:level.tiles){
+    for(auto& tile : level.tiles){
         tile->Draw(is_debugging);
+        DrawText(std::to_string(tile->getSlot()).c_str(), tile->getX(), tile->getY(), 20, BLACK);
     }
 
     for(auto& entity:entities)
@@ -230,8 +239,6 @@ void InitGameplayScreen(){
 
             /*display_name=*/"Dave"
             );
-
-    //player.addItemInv(Tile(Bagofcherry_Tile, {}, 1).asItem(99));
 
     level.changeLevel("res/maps/test.json");
 
