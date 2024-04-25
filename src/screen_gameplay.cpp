@@ -145,8 +145,6 @@ static void UpdateTiles(){
 
         tile->Update();
 
-        TileUpdateFunction::Interact(tile, tile_interect_return_code);
-
         if((tile->getType() == "Item" || tile->getType() == "BagOfSeed")&& tile->getIsTouchinSelectAreaPlayer() && tile->getIsTouchingMouse()){
             if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
                 player.addItemInv(tile->asItem(1));
@@ -155,15 +153,9 @@ static void UpdateTiles(){
             }
         }
 
-        if(tile->getID() == Craftingtable_Tile){
-            if(tile->getIsTouchingPlayer()){
-                if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) && tile->getIsTouchingMouse()){
-                    player.toggleInvenCrafting();
-                }
-            }else{
-                player.getInv().setIsCrafting(false);
-            }
-        }
+        TileUpdateFunction::Interact(tile, tile_interect_return_code);
+
+        TileUpdateFunction::UseCraftingTable(tile);
 
         if(tile->getID() == PlaceArea_Tile && tile->getIsTouchinSelectAreaPlayer()){
             if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) &&
