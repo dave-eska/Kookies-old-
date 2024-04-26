@@ -44,7 +44,6 @@ class Tile{
         bool isTouchingSelectAreaPlayer;
         int slot;
     public:
-
         //Getters
         std::string getName(){return name;}
         std::string getType(){return type;}

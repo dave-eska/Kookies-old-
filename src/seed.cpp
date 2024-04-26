@@ -11,13 +11,14 @@
 #include <vector>
 
 #include"global_func.h"
+#include "item.h"
 
 #define GROW_TIME 2.0f
 #define MAX_STATE 4
 
 void SeedTile::Update(){
     if(state < MAX_STATE && state < state_textures.size())
-        timer += GetFrameTime();
+        timer += GetFrameTime() * 2;
 
     if(timer >= GROW_TIME){
         state += 1;
@@ -26,15 +27,14 @@ void SeedTile::Update(){
 }
 
 std::string SeedTile::Interact(){
-    if(state >= MAX_STATE){
-        getPlayer().addItemInv(Tile(fruitID, {}, 1).asItem(0));
+    if(state == MAX_STATE){
+        getPlayer().addItemInv(newItem(fruitID, 1));
         hasBeenHarved = true;
         typeInChat("Taken Some Cherries");
     }
 
     if(hasBeenHarved){
         std::string tile_return_code = "x001 " + std::to_string(slot);
-        std::cout<<tile_return_code<<std::endl;
         return tile_return_code;
     }
 

@@ -93,9 +93,9 @@ bool Inventory::canCraft(InventoryItem item){
 void Inventory::UpdateCraftableTileID(){
     for(const auto& id:craftableTileID){
         auto it = std::find(canCraftTileID.begin(), canCraftTileID.end(), id);
-        if(canCraft(Tile(id, {0,0}, 0).asItem(1)) && it == canCraftTileID.end()){
+        if(canCraft(newItem(id)) && it == canCraftTileID.end()){
             canCraftTileID.push_back(id);
-        }else if(!canCraft(Tile(id, {0,0}, 0).asItem(1)) && it != canCraftTileID.end()){
+        }else if(!canCraft(newItem(id)) && it != canCraftTileID.end()){
             std::erase(canCraftTileID, id);
         }
     }
@@ -115,7 +115,7 @@ void Inventory::UpdateCraftableTileID(){
         }
     }
     if(IsKeyPressed(KEY_C))
-        craft(Tile(canCraftTileID[current_craftableTileId], {0,0}, 1).asItem(1));
+        craft(newItem(canCraftTileID[current_craftableTileId]));
 }
 
 
@@ -217,7 +217,7 @@ void Inventory::Draw(Camera2D& camera){
     if(isCrafting){
         DrawTextureEx(CraftingMenu_texture, {1102, 582}, 0, 5, WHITE);
         if(!canCraftTileID.empty()){
-            InventoryItem target_item = Tile(canCraftTileID[current_craftableTileId], {0,0}, 0).asItem(1);
+            InventoryItem target_item = newItem(canCraftTileID[current_craftableTileId]);;
 
             DrawTextureEx(target_item.iconTexture, {1142, 622}, 0, 2.2, WHITE);
             DrawText(target_item.item_name.c_str(), 1242, 612, 33, BLACK);

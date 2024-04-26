@@ -4,10 +4,10 @@
 
 void TileUpdateFunction::Interact(std::unique_ptr<Tile>& tile, std::string& tile_interect_return_code){
     if(tile->getIsTouchingPlayer() && tile->getIsTouchingMouse() && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
-        if(!tile->Interact().empty()){
-            tile_interect_return_code = tile->Interact();
-        }else
-            tile->Interact();
+        if(auto ret = tile->Interact(); !ret.empty())
+        {
+            tile_interect_return_code = ret;
+        }
     }
 }
 

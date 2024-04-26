@@ -25,5 +25,6 @@ struct InventoryItem{
 };
 
 InventoryItem newItem(int tileID);
+InventoryItem newItem(int tileID, int count);
 
 void assignInvSlot(InventoryItem& item, int slot);
