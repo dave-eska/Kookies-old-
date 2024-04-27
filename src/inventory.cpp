@@ -100,24 +100,16 @@ void Inventory::UpdateCraftableTileID(){
         }
     }
 
-    if(IsKeyPressed(KEY_U))
-        std::cout<<canCraftTileID.size()<<std::endl;
+    clamp(current_craftableTileId, 0, canCraftTileID.size()-1);
 
     if(IsKeyPressed(KEY_RIGHT)){
-        if(current_craftableTileId == canCraftTileID.size()-1){
-            current_craftableTileId = 0;
-        }else{
-            current_craftableTileId++;
-        }
+        current_craftableTileId++;
     }
     else if(IsKeyPressed(KEY_LEFT)){
-        if(current_craftableTileId == 0){
-            current_craftableTileId = canCraftTileID.size()-1;
-        }else{
-            current_craftableTileId--;
-        }
+        current_craftableTileId--;
     }
-    if(IsKeyPressed(KEY_C))
+
+    if(IsKeyPressed(KEY_C) && canCraftTileID.size() > 0)
         craft(newItem(canCraftTileID[current_craftableTileId]));
 }
 
