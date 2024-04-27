@@ -119,6 +119,10 @@ Tile::Tile(int id, Vector2 pos, int z_level){
             else
                 this->collision = false;
 
+            if(jsonvalue.isMember("seed")){
+                this->fruitID = jsonvalue["seed"].asInt();
+            }
+
             this->filename = "res/items/"+e;
 
             if(jsonvalue.isMember("texture")){

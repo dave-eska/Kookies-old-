@@ -2,7 +2,6 @@
 
 #include<string>
 #include<string>
-#include<tuple>
 
 #include<raylib.h>
 
@@ -28,6 +27,9 @@ class Tile{
         int z_level;
 
         std::string filename;
+
+        //(temp ;)BagOFSeeds code
+        int fruitID;
 
         //Collision
         bool collision;
@@ -55,6 +57,8 @@ class Tile{
         int getID(){return id;}
 
         int getSlot(){return slot;}
+
+        int getFruitID(){return fruitID;};
 
         bool HasAnimFrame(){return hasAnimation;}
         bool HasCollision(){return hasCollision;}

@@ -16,6 +16,9 @@ class SeedTile: public Tile{
 
         std::vector<Texture2D> state_textures;
     public:
+
+        int getFruitID(){return fruitID;}
+
         void Update() override;
         std::string Interact() override;
         void Draw(bool is_debugging) override;
