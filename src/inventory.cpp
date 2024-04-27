@@ -100,6 +100,9 @@ void Inventory::UpdateCraftableTileID(){
         }
     }
 
+    if(IsKeyPressed(KEY_U))
+        std::cout<<canCraftTileID.size()<<std::endl;
+
     if(IsKeyPressed(KEY_RIGHT)){
         if(current_craftableTileId == canCraftTileID.size()-1){
             current_craftableTileId = 0;
@@ -117,7 +120,6 @@ void Inventory::UpdateCraftableTileID(){
     if(IsKeyPressed(KEY_C))
         craft(newItem(canCraftTileID[current_craftableTileId]));
 }
-
 
 void Inventory::craft(InventoryItem item){
     bool has_all_ingredients = false;
