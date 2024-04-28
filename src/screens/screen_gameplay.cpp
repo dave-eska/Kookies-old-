@@ -1,5 +1,4 @@
 #include<algorithm>
-#include<iostream>
 #include<vector>
 #include<string>
 #include<memory>
@@ -14,13 +13,11 @@
 #include"level.h"
 
 #include"player.h"
-#include "seed.h"
 #include"tile.h"
 #include"chat.h"
 
 #include"entity.h"
-#include"npc.h"
-#include "updateTile_func.h"
+#include"updateTile_func.h"
 
 #define INTERACT_KEY KEY_I
 
@@ -243,6 +240,9 @@ void UpdateGameplayScreen(){
         if(entity->getLevelName() == level.level_name) entity->Update(player);
 
     UpdateTiles();
+
+    if(IsKeyPressed(KEY_ESCAPE))
+        finish_screen = 1;
 }
 
 void DrawGameplayScreen(){

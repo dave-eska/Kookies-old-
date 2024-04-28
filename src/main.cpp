@@ -112,6 +112,7 @@ static void ChangeToScreen(GameScreen screen)
     {
         case TITLE: UnloadTitleScreen(); break;
         case GAMEPLAY: UnloadGameplayScreen(); break;
+        case LEVELEDITOR: UnloadGameplayScreen(); break;
         default: break;
     }
 
@@ -120,6 +121,7 @@ static void ChangeToScreen(GameScreen screen)
     {
         case TITLE: InitTitleScreen(); break;
         case GAMEPLAY: InitGameplayScreen(); break;
+        case LEVELEDITOR: InitGameplayScreen(); break;
         default: break;
     }
 
@@ -159,6 +161,7 @@ static void UpdateTransition(void)
                 case TITLE: UnloadTitleScreen(); break;
                 case OPTIONS: UnloadOptionsScreen(); break;
                 case GAMEPLAY: UnloadGameplayScreen(); break;
+                case LEVELEDITOR: UnloadGameplayScreen(); break;
                 default: break;
             }
 
@@ -167,6 +170,7 @@ static void UpdateTransition(void)
             {
                 case TITLE: InitTitleScreen(); break;
                 case GAMEPLAY: InitGameplayScreen(); break;
+                case LEVELEDITOR: InitGameplayScreen(); break;
                 default: break;
             }
 
@@ -211,7 +215,7 @@ static void UpdateDrawFrame(void)
             {
                 UpdateTitleScreen();
 
-                if (FinishTitleScreen() == 1) TransitionToScreen(OPTIONS);
+                if (FinishTitleScreen() == 1) TransitionToScreen(LEVELEDITOR);
                 else if (FinishTitleScreen() == 2) {ResetTitleFinishScreen(); TransitionToScreen(GAMEPLAY);}
 
             } break;
@@ -230,6 +234,13 @@ static void UpdateDrawFrame(void)
                 else if (FinishGameplayScreen() == 2) TransitionToScreen(OPTIONS);
 
             } break;
+            case LEVELEDITOR:
+            {
+                UpdateLevelEditorScreen();
+
+                if (FinishGameplayScreen() == 1) {ResetGameplayFinishScreen(); TransitionToScreen(TITLE);}
+                else if (FinishGameplayScreen() == 2) TransitionToScreen(OPTIONS);
+            }
             default: break;
         }
     }

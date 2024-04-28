@@ -20,11 +20,11 @@ StartGameButton::StartGameButton(){
 }
 
 void StartGameButton::Update(int &game_state){
-    body.x=110;
-    body.y=370;
+    body.x = 110;
+    body.y = 370;
     if(CheckCollisionPointRec(GetMousePosition(), body)){
-        body.x=130;
-        body.y=390;
+        body.x = 130;
+        body.y = 390;
         if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
             onClick(game_state);
         }
