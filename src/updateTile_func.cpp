@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <iostream>
 #include <ostream>
+#include <vector>
 
 void TileUpdateFunction::Interact(std::unique_ptr<Tile>& tile, std::string& tile_interect_return_code){
     if(tile->getIsTouchingPlayer() && tile->getIsTouchingMouse() && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
@@ -33,9 +34,10 @@ void TileUpdateFunction::PlaceItem(std::unique_ptr<Tile>& tile, Level& level){
                 tile->getIsTouchingMouse()){
             Vector2 belowPos = {tile->getBody().x, tile->getBody().y};
             int below_z = tile->getZ();
+            std::vector<std::string> temp_string = {"Item", "BagOfSeed"};
             auto it = std::find_if(level.tiles.begin(), level.tiles.end(),
-                    [belowPos, below_z](const auto& item) {
-                    return item->getPos().x == belowPos.x && item->getPos().y == belowPos.y && item->getZ() > below_z && item->getType() == "Item";
+                    [belowPos, below_z, temp_string](const auto& item) {
+                    return item->getPos().x == belowPos.x && item->getPos().y == belowPos.y && item->getZ() > below_z && std::count(temp_string.begin(), temp_string.end(), item->getType());
                     });
             if(it == level.tiles.end()){
                 level.tiles.push_back(std::make_unique<Tile>
@@ -48,13 +50,7 @@ void TileUpdateFunction::PlaceItem(std::unique_ptr<Tile>& tile, Level& level){
 
 void TileUpdateFunction::PlantSeed(std::unique_ptr<Tile>& tile, Level& level){
     if(tile->getID() == Farmland_Tile && tile->getIsTouchinSelectAreaPlayer() && getPlayer().getInv().getItemFromCurrentSot().item_type == "BagOfSeed"){
-        if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) &&
-                tile->getIsTouchingMouse()){
-            /*Task: 
-             * store seed tile id
-             * checks if there's a seed in that x,y already
-             * push back a new SeedTile with that ID
-             * decrease the item count*/
+        if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) && tile->getIsTouchingMouse()){
             Vector2 belowPos = {tile->getBody().x, tile->getBody().y};
             int below_z = tile->getZ();
             auto it = std::find_if(level.tiles.begin(), level.tiles.end(),

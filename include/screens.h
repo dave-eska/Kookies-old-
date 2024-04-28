@@ -41,6 +41,17 @@ int FinishOptionsScreen(void);
 //--------------------------------------------------------------------------------//
 // Gameplay Screen Functions Declaration
 //--------------------------------------------------------------------------------//
+void InitLevelEditorScreen(void);
+void UpdateLevelEditorScreen(void);
+void DrawLevelEditorScreen(void);
+void UnloadLevelEditorScreen(void);
+void ResetLevelEditorScreen(void);
+int FinishLevelEditorScreen(void);
+
+//--------------------------------------------------------------------------------//
+//--------------------------------------------------------------------------------//
+// Gameplay Screen Functions Declaration
+//--------------------------------------------------------------------------------//
 void InitGameplayScreen(void);
 void UpdateGameplayScreen(void);
 void DrawGameplayScreen(void);
