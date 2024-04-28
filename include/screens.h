@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------------------//
 // Types and Structures Definition
 //--------------------------------------------------------------------------------//
-typedef enum GameScreen { UNKNOWN, TITLE, OPTIONS, GAMEPLAY } GameScreen;
+typedef enum GameScreen { UNKNOWN, TITLE, OPTIONS, GAMEPLAY, LEVELEDITOR } GameScreen;
 
 //--------------------------------------------------------------------------------//
 // Global Variables Declaration (shared by several modules)
@@ -39,7 +39,7 @@ void ResetOptionsFinishScreen(void);
 int FinishOptionsScreen(void);
 
 //--------------------------------------------------------------------------------//
-// Gameplay Screen Functions Declaration
+// Level Editor Screen Functions Declaration
 //--------------------------------------------------------------------------------//
 void InitLevelEditorScreen(void);
 void UpdateLevelEditorScreen(void);

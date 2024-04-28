@@ -15,7 +15,7 @@ static Texture2D main_menu_texture;
 
 void InitTitleScreen(){
     Start_Game_Button = new StartGameButton({110, 370});
-    Start_Game_Button = new StartGameButton({110, 590});
+    Level_Editor_Button = new LevelEditorButton({110, 590});
 
     main_menu_texture=LoadTexture("res/img/main_menu.png");
 

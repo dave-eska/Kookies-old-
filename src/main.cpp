@@ -215,7 +215,7 @@ static void UpdateDrawFrame(void)
             {
                 UpdateTitleScreen();
 
-                if (FinishTitleScreen() == 1) TransitionToScreen(LEVELEDITOR);
+                if (FinishTitleScreen() == 1) {ResetTitleFinishScreen(); TransitionToScreen(LEVELEDITOR);}
                 else if (FinishTitleScreen() == 2) {ResetTitleFinishScreen(); TransitionToScreen(GAMEPLAY);}
 
             } break;
@@ -238,8 +238,8 @@ static void UpdateDrawFrame(void)
             {
                 UpdateLevelEditorScreen();
 
-                if (FinishGameplayScreen() == 1) {ResetGameplayFinishScreen(); TransitionToScreen(TITLE);}
-                else if (FinishGameplayScreen() == 2) TransitionToScreen(OPTIONS);
+                if (FinishLevelEditorScreen() == 1) {ResetLevelEditorScreen(); TransitionToScreen(TITLE);}
+                else if (FinishLevelEditorScreen() == 2) TransitionToScreen(OPTIONS);
             }
             default: break;
         }
