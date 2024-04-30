@@ -9,6 +9,7 @@
 struct Level{
     std::vector<std::unique_ptr<Tile>> tiles;
     std::string level_name;
+    int highest_z;
 
     void changeLevel(std::string levelName);
 };

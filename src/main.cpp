@@ -112,7 +112,7 @@ static void ChangeToScreen(GameScreen screen)
     {
         case TITLE: UnloadTitleScreen(); break;
         case GAMEPLAY: UnloadGameplayScreen(); break;
-        case LEVELEDITOR: UnloadGameplayScreen(); break;
+        case LEVELEDITOR: UnloadLevelEditorScreen(); break;
         default: break;
     }
 
@@ -120,8 +120,8 @@ static void ChangeToScreen(GameScreen screen)
     switch (screen)
     {
         case TITLE: InitTitleScreen(); break;
+        case LEVELEDITOR: InitLevelEditorScreen(); break;
         case GAMEPLAY: InitGameplayScreen(); break;
-        case LEVELEDITOR: InitGameplayScreen(); break;
         default: break;
     }
 
@@ -161,7 +161,7 @@ static void UpdateTransition(void)
                 case TITLE: UnloadTitleScreen(); break;
                 case OPTIONS: UnloadOptionsScreen(); break;
                 case GAMEPLAY: UnloadGameplayScreen(); break;
-                case LEVELEDITOR: UnloadGameplayScreen(); break;
+                case LEVELEDITOR: UnloadLevelEditorScreen(); break;
                 default: break;
             }
 
@@ -170,7 +170,7 @@ static void UpdateTransition(void)
             {
                 case TITLE: InitTitleScreen(); break;
                 case GAMEPLAY: InitGameplayScreen(); break;
-                case LEVELEDITOR: InitGameplayScreen(); break;
+                case LEVELEDITOR: InitLevelEditorScreen(); break;
                 default: break;
             }
 
@@ -258,6 +258,7 @@ static void UpdateDrawFrame(void)
             case TITLE: DrawTitleScreen(); break;
             case OPTIONS: DrawOptionsScreen(); break;
             case GAMEPLAY: DrawGameplayScreen(); break;
+            case LEVELEDITOR: DrawLevelEditorScreen(); break;
             default: break;
         }
 

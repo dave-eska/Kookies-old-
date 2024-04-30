@@ -10,8 +10,8 @@
 
 //Private functions
 void Player::move(float dt){
-    float inputX=IsKeyDown(KEY_D)-IsKeyDown(KEY_A);
-    float inputY=IsKeyDown(KEY_S)-IsKeyDown(KEY_W);
+    float inputX = IsKeyDown(KEY_D)-IsKeyDown(KEY_A);
+    float inputY = IsKeyDown(KEY_S)-IsKeyDown(KEY_W);
 
     body.x+=(inputX*speed)*dt;
     body.y+=(inputY*speed)*dt;

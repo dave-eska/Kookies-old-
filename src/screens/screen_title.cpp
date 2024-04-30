@@ -5,7 +5,7 @@
 
 //Variables
 static bool menu_should_load=true;
-static int finish_screen=0;
+static int finish_screen = 1;
 
 static StartGameButton *Start_Game_Button;
 static LevelEditorButton *Level_Editor_Button;

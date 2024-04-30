@@ -87,8 +87,10 @@ Tile::Tile(){
 
 Tile::Tile(int id, Vector2 pos, int z_level){
     //Debug Variables
-    isTouchingMouse=false;
-    isRunningAnimation=true;
+    isTouchingMouse = false;
+    isTouchingPlayer = false;
+    isTouchingSelectAreaPlayer = false;
+    isRunningAnimation = true;
 
     debugbox=LoadTexture("res/img/debugbox.png");
 
