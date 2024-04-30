@@ -4,5 +4,5 @@
 
 void Level::changeLevel(std::string levelName){
     level_name = levelName;
-    tiles = loadLevelFromFile(levelName, highest_z);
+    tiles = loadLevelFromFile(levelName, highest_z, canvas_size);
 }

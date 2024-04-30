@@ -57,6 +57,7 @@ std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path){
         y = 0;
         x = 0;
         for (const auto& e : layer.asString()) {
+            // TODO: Fix the \n bug ;) (ill do it later i promise ;])
             if (e == '\n') {
                 Tile tile = Tile(std::stoi(id), {starting_pos.x+x*TILE_SIZE, starting_pos.y+(y*TILE_SIZE)}, z);
                 vec.push_back(std::make_unique<Tile>(tile));
@@ -106,11 +107,13 @@ std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path){
     return vec;
 }
 
-std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path, int& highet_z){
+std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path, int& highet_z, Vector2& cvs_size){
     std::vector<std::unique_ptr<Tile>> vec;
     std::string text = readFile(file_path);
     Json::Value root;
     Json::Reader jsonreader;
+
+    Vector2 canvas_size{0, 0};
 
     jsonreader.parse(text, root);
 
@@ -130,11 +133,13 @@ std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path, int&
         y = 0;
         x = 0;
         for (const auto& e : layer.asString()) {
+            // TODO: Fix the \n bug ;) (ill do it later i promise ;])
             if (e == '\n') {
                 Tile tile = Tile(std::stoi(id), {starting_pos.x+x*TILE_SIZE, starting_pos.y+(y*TILE_SIZE)}, z);
                 vec.push_back(std::make_unique<Tile>(tile));
                 id.clear();
                 y++;
+                canvas_size.x = x;
                 x=0;
             }else if(e == ' ' && !id.empty()){
                 int tile_id = std::stoi(id);
@@ -164,6 +169,7 @@ std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path, int&
             }else if(isEnglishAlphabet(e)){
                 destination.push_back(e);
             }
+            canvas_size.y = y;
         }
         if(!id.empty()){
             Tile tile = Tile(std::stoi(id), {starting_pos.x+x*TILE_SIZE, starting_pos.y+(y*TILE_SIZE)}, z);
@@ -175,6 +181,7 @@ std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path, int&
     }
 
     highet_z = z;
+    cvs_size = {canvas_size.x+1, canvas_size.y+1};
 
     std::sort(vec.begin(), vec.end(), compareTiles);
 

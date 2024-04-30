@@ -8,4 +8,4 @@
 #include"tile.h"
 
 std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path);
-std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path, int& highet_z);
+std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path, int& highet_z, Vector2& cvs_size);

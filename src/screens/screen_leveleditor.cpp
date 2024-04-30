@@ -18,6 +18,8 @@ static int cam_speed;
 
 static Level level;
 
+static Vector2 canvas_size;
+
 static Rectangle selected_tile;
 static int selected_tileID;
 static int selected_tileSlot;
@@ -95,7 +97,6 @@ void InitLevelEditorScreen(){
     currentTileTexture = Tile(current_tileID, {0,0}, 0).getTexture();
 
     level.changeLevel("res/maps/test.json");
-    std::cout<<level.highest_z<<std::endl;
 
     camera = { 0 };
     camera.target = { 0,0 };
@@ -149,7 +150,6 @@ void UpdateLevelEditorScreen(){
         clamp(current_tileID, 0, 22);
     }
 
-
     for(auto& tile : level.tiles){
         tile->setIsTouchingMouse(false);
 
@@ -157,6 +157,7 @@ void UpdateLevelEditorScreen(){
             tile->setIsTouchingMouse(true);
         }
 
+        // TODO: Add multi selecting
         if(IsMouseButtonPressed(MOUSE_RIGHT_BUTTON)){
             if(((tile->getIsTouchingMouse() && level.highest_z > 0 && tile->getZ() == level.highest_z-1) or tile->getIsTouchingMouse()) && tile->getID() != Air_Tile){
                 selected_tile = {
