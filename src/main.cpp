@@ -54,13 +54,13 @@ int main(void)
     InitAudioDevice();      // Initialize audio device
                             //
     // Load the icon image
-    Image icon = LoadImage("build/res/icon.png");
+    Image icon = LoadImage("res/icon.png");
 
     // Set the window icon
     SetWindowIcon(icon);
 
     // Load global data (assets that must be available in all screens, i.e. font)
-    font = LoadFont("resources/mecha.png");
+    font = LoadFont("res/fonts/Minecraft.ttf");
     //music = LoadMusicStream("resources/ambient.ogg");
     //fxCoin = LoadSound("resources/coin.wav");
 

@@ -100,9 +100,8 @@ SeedTile::SeedTile(int id, Vector2 pos, int z_level){
             this->collision = false;
             this->filename = "res/items/"+e;
 
-            for(int i=0;i<jsonvalue["textures"].size();i++){
-                state_textures.push_back(LoadTexture(jsonvalue["textures"][i].asString().c_str()));
-            }
+            for(int i=0;i<jsonvalue["textures"].size();i++) state_textures.push_back(LoadTexture(jsonvalue["textures"][i].asString().c_str()));
+            this->texture = state_textures[0];
         }
     }
 

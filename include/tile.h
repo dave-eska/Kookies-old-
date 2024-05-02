@@ -83,6 +83,7 @@ class Tile{
         void setIsTouchingMouse(bool val){isTouchingMouse = val;}
         void setIsTouchingPlayer(bool val){isTouchingPlayer = val;}
         void setIsTouchingSelectAreaPlayer(bool val){isTouchingSelectAreaPlayer = val;}
+        void setTexture(Texture2D new_texture){texture = new_texture;}
 
         void runAnimation(){isRunningAnimation=true;}
 

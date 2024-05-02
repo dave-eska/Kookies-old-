@@ -1,4 +1,5 @@
-#include"global_func.h"
+#include "global_func.h"
+#include "screens.h"
 
 #include<iostream>
 #include<fstream>
@@ -8,6 +9,8 @@
 #include<sstream>
 #include<string>
 #include<cctype>
+
+#define MAX_CHAT_TEXTS 100
 
 namespace fs=std::filesystem;
 
@@ -125,3 +128,16 @@ int GetCharacterDistance(char* str, int char1Index, int char2Index) {
 
     return distance;
 }
+
+void typeInChat(std::string text){
+    if(texts.size()>MAX_CHAT_TEXTS)
+        texts.erase(texts.begin());
+    addChatText(texts, text);
+}
+
+void typeInChat(std::string text, Color color){
+    if(texts.size()>MAX_CHAT_TEXTS)
+        texts.erase(texts.begin());
+    addChatText(texts, text, color);
+}
+

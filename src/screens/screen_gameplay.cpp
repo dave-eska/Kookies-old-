@@ -31,25 +31,10 @@ static std::vector<std::unique_ptr<Entity>> entities;
 static Camera2D camera ;
 static Sound pickupsound;
 
-static std::vector<ChatText> texts;
 static Level level;
 static std::string user_input;
 
 static std::vector<std::string> commands;
-
-#define MAX_CHAT_TEXTS 100
-
-void typeInChat(std::string text){
-    if(texts.size()>MAX_CHAT_TEXTS)
-        texts.erase(texts.begin());
-    addChatText(texts, text);
-}
-
-void typeInChat(std::string text, Color color){
-    if(texts.size()>MAX_CHAT_TEXTS)
-        texts.erase(texts.begin());
-    addChatText(texts, text, color);
-}
 
 void changeMainLevel(std::string levelName){
     level.changeLevel(levelName);

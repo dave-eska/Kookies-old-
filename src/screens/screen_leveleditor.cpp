@@ -1,9 +1,12 @@
 #include "chat.h"
 #include "global_func.h"
 #include "item.h"
+#include "raymath.h"
 #include "screens.h"
 
+#include <algorithm>
 #include <iostream>
+#include <memory>
 #include <string>
 
 #include <raylib.h>
@@ -18,18 +21,20 @@ static int cam_speed;
 
 static Level level;
 
-static Vector2 canvas_size;
-
+/*
 static Rectangle selected_tile;
+static Texture2D selected_tileTexture;
 static int selected_tileID;
 static int selected_tileSlot;
+*/
+static Tile *selectedTile;
 static bool has_selected_tile;
 
-static std::vector<ChatText> texts;
 static std::vector<std::string> commands;
 static std::string user_input;
+static std::string canvas_sizeStr;
 
-static int current_tileID;
+static int currentTile;
 static Texture2D currentTileTexture;
 
 static bool is_debugging;
@@ -43,7 +48,7 @@ static void typingCode(){
     }
 
     char c = GetCharPressed();
-    if (c){
+    if(c){
         user_input.push_back(c);
     }
 
@@ -52,7 +57,8 @@ static void typingCode(){
     if(IsKeyPressed(KEY_ENTER) && !user_input.empty()){
         if(isStringInVector(commands, getFirstWord(user_input))){
             std::string command = getFirstWord(user_input);
-            typeInChat(command);
+            std::string argument = getSecondWord(user_input);
+
             if(command == "/reset")
                 InitLevelEditorScreen();
             else if(command ==  "/clear")
@@ -60,14 +66,25 @@ static void typingCode(){
             else if(command == "/debug")
                 is_debugging = !is_debugging;
             else if(command == "/tell"){
-                if(getSecondWord(command) == "tiles"){
+                if(argument == "tiles"){
                     typeInChat("There are " + std::to_string(level.tiles.size()) + " tiles.");
-                }else if(getSecondWord(command) == "ctiles"){
-                    std::cout<<"Selected Tile: " + newItem(selected_tileID).item_name + "(" + std::to_string(selected_tileID) + ")"<<std::endl;
-                    typeInChat("Selected Tile: " + newItem(selected_tileID).item_name + "(" + std::to_string(selected_tileID) + ")");
+                }else if(argument == "ctiles"){
+                    typeInChat("Selected Tile: " + selectedTile->getName() + "(" + std::to_string(selectedTile->getID()) + ")");
                 }
                 else{
                     typeInChat("Syntax Error: Expected Input Detail.", DARKPURPLE);
+                }
+            }
+            else if(command == "/change"){
+                if(has_selected_tile && !argument.empty()){
+                    auto it = std::find_if(level.tiles.begin(), level.tiles.end(),
+                            [](const auto& item) {
+                            return item->getSlot() == selectedTile->getSlot();
+                            });
+                    if(it != level.tiles.end()){
+                        *it = std::make_unique<Tile>(Tile(std::stoi(argument), {selectedTile->getX(), selectedTile->getY()}, selectedTile->getZ()));
+                        std::cout<<1<<std::endl;
+                    }
                 }
             }
         }else{
@@ -83,9 +100,19 @@ static void typingCode(){
 static void InteractWithTile(){
     if(IsKeyPressed(KEY_DELETE)){
         level.tiles.erase(std::remove_if(level.tiles.begin(), level.tiles.end(), [](const auto& tile){
-                    return tile->getSlot() == selected_tileSlot;
+                    return tile->getSlot() == selectedTile->getSlot();
                     }), level.tiles.end());
+        selectedTile = new Tile(Air_Tile, {}, 0);
         has_selected_tile = false;
+        if(IsKeyPressed(KEY_C)){
+            auto it = std::find_if(level.tiles.begin(), level.tiles.end(),
+                    [](const auto& item) {
+                    return item->getSlot() == selectedTile->getSlot();
+                    });
+            if(it != level.tiles.end()){
+                *it = std::make_unique<Tile>(Tile(currentTile, {selectedTile->getX(), selectedTile->getY()}, selectedTile->getZ()));
+            }
+        }
     }
 }
 
@@ -93,10 +120,11 @@ void InitLevelEditorScreen(){
     is_debugging = true;
     is_typing = false;
 
-    current_tileID = Brickwall_Tile;
-    currentTileTexture = Tile(current_tileID, {0,0}, 0).getTexture();
+    currentTile = Brickwall_Tile;
+    currentTileTexture = Tile(currentTile, {0,0}, 0).getTexture();
 
     level.changeLevel("res/maps/test.json");
+    canvas_sizeStr = std::to_string((int)level.canvas_size.x) + ", " + std::to_string((int)level.canvas_size.y);
 
     camera = { 0 };
     camera.target = { 0,0 };
@@ -106,13 +134,15 @@ void InitLevelEditorScreen(){
 
     cam_speed = 500;
 
-    selected_tile = {0,0,0,0};
+    selectedTile = new Tile(Air_Tile, {}, 0);
+    has_selected_tile = false;
 
     commands = {
         "/tell",
         "/reset",
         "/clear",
-        "/debug"
+        "/debug",
+        "/change"
     };
 }
 
@@ -120,15 +150,36 @@ void UpdateLevelEditorScreen(){
     if(IsKeyPressed(KEY_ESCAPE))
         finish_screen = 1;
 
-    if(IsKeyPressed(KEY_SLASH)){
-        is_typing = true;
+    // Translate based on mouse right click
+    if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT) or IsMouseButtonDown(MOUSE_BUTTON_MIDDLE))
+    {
+        Vector2 delta = GetMouseDelta();
+        delta = Vector2Scale(delta, -1.0f/camera.zoom);
+
+        camera.target = Vector2Add(camera.target, delta);
     }
 
-    if(is_typing)
-        typingCode();
+    // Zoom based on mouse wheel
+    float wheel = GetMouseWheelMove();
+    if (wheel != 0)
+    {
+        // Get the world point that is under the mouse
+        Vector2 mouseWorldPos = GetScreenToWorld2D(GetMousePosition(), camera);
 
-    if(has_selected_tile)
-        InteractWithTile();
+        // Set the offset to where the mouse is
+        camera.offset = GetMousePosition();
+
+        // Set the target to match, so that the camera maps the world space point 
+        // under the cursor to the screen space point under the cursor at any zoom
+        camera.target = mouseWorldPos;
+
+        // Zoom increment
+        const float zoomIncrement = 0.125f;
+
+        camera.zoom += (wheel*zoomIncrement);
+        if (camera.zoom < zoomIncrement) camera.zoom = zoomIncrement;
+    }
+
 
     if(!is_typing){
         float inputX = IsKeyDown(KEY_D)-IsKeyDown(KEY_A);
@@ -137,18 +188,21 @@ void UpdateLevelEditorScreen(){
         camera.target.x += (inputX * cam_speed) * GetFrameTime();
         camera.target.y += (inputY * cam_speed) * GetFrameTime();
 
-        if(IsKeyPressed(KEY_UP)){
-            current_tileID++;
-            currentTileTexture = Tile(current_tileID, {0,0}, 0).getTexture();
+        if(IsKeyPressed(KEY_UP)) { currentTile++; currentTileTexture = newItem(currentTile).iconTexture; }
+        if(IsKeyPressed(KEY_DOWN)) { currentTile--; currentTileTexture = newItem(currentTile).iconTexture; }
+
+        clamp(currentTile, 0, 22);
+
+        if(IsKeyPressed(KEY_SLASH)){
+            is_typing = true;
         }
 
-        if(IsKeyPressed(KEY_DOWN)){
-            current_tileID--;
-            currentTileTexture = Tile(current_tileID, {0,0}, 0).getTexture();
-        }
-
-        clamp(current_tileID, 0, 22);
+        if(has_selected_tile)
+            InteractWithTile();
     }
+
+    if(is_typing)
+        typingCode();
 
     for(auto& tile : level.tiles){
         tile->setIsTouchingMouse(false);
@@ -158,16 +212,11 @@ void UpdateLevelEditorScreen(){
         }
 
         // TODO: Add multi selecting
-        if(IsMouseButtonPressed(MOUSE_RIGHT_BUTTON)){
+        if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) or IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
             if(((tile->getIsTouchingMouse() && level.highest_z > 0 && tile->getZ() == level.highest_z-1) or tile->getIsTouchingMouse()) && tile->getID() != Air_Tile){
-                selected_tile = {
-                    tile->getX(),
-                    tile->getY(),
-                    tile->getBody().width,
-                    tile->getBody().height,
-                };
-                selected_tileID = tile->getID();
-                selected_tileSlot = tile->getSlot();
+                selectedTile = new Tile(tile->getID(), {tile->getX(), tile->getY()}, tile->getZ());
+                selectedTile->setSlot(tile->getSlot());
+                selectedTile->setTexture(tile->getTexture());
 
                 if(!has_selected_tile)
                     has_selected_tile = true;
@@ -184,20 +233,33 @@ void DrawLevelEditorScreen(){
     }
 
     if(has_selected_tile)
-        DrawRectangleRec(selected_tile, {200, 200, 200, 255/2});
+        DrawRectangleRec(selectedTile->getBody(), {200, 200, 200, 255/2});
 
     EndMode2D();
 
-    DrawText("Current Tile: ", 20, 50, 25, BLACK);
-    DrawText(std::to_string(current_tileID).c_str(), 280, 50, 25, BLACK);
+    //! Top Part
+    DrawTextEx(font, "Current Tile: ", {20, 50}, 25, 0, WHITE);
+    DrawTextEx(font, std::to_string(currentTile).c_str(), {270, 50}, 25, 0, BLACK);
+    DrawRectangleRec({187, 27, 32*2+6, 32*2+6}, BLACK);
+    DrawTextureEx(currentTileTexture, {190, 30}, 0, 2, WHITE);
 
-        DrawTextureEx(currentTileTexture, {190, 30}, 0, 2, WHITE);
+    DrawTextEx(font, "Selected Tile: ", {20, 154}, 25, 0, WHITE);
+    DrawTextEx(font, std::to_string(selectedTile->getID()).c_str(), {270, 154}, 25, 0, BLACK);
+    DrawRectangleRec({187, 124, 32*2+6, 32*2+6}, BLACK);
+    DrawTextureEx(selectedTile->getTexture(), {190, 127}, 0, 2, WHITE);
+
+    //!Bottom Part
+    DrawTextEx(font, "Canvas Size: ", {20, (float)GetScreenHeight() - 50}, 25, 0, WHITE);
+    DrawTextEx(font, canvas_sizeStr.c_str(), {185, (float)GetScreenHeight() - 50}, 25, 0, BLACK);
+
+    DrawTextEx(font, "Layers: ", {20, (float)GetScreenHeight() - 80}, 25, 0, WHITE);
+    DrawTextEx(font, std::to_string(level.highest_z).c_str(), {120, (float)GetScreenHeight() - 80}, 25, 0, BLACK);
 
     for(auto e:texts) e.Draw();
 
     if(is_typing){
         DrawRectangleRec({30,(float)GetScreenHeight()-50,500,35}, {20,20,20,130});
-        DrawText(user_input.c_str(), 30, (float)GetScreenHeight()-50, 35, BLACK);
+        DrawText(user_input.c_str(), 30, (float)GetScreenHeight()-50, 35, WHITE);
     }
 }
 

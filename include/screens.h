@@ -3,6 +3,7 @@
 //--------------------------------------------------------------------------------//
 // Global Include Files (used by multiple source files)
 //--------------------------------------------------------------------------------//
+#include "chat.h"
 #include<raylib.h>
 
 //--------------------------------------------------------------------------------//
@@ -17,6 +18,8 @@ extern GameScreen currentScreen;
 extern Font font;
 extern Music music;
 extern Sound fxCoin;
+
+inline std::vector<ChatText> texts;
 
 //--------------------------------------------------------------------------------//
 // Title Screen Functions Declaration
