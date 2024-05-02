@@ -1,9 +1,0 @@
-{
-    "name": "brick_wall",
-    "texture": "res/img/brick_wall.png",
-    
-    "type": "Block",
-    "collision": true,
-
-    "id": 3
-}

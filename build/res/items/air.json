@@ -1,9 +1,0 @@
-{
-    "name": "air",
-    //"texture": "res/img/air.png",
-
-    "type": "Block",
-    "collision": false,
-
-    "id": 0
-}
