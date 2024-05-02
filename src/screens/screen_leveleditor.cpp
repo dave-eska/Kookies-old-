@@ -28,7 +28,7 @@ static Texture2D selected_tileTexture;
 static int selected_tileID;
 static int selected_tileSlot;
 */
-static Tile *selectedTile;
+static Tile selectedTile;
 static bool has_selected_tile;
 
 static std::vector<std::string> commands;
@@ -37,7 +37,7 @@ static std::string user_input;
 static std::string last_input;
 static std::string prev_user_input;
 
-static int currentTile;
+static int currentTileID;
 static Texture2D currentTileTexture;
 
 static bool is_debugging;
@@ -82,8 +82,8 @@ static void typingCode(){
                 if(argument == "tiles"){
                     typeInChat("There are " + std::to_string(level.tiles.size()) + " tiles.");
                 }else if(argument == "ctiles"){
-                    typeInChat("Selected Tile: " + selectedTile->getName() + "(" + std::to_string(selectedTile->getID()) + ")");
-                    typeInChat("Z layer: " + std::to_string(selectedTile->getZ()));
+                    typeInChat("Selected Tile: " + selectedTile.getName() + "(" + std::to_string(selectedTile.getID()) + ")");
+                    typeInChat("Z layer: " + std::to_string(selectedTile.getZ()));
                 }
                 else{
                     typeInChat("Syntax Error: Expected Input Detail.", DARKPURPLE);
@@ -93,10 +93,10 @@ static void typingCode(){
                 if(has_selected_tile && !argument.empty()){
                     auto it = std::find_if(level.tiles.begin(), level.tiles.end(),
                             [](const auto& item) {
-                            return item->getSlot() == selectedTile->getSlot();
+                            return item->getSlot() == selectedTile.getSlot();
                             });
                     if(it != level.tiles.end()){
-                        *it = std::make_unique<Tile>(Tile(std::stoi(argument), {selectedTile->getX(), selectedTile->getY()}, selectedTile->getZ()));
+                        *it = std::make_unique<Tile>(Tile(std::stoi(argument), {selectedTile.getX(), selectedTile.getY()}, selectedTile.getZ()));
                         std::cout<<1<<std::endl;
                     }
                 }
@@ -117,18 +117,19 @@ static void typingCode(){
 static void InteractWithTile(){
     if(IsKeyPressed(KEY_DELETE)){
         level.tiles.erase(std::remove_if(level.tiles.begin(), level.tiles.end(), [](const auto& tile){
-                    return tile->getSlot() == selectedTile->getSlot();
+                    return tile->getSlot() == selectedTile.getSlot();
                     }), level.tiles.end());
-        selectedTile = new Tile(Air_Tile, {}, 0);
+        selectedTile = Tile(Air_Tile, {}, 0);
         has_selected_tile = false;
-        if(IsKeyPressed(KEY_C)){
-            auto it = std::find_if(level.tiles.begin(), level.tiles.end(),
-                    [](const auto& item) {
-                    return item->getSlot() == selectedTile->getSlot();
-                    });
-            if(it != level.tiles.end()){
-                *it = std::make_unique<Tile>(Tile(currentTile, {selectedTile->getX(), selectedTile->getY()}, selectedTile->getZ()));
-            }
+    }
+    if(IsKeyPressed(KEY_C)){
+        auto it = std::find_if(level.tiles.begin(), level.tiles.end(),
+                [](const auto& item) {
+                return item->getSlot() == selectedTile.getSlot();
+                });
+        if(it != level.tiles.end()){
+            *it = std::make_unique<Tile>(Tile(currentTileID, {selectedTile.getX(), selectedTile.getY()}, selectedTile.getZ()));
+            std::cout<<1<<std::endl;
         }
     }
 }
@@ -137,8 +138,8 @@ void InitLevelEditorScreen(){
     is_debugging = true;
     is_typing = false;
 
-    currentTile = Brickwall_Tile;
-    currentTileTexture = Tile(currentTile, {0,0}, 0).getTexture();
+    currentTileID = Brickwall_Tile;
+    currentTileTexture = Tile(currentTileID, {0,0}, 0).getTexture();
 
     level.changeLevel("res/maps/test.json");
     canvas_sizeStr = std::to_string((int)level.canvas_size.x) + ", " + std::to_string((int)level.canvas_size.y);
@@ -151,7 +152,7 @@ void InitLevelEditorScreen(){
 
     cam_speed = 500;
 
-    selectedTile = new Tile(Air_Tile, {}, 0);
+    selectedTile = Tile(Air_Tile, {}, 0);
     has_selected_tile = false;
 
     commands = {
@@ -205,10 +206,10 @@ void UpdateLevelEditorScreen(){
         camera.target.x += (inputX * cam_speed) * GetFrameTime();
         camera.target.y += (inputY * cam_speed) * GetFrameTime();
 
-        if(IsKeyPressed(KEY_UP)) { currentTile++; currentTileTexture = newItem(currentTile).iconTexture; }
-        if(IsKeyPressed(KEY_DOWN)) { currentTile--; currentTileTexture = newItem(currentTile).iconTexture; }
+        if(IsKeyPressed(KEY_UP)) { currentTileID++; currentTileTexture = newItem(currentTileID).iconTexture; }
+        if(IsKeyPressed(KEY_DOWN)) { currentTileID--; currentTileTexture = newItem(currentTileID).iconTexture; }
 
-        clamp(currentTile, 0, 22);
+        clamp(currentTileID, 0, 22);
 
         if(IsKeyPressed(KEY_SLASH)){
             is_typing = true;
@@ -231,9 +232,9 @@ void UpdateLevelEditorScreen(){
         // TODO: Add multi selecting
         if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) or IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
             if(((tile->getIsTouchingMouse() && level.highest_z > 0 && tile->getZ() == level.highest_z-1) or tile->getIsTouchingMouse()) && tile->getID() != Air_Tile){
-                selectedTile = new Tile(tile->getID(), {tile->getX(), tile->getY()}, tile->getZ());
-                selectedTile->setSlot(tile->getSlot());
-                selectedTile->setTexture(tile->getTexture());
+                selectedTile = Tile(tile->getID(), {tile->getX(), tile->getY()}, tile->getZ());
+                selectedTile.setSlot(tile->getSlot());
+                selectedTile.setTexture(tile->getTexture());
 
                 if(!has_selected_tile)
                     has_selected_tile = true;
@@ -250,20 +251,20 @@ void DrawLevelEditorScreen(){
     }
 
     if(has_selected_tile)
-        DrawRectangleRec(selectedTile->getBody(), {200, 200, 200, 255/2});
+        DrawRectangleRec(selectedTile.getBody(), {200, 200, 200, 255/2});
 
     EndMode2D();
 
     //! Top Part
     DrawTextEx(font, "Current Tile: ", {20, 50}, 25, 0, WHITE);
-    DrawTextEx(font, std::to_string(currentTile).c_str(), {270, 50}, 25, 0, BLACK);
+    DrawTextEx(font, std::to_string(currentTileID).c_str(), {270, 50}, 25, 0, BLACK);
     DrawRectangleRec({187, 27, 32*2+6, 32*2+6}, BLACK);
     DrawTextureEx(currentTileTexture, {190, 30}, 0, 2, WHITE);
 
     DrawTextEx(font, "Selected Tile: ", {320, 50}, 25, 0, WHITE);
-    DrawTextEx(font, std::to_string(selectedTile->getID()).c_str(), {570, 50}, 25, 0, BLACK);
+    DrawTextEx(font, std::to_string(selectedTile.getID()).c_str(), {570, 50}, 25, 0, BLACK);
     DrawRectangleRec({487, 27, 32*2+6, 32*2+6}, BLACK);
-    DrawTextureEx(selectedTile->getTexture(), {490, 30}, 0, 2, WHITE);
+    DrawTextureEx(selectedTile.getTexture(), {490, 30}, 0, 2, WHITE);
 
     //!Bottom Part
     DrawTextEx(font, "Canvas Size: ", {20, 140}, 25, 0, WHITE);
