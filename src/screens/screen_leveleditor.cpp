@@ -20,6 +20,7 @@ static Camera2D camera;
 static int cam_speed;
 
 static Level level;
+static std::string canvas_sizeStr;
 
 /*
 static Rectangle selected_tile;
@@ -31,8 +32,10 @@ static Tile *selectedTile;
 static bool has_selected_tile;
 
 static std::vector<std::string> commands;
+
 static std::string user_input;
-static std::string canvas_sizeStr;
+static std::string last_input;
+static std::string prev_user_input;
 
 static int currentTile;
 static Texture2D currentTileTexture;
@@ -52,8 +55,18 @@ static void typingCode(){
         user_input.push_back(c);
     }
 
-    if(IsKeyPressed(KEY_BACKSPACE) && !user_input.empty())
-        user_input.pop_back();
+
+
+    if(IsKeyPressed(KEY_UP) && !user_input.empty()){
+        prev_user_input = user_input;
+        user_input = "/" + last_input;
+    }
+    if(IsKeyPressed(KEY_DOWN) && !user_input.empty()){
+        user_input = prev_user_input;
+    }
+
+    if(IsKeyPressed(KEY_BACKSPACE) && !user_input.empty()) user_input.pop_back();
+
     if(IsKeyPressed(KEY_ENTER) && !user_input.empty()){
         if(isStringInVector(commands, getFirstWord(user_input))){
             std::string command = getFirstWord(user_input);
@@ -91,6 +104,8 @@ static void typingCode(){
             user_input.erase(user_input.begin());
             addChatText(texts, "Hot Chocolate Microwave: " + user_input);
         }
+        last_input = user_input;
+        prev_user_input.clear();
         user_input.clear();
         is_typing = false;
     }
