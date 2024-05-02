@@ -1,0 +1,8 @@
+{
+    "name": "farmland",
+    "texture": "res/img/farmland.png",
+    
+    "type": "Special",
+
+    "id": 2
+}

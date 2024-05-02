@@ -1,0 +1,8 @@
+{
+    "name": "Empty Bag",
+    "texture": "res/img/empty_bag.png",
+    
+    "type": "Item",
+
+    "id": 18
+}

@@ -1,0 +1,7 @@
+{
+    "text": "Hello there! You feeling good yet? You were stranded on the beach and me and my team saw you. Luckly we caught ya in time... (Otherwise you're probably dead now..)\nBut it's whatever! What's important is that you're safe and fine.",
+    "response": [
+        ["Where am I?", 1],
+        ["Who are you?", 2]
+    ]
+}

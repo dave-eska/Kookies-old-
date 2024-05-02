@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.20)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_subdirectory("thirdparty/raylib")
-add_subdirectory("thirdparty/raygui")
 add_subdirectory("thirdparty/jsoncpp")
 
 #project
@@ -17,4 +16,4 @@ file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/
 add_executable(main1 "${MY_SOURCES}")
 
 target_include_directories(main1 PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include/")
-target_link_libraries(main1 PRIVATE raylib raygui jsoncpp_static)
+target_link_libraries(main1 PRIVATE raylib jsoncpp_static)

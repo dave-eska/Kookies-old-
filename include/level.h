@@ -9,8 +9,6 @@
 struct Level{
     std::vector<std::unique_ptr<Tile>> tiles;
     std::string level_name;
-
-    Vector2 starting_pos;
     
     Vector2 canvas_size;
     int highest_z;

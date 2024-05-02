@@ -1,0 +1,12 @@
+{
+    "name": "Bag Of Cocoa Beans",
+    "texture": "res/img/bag_of_cocoa_beans.png",
+    
+    "type": "BagOfSeed",
+
+    "recipe": [[18, 1], [17, 1]],
+
+    "seed": 22,
+
+    "id": 20
+}

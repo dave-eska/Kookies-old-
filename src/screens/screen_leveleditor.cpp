@@ -55,6 +55,8 @@ static void typingCode(){
         user_input.push_back(c);
     }
 
+
+
     if(IsKeyPressed(KEY_UP) && !user_input.empty()){
         prev_user_input = user_input;
         user_input = "/" + last_input;

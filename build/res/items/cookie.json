@@ -1,0 +1,10 @@
+{
+    "name": "cookie",
+    "texture": "res/img/cookie.png",
+    
+    "type": "Item",
+
+    "recipe": [[12, 2], [15, 2]],
+    
+    "id": 16
+}

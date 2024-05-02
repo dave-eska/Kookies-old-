@@ -1,0 +1,8 @@
+{
+    "name": "Cocoa Beans",
+    "texture": "res/img/cocoa_beans.png",
+    
+    "type": "Item",
+
+    "id": 17
+}

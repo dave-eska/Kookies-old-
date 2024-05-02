@@ -33,7 +33,7 @@ static bool isEnglishAlphabet(char c) {
     return std::isalpha(static_cast<unsigned char>(c)) != 0;
 }
 
-std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path, int& highet_z, Vector2& cvs_size, Vector2& startPos){
+std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path, int& highet_z, Vector2& cvs_size){
     std::vector<std::unique_ptr<Tile>> vec;
     std::string text = readFile(file_path);
     Json::Value root;
@@ -108,7 +108,6 @@ std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path, int&
 
     highet_z = z;
     cvs_size = {canvas_size.x+1, canvas_size.y+1};
-    startPos = starting_pos;
 
     std::sort(vec.begin(), vec.end(), compareTiles);
 

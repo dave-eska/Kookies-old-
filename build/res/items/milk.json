@@ -1,0 +1,11 @@
+{
+    "name": "milk",
+    "texture": "res/img/milk.png",
+    
+    "width": 32,
+    "height": 32,
+
+    "type": "Item",
+
+    "id": 15
+}

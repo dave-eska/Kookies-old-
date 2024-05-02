@@ -1,0 +1,10 @@
+{
+    "name": "chocolate",
+    "texture": "res/img/chocolate.png",
+    
+    "type": "Item",
+
+    "recipe": [[17, 1], [15, 3]],
+
+    "id": 12
+}

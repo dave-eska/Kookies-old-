@@ -1,0 +1,12 @@
+{
+    "name": "floor",
+    "texture": "res/img/floor.png",
+    
+    "width": 32,
+    "height": 32,
+
+    "type": "Decorations",
+    "collision": true,
+
+    "id": 4
+}
