@@ -83,6 +83,7 @@ static void typingCode(){
                     typeInChat("There are " + std::to_string(level.tiles.size()) + " tiles.");
                 }else if(argument == "ctiles"){
                     typeInChat("Selected Tile: " + selectedTile->getName() + "(" + std::to_string(selectedTile->getID()) + ")");
+                    typeInChat("Z layer: " + std::to_string(selectedTile->getZ()));
                 }
                 else{
                     typeInChat("Syntax Error: Expected Input Detail.", DARKPURPLE);
@@ -100,6 +101,7 @@ static void typingCode(){
                     }
                 }
             }
+            user_input.erase(user_input.begin());
         }else{
             user_input.erase(user_input.begin());
             addChatText(texts, "Hot Chocolate Microwave: " + user_input);
@@ -258,17 +260,17 @@ void DrawLevelEditorScreen(){
     DrawRectangleRec({187, 27, 32*2+6, 32*2+6}, BLACK);
     DrawTextureEx(currentTileTexture, {190, 30}, 0, 2, WHITE);
 
-    DrawTextEx(font, "Selected Tile: ", {20, 154}, 25, 0, WHITE);
-    DrawTextEx(font, std::to_string(selectedTile->getID()).c_str(), {270, 154}, 25, 0, BLACK);
-    DrawRectangleRec({187, 124, 32*2+6, 32*2+6}, BLACK);
-    DrawTextureEx(selectedTile->getTexture(), {190, 127}, 0, 2, WHITE);
+    DrawTextEx(font, "Selected Tile: ", {320, 50}, 25, 0, WHITE);
+    DrawTextEx(font, std::to_string(selectedTile->getID()).c_str(), {570, 50}, 25, 0, BLACK);
+    DrawRectangleRec({487, 27, 32*2+6, 32*2+6}, BLACK);
+    DrawTextureEx(selectedTile->getTexture(), {490, 30}, 0, 2, WHITE);
 
     //!Bottom Part
-    DrawTextEx(font, "Canvas Size: ", {20, (float)GetScreenHeight() - 50}, 25, 0, WHITE);
-    DrawTextEx(font, canvas_sizeStr.c_str(), {185, (float)GetScreenHeight() - 50}, 25, 0, BLACK);
+    DrawTextEx(font, "Canvas Size: ", {20, 140}, 25, 0, WHITE);
+    DrawTextEx(font, canvas_sizeStr.c_str(), {185, 140}, 25, 0, BLACK);
 
-    DrawTextEx(font, "Layers: ", {20, (float)GetScreenHeight() - 80}, 25, 0, WHITE);
-    DrawTextEx(font, std::to_string(level.highest_z).c_str(), {120, (float)GetScreenHeight() - 80}, 25, 0, BLACK);
+    DrawTextEx(font, "Layers: ", {20, 170}, 25, 0, WHITE);
+    DrawTextEx(font, std::to_string(level.highest_z).c_str(), {120, 170}, 25, 0, BLACK);
 
     for(auto e:texts) e.Draw();
 
