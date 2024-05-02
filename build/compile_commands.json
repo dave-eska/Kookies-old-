@@ -1,0 +1,327 @@
+[
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/LevelEditorButton.cpp.o -c /home/dave/Documents/c++/Kookies/src/LevelEditorButton.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/LevelEditorButton.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/StartGameButton.cpp.o -c /home/dave/Documents/c++/Kookies/src/StartGameButton.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/StartGameButton.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/animation.cpp.o -c /home/dave/Documents/c++/Kookies/src/animation.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/animation.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/cat.cpp.o -c /home/dave/Documents/c++/Kookies/src/cat.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/cat.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/chat.cpp.o -c /home/dave/Documents/c++/Kookies/src/chat.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/chat.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/conversation.cpp.o -c /home/dave/Documents/c++/Kookies/src/conversation.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/conversation.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/entity.cpp.o -c /home/dave/Documents/c++/Kookies/src/entity.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/entity.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/global_func.cpp.o -c /home/dave/Documents/c++/Kookies/src/global_func.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/global_func.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/inventory.cpp.o -c /home/dave/Documents/c++/Kookies/src/inventory.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/inventory.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/item.cpp.o -c /home/dave/Documents/c++/Kookies/src/item.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/item.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/level.cpp.o -c /home/dave/Documents/c++/Kookies/src/level.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/level.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/main.cpp.o -c /home/dave/Documents/c++/Kookies/src/main.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/main.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/message.cpp.o -c /home/dave/Documents/c++/Kookies/src/message.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/message.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/npc.cpp.o -c /home/dave/Documents/c++/Kookies/src/npc.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/npc.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/player.cpp.o -c /home/dave/Documents/c++/Kookies/src/player.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/player.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/screens/scree_option.cpp.o -c /home/dave/Documents/c++/Kookies/src/screens/scree_option.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/screens/scree_option.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/screens/screen_gameplay.cpp.o -c /home/dave/Documents/c++/Kookies/src/screens/screen_gameplay.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/screens/screen_gameplay.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/screens/screen_leveleditor.cpp.o -c /home/dave/Documents/c++/Kookies/src/screens/screen_leveleditor.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/screens/screen_leveleditor.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/screens/screen_title.cpp.o -c /home/dave/Documents/c++/Kookies/src/screens/screen_title.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/screens/screen_title.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/seed.cpp.o -c /home/dave/Documents/c++/Kookies/src/seed.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/seed.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/tile.cpp.o -c /home/dave/Documents/c++/Kookies/src/tile.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/tile.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/tiling_util.cpp.o -c /home/dave/Documents/c++/Kookies/src/tiling_util.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/tiling_util.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/timer.cpp.o -c /home/dave/Documents/c++/Kookies/src/timer.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/timer.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/transition.cpp.o -c /home/dave/Documents/c++/Kookies/src/transition.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/transition.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build",
+  "command": "/usr/bin/c++ -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raygui/src -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -std=gnu++20 -o CMakeFiles/main1.dir/src/updateTile_func.cpp.o -c /home/dave/Documents/c++/Kookies/src/updateTile_func.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/src/updateTile_func.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib",
+  "command": "/usr/bin/cc -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -isystem /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=gnu99 -o CMakeFiles/raylib.dir/rcore.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/rcore.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/rcore.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib",
+  "command": "/usr/bin/cc -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -isystem /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=gnu99 -o CMakeFiles/raylib.dir/rmodels.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/rmodels.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/rmodels.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib",
+  "command": "/usr/bin/cc -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -isystem /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=gnu99 -o CMakeFiles/raylib.dir/rshapes.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/rshapes.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/rshapes.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib",
+  "command": "/usr/bin/cc -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -isystem /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=gnu99 -o CMakeFiles/raylib.dir/rtext.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/rtext.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/rtext.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib",
+  "command": "/usr/bin/cc -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -isystem /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=gnu99 -o CMakeFiles/raylib.dir/rtextures.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/rtextures.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/rtextures.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib",
+  "command": "/usr/bin/cc -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -isystem /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=gnu99 -o CMakeFiles/raylib.dir/utils.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/utils.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/utils.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib",
+  "command": "/usr/bin/cc -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src -isystem /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -std=gnu99 -o CMakeFiles/raylib.dir/raudio.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/raudio.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/raudio.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src",
+  "command": "/usr/bin/cc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src -I/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/context.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/context.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/context.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src",
+  "command": "/usr/bin/cc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src -I/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/init.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/init.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/init.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src",
+  "command": "/usr/bin/cc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src -I/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/input.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/input.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/input.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src",
+  "command": "/usr/bin/cc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src -I/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/monitor.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/monitor.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/monitor.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src",
+  "command": "/usr/bin/cc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src -I/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/platform.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/platform.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/platform.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src",
+  "command": "/usr/bin/cc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src -I/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/vulkan.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/vulkan.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/vulkan.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src",
+  "command": "/usr/bin/cc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src -I/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/window.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/window.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/window.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src",
+  "command": "/usr/bin/cc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src -I/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/egl_context.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/egl_context.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/egl_context.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src",
+  "command": "/usr/bin/cc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src -I/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/osmesa_context.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/osmesa_context.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/osmesa_context.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src",
+  "command": "/usr/bin/cc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src -I/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/null_init.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/null_init.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/null_init.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src",
+  "command": "/usr/bin/cc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src -I/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/null_monitor.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/null_monitor.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/null_monitor.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src",
+  "command": "/usr/bin/cc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src -I/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/null_window.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/null_window.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/null_window.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src",
+  "command": "/usr/bin/cc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src -I/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/null_joystick.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/null_joystick.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/null_joystick.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src",
+  "command": "/usr/bin/cc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src -I/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/posix_module.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/posix_module.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/posix_module.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src",
+  "command": "/usr/bin/cc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src -I/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/posix_time.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/posix_time.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/posix_time.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src",
+  "command": "/usr/bin/cc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src -I/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/posix_thread.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/posix_thread.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/posix_thread.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src",
+  "command": "/usr/bin/cc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src -I/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/x11_init.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/x11_init.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/x11_init.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src",
+  "command": "/usr/bin/cc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src -I/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/x11_monitor.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/x11_monitor.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/x11_monitor.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src",
+  "command": "/usr/bin/cc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src -I/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/x11_window.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/x11_window.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/x11_window.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src",
+  "command": "/usr/bin/cc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src -I/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/xkb_unicode.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/xkb_unicode.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/xkb_unicode.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src",
+  "command": "/usr/bin/cc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src -I/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/glx_context.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/glx_context.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/glx_context.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src",
+  "command": "/usr/bin/cc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src -I/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/linux_joystick.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/linux_joystick.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/linux_joystick.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src",
+  "command": "/usr/bin/cc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/include -I/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src -I/home/dave/Documents/c++/Kookies/build/thirdparty/raylib/raylib/external/glfw/src -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/posix_poll.c.o -c /home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/posix_poll.c",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/raylib/src/external/glfw/src/posix_poll.c"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/src/lib_json",
+  "command": "/usr/bin/c++  -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/include -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -Wall -Wconversion -Wshadow -Wextra -Wpedantic -Werror=strict-aliasing -std=c++11 -o CMakeFiles/jsoncpp_static.dir/json_reader.cpp.o -c /home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/json_reader.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/json_reader.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/src/lib_json",
+  "command": "/usr/bin/c++  -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/include -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -Wall -Wconversion -Wshadow -Wextra -Wpedantic -Werror=strict-aliasing -std=c++11 -o CMakeFiles/jsoncpp_static.dir/json_value.cpp.o -c /home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/json_value.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/json_value.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/src/lib_json",
+  "command": "/usr/bin/c++  -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/include -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -Wall -Wconversion -Wshadow -Wextra -Wpedantic -Werror=strict-aliasing -std=c++11 -o CMakeFiles/jsoncpp_static.dir/json_writer.cpp.o -c /home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/json_writer.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/json_writer.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/src/lib_json",
+  "command": "/usr/bin/c++  -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/include -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -Wall -Wconversion -Wshadow -Wextra -Wpedantic -Werror=strict-aliasing -std=c++11 -o CMakeFiles/jsoncpp_object.dir/json_reader.cpp.o -c /home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/json_reader.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/json_reader.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/src/lib_json",
+  "command": "/usr/bin/c++  -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/include -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -Wall -Wconversion -Wshadow -Wextra -Wpedantic -Werror=strict-aliasing -std=c++11 -o CMakeFiles/jsoncpp_object.dir/json_value.cpp.o -c /home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/json_value.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/json_value.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/src/lib_json",
+  "command": "/usr/bin/c++  -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/include -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -Wall -Wconversion -Wshadow -Wextra -Wpedantic -Werror=strict-aliasing -std=c++11 -o CMakeFiles/jsoncpp_object.dir/json_writer.cpp.o -c /home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/json_writer.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/json_writer.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/src/jsontestrunner",
+  "command": "/usr/bin/c++  -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/include -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -Wall -Wconversion -Wshadow -Wextra -Wpedantic -std=c++11 -o CMakeFiles/jsontestrunner_exe.dir/main.cpp.o -c /home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/jsontestrunner/main.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/jsontestrunner/main.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/src/test_lib_json",
+  "command": "/usr/bin/c++  -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/include -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -Wall -Wconversion -Wshadow -Wextra -Wpedantic -std=c++11 -o CMakeFiles/jsoncpp_test.dir/jsontest.cpp.o -c /home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/test_lib_json/jsontest.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/test_lib_json/jsontest.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/src/test_lib_json",
+  "command": "/usr/bin/c++  -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/include -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -Wall -Wconversion -Wshadow -Wextra -Wpedantic -std=c++11 -o CMakeFiles/jsoncpp_test.dir/fuzz.cpp.o -c /home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/test_lib_json/fuzz.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/test_lib_json/fuzz.cpp"
+},
+{
+  "directory": "/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/src/test_lib_json",
+  "command": "/usr/bin/c++  -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/include -I/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/lib_json/../../include -I/home/dave/Documents/c++/Kookies/build/thirdparty/jsoncpp/include/json -g -Wall -Wconversion -Wshadow -Wextra -Wpedantic -std=c++11 -o CMakeFiles/jsoncpp_test.dir/main.cpp.o -c /home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/test_lib_json/main.cpp",
+  "file": "/home/dave/Documents/c++/Kookies/thirdparty/jsoncpp/src/test_lib_json/main.cpp"
+}
+]
