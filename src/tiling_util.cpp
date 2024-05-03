@@ -101,8 +101,10 @@ std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path, int&
 
                 if(e == ' '){
                     x++;
+                    canvas_size.x = x;
                 }else if(e == '\n' or ','){
                     y++;
+                    canvas_size.y = y;
                     x = 0;
                 }
 
