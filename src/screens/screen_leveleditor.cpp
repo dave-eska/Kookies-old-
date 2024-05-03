@@ -147,7 +147,7 @@ void InitLevelEditorScreen(){
     currentTileID = Brickwall_Tile;
     currentTileTexture = Tile(currentTileID, {0,0}, 0).getTexture();
 
-    level.changeLevel("res/maps/test.json");
+    level.changeLevel("save.json");
     canvas_sizeStr = std::to_string((int)level.canvas_size.x) + ", " + std::to_string((int)level.canvas_size.y);
 
     camera = { 0 };

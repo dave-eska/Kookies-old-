@@ -2,6 +2,7 @@
 
 #include "json/writer.h"
 #include<algorithm>
+#include <cctype>
 #include<iostream>
 #include<fstream>
 #include <limits>
@@ -37,6 +38,16 @@ static bool isEnglishAlphabet(char c) {
     return std::isalpha(static_cast<unsigned char>(c)) != 0;
 }
 
+static bool isStrDigit(std::string str){
+    bool val;
+    for(char c : str){
+        val = std::isdigit(c);
+        if(val == false)
+            break;
+    }
+    return val;
+}
+
 std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path, int& highet_z, Vector2& cvs_size){
     std::vector<std::unique_ptr<Tile>> vec;
     std::string text = readFile(file_path);
@@ -63,14 +74,7 @@ std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path, int&
         y = 0;
         x = 0;
         for (const auto& e : layer.asString()) {
-            if (e == '\n') {
-                Tile tile = Tile(std::stoi(id), {starting_pos.x+x*TILE_SIZE, starting_pos.y+(y*TILE_SIZE)}, z);
-                vec.push_back(std::make_unique<Tile>(tile));
-                id.clear();
-                y++;
-                canvas_size.x = x;
-                x=0;
-            }else if(e == ' ' && !id.empty()){
+            if((e == ' ' or e == '\n' or e == ',') && !id.empty()){
                 int tile_id = std::stoi(id);
                 if(tile_id == Cherryseeds_Tile){
                     SeedTile tile = SeedTile(tile_id, {starting_pos.x+x*TILE_SIZE, starting_pos.y+(y*TILE_SIZE)}, z);
@@ -87,12 +91,21 @@ std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path, int&
                     vec.push_back(std::make_unique<TransitionTile>(tile));
                     id.clear();
                 }else{
-                    Tile tile = Tile(tile_id, {starting_pos.x+x*TILE_SIZE, starting_pos.y+(y*TILE_SIZE)}, z);
-                    tile.setSlot(vec.size());
-                    vec.push_back(std::make_unique<Tile>(tile));
-                    id.clear();
+                    if(isStrDigit(id)){
+                        Tile tile = Tile(tile_id, {starting_pos.x+x*TILE_SIZE, starting_pos.y+(y*TILE_SIZE)}, z);
+                        tile.setSlot(vec.size());
+                        vec.push_back(std::make_unique<Tile>(tile));
+                        id.clear();
+                    }
                 }
-                x++;
+
+                if(e == ' '){
+                    x++;
+                }else if(e == '\n' or ','){
+                    y++;
+                    x = 0;
+                }
+
             }else if (isdigit(e)) {
                 id.push_back(e);
             }else if(isEnglishAlphabet(e)){
