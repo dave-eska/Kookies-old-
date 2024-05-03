@@ -1,9 +1,13 @@
 #include"tiling_util.h"
 
+#include "json/writer.h"
 #include<algorithm>
 #include<iostream>
 #include<fstream>
+#include <limits>
 #include<memory>
+#include <string>
+#include <vector>
 
 #include"tile.h"
 #include"transition.h"
@@ -59,7 +63,6 @@ std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path, int&
         y = 0;
         x = 0;
         for (const auto& e : layer.asString()) {
-            // TODO: Fix the \n bug ;) (ill do it later i promise ;])
             if (e == '\n') {
                 Tile tile = Tile(std::stoi(id), {starting_pos.x+x*TILE_SIZE, starting_pos.y+(y*TILE_SIZE)}, z);
                 vec.push_back(std::make_unique<Tile>(tile));
@@ -114,26 +117,52 @@ std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path, int&
     return vec;
 }
 
-void writeTileJson(const std::vector<std::unique_ptr<Tile>>& tiles, int x, int y, const std::string& filename) {
+std::vector<std::string> concatenateTileIds(const std::vector<std::unique_ptr<Tile>>& tiles, int max_x) {
+    std::vector<std::string> result;
+    std::stringstream ss;
+    int current_layer = std::numeric_limits<int>::min(); // Initialize current_layer with smallest possible integer
+    int count = 0;
+    for (const auto& tilePtr : tiles) {
+        if (tilePtr->getZ() != current_layer) {
+            if (!ss.str().empty()) {
+                result.push_back(ss.str());
+                ss.str(""); // Clear stringstream for new string
+            }
+            current_layer = tilePtr->getZ();
+            count = 0; // Reset count for new layer
+        }
+        ss << tilePtr->getID() << " ";
+        count++;
+        if (count == max_x) {
+            ss << "\n"; // Add new line after max_x tile IDs
+            count = 0; // Reset count
+        }
+    }
+    if (!ss.str().empty()) {
+        result.push_back(ss.str());
+    }
+    return result;
+}
+
+
+void writeTileJson(const std::vector<std::unique_ptr<Tile>>& tiles, Vector2 pos, int max_x, const std::string& filename) {
     Json::Value root;
 
-    std::string layer;
-    for (const auto& tile : tiles) {
-        layer += std::to_string(tile->getID()) + " ";
+    root["x"] = (int)pos.x;
+    root["y"] = (int)pos.y;
+
+    root["layers"][0] = concatenateTileIds(tiles, max_x)[0];
+    root["layers"][1] = concatenateTileIds(tiles, max_x)[1];
+
+    Json::StreamWriterBuilder builder;
+    std::string jsonString = Json::writeString(builder, root);
+
+    std::ofstream outFile(filename);
+    if (outFile.is_open()) {
+        outFile << jsonString;
+        outFile.close();
+        std::cout << "JSON file written successfully." << std::endl;
+    } else {
+        std::cerr << "Error opening file for writing." << std::endl;
     }
-    root["layer"] = layer;
-
-    root["x"] = x;
-    root["y"] = y;
-
-    std::ofstream file(filename);
-    if (!file.is_open()) {
-        std::cerr << "Error: Unable to open file: " << filename << std::endl;
-        return;
-    }
-
-    Json::StyledStreamWriter writer;
-    writer.write(file, root);
-
-    std::cout << "JSON data written to file: " << filename << std::endl;
 }

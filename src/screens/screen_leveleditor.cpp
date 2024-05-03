@@ -5,7 +5,6 @@
 #include "screens.h"
 
 #include <algorithm>
-#include <iostream>
 #include <memory>
 #include <string>
 
@@ -46,7 +45,7 @@ static bool is_debugging;
 static bool is_typing;
 
 static void savingCode(){
-    writeTileJson(level.tiles, 0, 0, "save.json");
+    writeTileJson(level.tiles, {0,0}, 28, "save.json");
 }
 
 static void typingCode(){
