@@ -13,6 +13,7 @@
 
 #include "level.h"
 #include "tile.h"
+#include "tiling_util.h"
 
 static int finish_screen = 0;
 
@@ -30,6 +31,7 @@ static int selected_tileSlot;
 */
 static Tile selectedTile;
 static bool has_selected_tile;
+static int selectedTileZ;
 
 static std::vector<std::string> commands;
 
@@ -43,6 +45,10 @@ static Texture2D currentTileTexture;
 static bool is_debugging;
 static bool is_typing;
 
+static void savingCode(){
+    writeTileJson(level.tiles, 0, 0, "GUGUGAGA.json");
+}
+
 static void typingCode(){
     for(int i = 0;i<texts.size();i++){
         texts[i].Update();
@@ -54,8 +60,6 @@ static void typingCode(){
     if(c){
         user_input.push_back(c);
     }
-
-
 
     if(IsKeyPressed(KEY_UP) && !user_input.empty()){
         prev_user_input = user_input;
@@ -96,10 +100,13 @@ static void typingCode(){
                             return item->getSlot() == selectedTile.getSlot();
                             });
                     if(it != level.tiles.end()){
-                        *it = std::make_unique<Tile>(Tile(std::stoi(argument), {selectedTile.getX(), selectedTile.getY()}, selectedTile.getZ()));
-                        std::cout<<1<<std::endl;
+                        int prevSlot = (*it)->getSlot();
+                        *it = std::make_unique<Tile>(Tile(currentTileID, {selectedTile.getX(), selectedTile.getY()}, selectedTile.getZ()));
+                        (*it)->setSlot(prevSlot);
                     }
                 }
+            }else if(command == "/save"){
+                savingCode();
             }
             user_input.erase(user_input.begin());
         }else{
@@ -128,8 +135,9 @@ static void InteractWithTile(){
                 return item->getSlot() == selectedTile.getSlot();
                 });
         if(it != level.tiles.end()){
+            int prevSlot = (*it)->getSlot();
             *it = std::make_unique<Tile>(Tile(currentTileID, {selectedTile.getX(), selectedTile.getY()}, selectedTile.getZ()));
-            std::cout<<1<<std::endl;
+            (*it)->setSlot(prevSlot);
         }
     }
 }
@@ -154,13 +162,15 @@ void InitLevelEditorScreen(){
 
     selectedTile = Tile(Air_Tile, {}, 0);
     has_selected_tile = false;
+    selectedTileZ = level.highest_z;
 
     commands = {
         "/tell",
         "/reset",
         "/clear",
         "/debug",
-        "/change"
+        "/change",
+        "/save"
     };
 }
 
@@ -206,10 +216,15 @@ void UpdateLevelEditorScreen(){
         camera.target.x += (inputX * cam_speed) * GetFrameTime();
         camera.target.y += (inputY * cam_speed) * GetFrameTime();
 
-        if(IsKeyPressed(KEY_UP)) { currentTileID++; currentTileTexture = newItem(currentTileID).iconTexture; }
-        if(IsKeyPressed(KEY_DOWN)) { currentTileID--; currentTileTexture = newItem(currentTileID).iconTexture; }
-
+        if(IsKeyPressed(KEY_UP) && !IsKeyDown(KEY_LEFT_CONTROL)) { currentTileID++; currentTileTexture = newItem(currentTileID).iconTexture; }
+        if(IsKeyPressed(KEY_DOWN) && !IsKeyDown(KEY_LEFT_CONTROL)) { currentTileID--; currentTileTexture = newItem(currentTileID).iconTexture; }
         clamp(currentTileID, 0, 22);
+
+        if(IsKeyDown(KEY_LEFT_CONTROL)){
+            if(IsKeyPressed(KEY_S)){
+                savingCode();
+            }
+        }
 
         if(IsKeyPressed(KEY_SLASH)){
             is_typing = true;
