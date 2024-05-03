@@ -117,20 +117,14 @@ std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path, int&
 void writeTileJson(const std::vector<std::unique_ptr<Tile>>& tiles, int x, int y, const std::string& filename) {
     Json::Value root;
 
+    std::string layer;
+    for (const auto& tile : tiles) {
+        layer += std::to_string(tile->getID()) + " ";
+    }
+    root["layer"] = layer;
+
     root["x"] = x;
     root["y"] = y;
-
-    Json::Value layers(Json::arrayValue);
-    for (const auto& tile : tiles) {
-        Json::Value tileData;
-        // Add relevant Tile data to tileData Json object
-        tileData["name"] = tile->getName();
-        tileData["type"] = tile->getType();
-        tileData["z_level"] = tile->getZ();
-        // Add more relevant data as needed...
-        layers.append(tileData);
-    }
-    root["tiles"] = layers;
 
     std::ofstream file(filename);
     if (!file.is_open()) {

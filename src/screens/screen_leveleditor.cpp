@@ -46,7 +46,7 @@ static bool is_debugging;
 static bool is_typing;
 
 static void savingCode(){
-    writeTileJson(level.tiles, 0, 0, "GUGUGAGA.json");
+    writeTileJson(level.tiles, 0, 0, "save.json");
 }
 
 static void typingCode(){
@@ -76,12 +76,12 @@ static void typingCode(){
             std::string command = getFirstWord(user_input);
             std::string argument = getSecondWord(user_input);
 
-            if(command == "/reset")
-                InitLevelEditorScreen();
-            else if(command ==  "/clear")
-                texts.clear();
-            else if(command == "/debug")
-                is_debugging = !is_debugging;
+            if(command == "/reset") InitLevelEditorScreen();
+            else if(command == "/clear") texts.clear();
+            else if(command == "/debug") is_debugging = !is_debugging;
+            else if(command == "/load") level.changeLevel(argument);
+            else if(command == "/save") savingCode();
+
             else if(command == "/tell"){
                 if(argument == "tiles"){
                     typeInChat("There are " + std::to_string(level.tiles.size()) + " tiles.");
@@ -105,9 +105,8 @@ static void typingCode(){
                         (*it)->setSlot(prevSlot);
                     }
                 }
-            }else if(command == "/save"){
-                savingCode();
             }
+
             user_input.erase(user_input.begin());
         }else{
             user_input.erase(user_input.begin());
@@ -170,7 +169,8 @@ void InitLevelEditorScreen(){
         "/clear",
         "/debug",
         "/change",
-        "/save"
+        "/save",
+        "/load"
     };
 }
 
