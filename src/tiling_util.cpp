@@ -138,7 +138,7 @@ std::vector<std::string> concatenateTileIds(const std::vector<std::unique_ptr<Ti
     int current_layer = std::numeric_limits<int>::min(); // Initialize current_layer with smallest possible integer
     int count = 0;
     for (const auto& tilePtr : tiles) {
-        if (tilePtr->getZ() != current_layer) {
+        if(tilePtr->getZ() != current_layer) {
             if (!ss.str().empty()) {
                 result.push_back(ss.str());
                 ss.str(""); // Clear stringstream for new string
@@ -148,17 +148,17 @@ std::vector<std::string> concatenateTileIds(const std::vector<std::unique_ptr<Ti
         }
         ss << tilePtr->getID() << " ";
         count++;
-        if (count == max_x) {
-            ss << "\n"; // Add new line after max_x tile IDs
+        if(count == max_x) {
+            ss.seekp(-1, std::ios_base::end);
+            ss << '\n'; // Add new line after max_x tile IDs
             count = 0; // Reset count
         }
     }
-    if (!ss.str().empty()) {
+    if(!ss.str().empty()) {
         result.push_back(ss.str());
     }
     return result;
 }
-
 
 void writeTileJson(const std::vector<std::unique_ptr<Tile>>& tiles, Vector2 pos, int max_x, const std::string& filename) {
     Json::Value root;
@@ -166,8 +166,10 @@ void writeTileJson(const std::vector<std::unique_ptr<Tile>>& tiles, Vector2 pos,
     root["x"] = (int)pos.x;
     root["y"] = (int)pos.y;
 
-    root["layers"][0] = concatenateTileIds(tiles, max_x)[0];
-    root["layers"][1] = concatenateTileIds(tiles, max_x)[1];
+    auto strTiles = concatenateTileIds(tiles, max_x);;
+    for(int i=0; i<strTiles.size(); i++){
+        root["layers"][i] = strTiles[i];
+    }
 
     Json::StreamWriterBuilder builder;
     std::string jsonString = Json::writeString(builder, root);
