@@ -140,7 +140,9 @@ std::vector<std::string> tilesToStrings(std::vector<std::unique_ptr<Tile>>& tile
     for(int j=0;j<total_layers;j++){
         for(int i=0;i<tiles.size();++i){
             if(tiles[i]->getZ() == j){
-                layer.push_back(tiles[i]->getID() + '0');
+                std::string tileID = std::to_string(tiles[i]->getID());
+                for(const char& c:tileID)
+                    layer.push_back(c);
                 layer.push_back(' ');
                 if((i+1) % (int)canvas_size.x == 0 && i != 0){
                     layer.push_back('\n');
@@ -158,7 +160,7 @@ std::vector<std::string> tilesToStrings(std::vector<std::unique_ptr<Tile>>& tile
         result.push_back(layer);
         layer.clear();
     }
-    
+
     return result;
 }
 
