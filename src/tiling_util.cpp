@@ -2,11 +2,13 @@
 
 #include "json/writer.h"
 #include<algorithm>
+#include <array>
 #include <cctype>
 #include<iostream>
 #include<fstream>
 #include <limits>
 #include<memory>
+#include <ostream>
 #include <string>
 #include <vector>
 
@@ -127,49 +129,45 @@ std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path, int&
     highet_z = z;
     cvs_size = {canvas_size.x+1, canvas_size.y+1};
 
-    std::sort(vec.begin(), vec.end(), compareTiles);
-
     return vec;
 }
 
-std::vector<std::string> concatenateTileIds(const std::vector<std::unique_ptr<Tile>>& tiles, int max_x) {
+std::vector<std::string> tilesToStrings(std::vector<std::unique_ptr<Tile>>& tiles, Vector2 canvas_size, int total_layers){
     std::vector<std::string> result;
-    std::stringstream ss;
-    int current_layer = std::numeric_limits<int>::min(); // Initialize current_layer with smallest possible integer
-    int count = 0;
-    for (const auto& tilePtr : tiles) {
-        if(tilePtr->getZ() != current_layer) {
-            if (!ss.str().empty()) {
-                result.push_back(ss.str());
-                ss.str(""); // Clear stringstream for new string
+
+    std::string layer;
+
+    for(int i=0;i<tiles.size();++i){
+        if(tiles[i]->getZ() == 0){
+            layer.push_back(tiles[i]->getID() + '0');
+            layer.push_back(' ');
+            if((i+1) % (int)canvas_size.x == 0 && i != 0){
+                layer.push_back('\n');
             }
-            current_layer = tilePtr->getZ();
-            count = 0; // Reset count for new layer
-        }
-        ss << tilePtr->getID() << " ";
-        count++;
-        if(count == max_x) {
-            ss.seekp(-1, std::ios_base::end);
-            ss << '\n'; // Add new line after max_x tile IDs
-            count = 0; // Reset count
         }
     }
-    if(!ss.str().empty()) {
-        result.push_back(ss.str());
+
+    // Remove the spaces behind newlines
+    for(int i=0;i<layer.size();i++){
+        if(layer[i] == ' ' && layer[i+1] == '\n'){
+            layer.erase(layer.begin() + i);
+        }
     }
+
+    result.push_back(layer);
+    
     return result;
 }
 
-void writeTileJson(const std::vector<std::unique_ptr<Tile>>& tiles, Vector2 pos, int max_x, const std::string& filename) {
+void writeTileJson(Level &level, Vector2 pos, std::string filename){
     Json::Value root;
 
     root["x"] = (int)pos.x;
     root["y"] = (int)pos.y;
 
-    auto strTiles = concatenateTileIds(tiles, max_x);;
-    for(int i=0; i<strTiles.size(); i++){
+    std::vector<std::string> strTiles = tilesToStrings(level.tiles, level.canvas_size, level.highest_z);
+    for(int i=0;i<strTiles.size();i++)
         root["layers"][i] = strTiles[i];
-    }
 
     Json::StreamWriterBuilder builder;
     std::string jsonString = Json::writeString(builder, root);
@@ -179,7 +177,7 @@ void writeTileJson(const std::vector<std::unique_ptr<Tile>>& tiles, Vector2 pos,
         outFile << jsonString;
         outFile.close();
         std::cout << "JSON file written successfully." << std::endl;
-    } else {
+    }else {
         std::cerr << "Error opening file for writing." << std::endl;
     }
 }

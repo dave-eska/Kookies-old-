@@ -5,7 +5,6 @@
 #include "screens.h"
 
 #include <algorithm>
-#include <iostream>
 #include <memory>
 #include <string>
 
@@ -46,10 +45,7 @@ static bool is_debugging;
 static bool is_typing;
 
 static void savingCode(){
-    for(auto& tile : level.tiles){
-        std::cout<<tile->getID()<<std::endl;
-    }
-    writeTileJson(level.tiles, {0,0}, 28, "save.json");
+    writeTileJson(level, {0,0}, "save.json");
 }
 
 static void typingCode(){
@@ -82,9 +78,12 @@ static void typingCode(){
             if(command == "/reset") InitLevelEditorScreen();
             else if(command == "/clear") texts.clear();
             else if(command == "/debug") is_debugging = !is_debugging;
-            else if(command == "/load") level.changeLevel(argument);
             else if(command == "/save") savingCode();
 
+            else if(command == "/load"){
+                if(!argument.empty()) level.changeLevel(argument);
+                else level.changeLevel("save.json");
+            }
             else if(command == "/tell"){
                 if(argument == "tiles"){
                     typeInChat("There are " + std::to_string(level.tiles.size()) + " tiles.");
@@ -125,9 +124,11 @@ static void typingCode(){
 
 static void InteractWithTile(){
     if(IsKeyPressed(KEY_DELETE)){
-        level.tiles.erase(std::remove_if(level.tiles.begin(), level.tiles.end(), [](const auto& tile){
-                    return tile->getSlot() == selectedTile.getSlot();
-                    }), level.tiles.end());
+        std::erase_if(level.tiles,
+                [](const auto& tile){
+                return tile->getSlot() == selectedTile.getSlot();
+                }
+                );
         selectedTile = Tile(Air_Tile, {}, 0);
         has_selected_tile = false;
     }
@@ -151,14 +152,14 @@ void InitLevelEditorScreen(){
     currentTileID = Brickwall_Tile;
     currentTileTexture = Tile(currentTileID, {0,0}, 0).getTexture();
 
-    level.changeLevel("save.json");
+    level.changeLevel("res/maps/test.json");
     canvas_sizeStr = std::to_string((int)level.canvas_size.x) + ", " + std::to_string((int)level.canvas_size.y);
 
     camera = { 0 };
-    camera.target = { 0,0 };
+    camera.target = { 1000, 500 };
     camera.offset = { GetScreenWidth()/2.0f, GetScreenHeight()/2.0f };
     camera.rotation = 0.0f;
-    camera.zoom = 0.6;
+    camera.zoom = 0.45;
 
     cam_speed = 500;
 
