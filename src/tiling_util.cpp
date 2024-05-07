@@ -137,24 +137,27 @@ std::vector<std::string> tilesToStrings(std::vector<std::unique_ptr<Tile>>& tile
 
     std::string layer;
 
-    for(int i=0;i<tiles.size();++i){
-        if(tiles[i]->getZ() == 0){
-            layer.push_back(tiles[i]->getID() + '0');
-            layer.push_back(' ');
-            if((i+1) % (int)canvas_size.x == 0 && i != 0){
-                layer.push_back('\n');
+    for(int j=0;j<total_layers;j++){
+        for(int i=0;i<tiles.size();++i){
+            if(tiles[i]->getZ() == j){
+                layer.push_back(tiles[i]->getID() + '0');
+                layer.push_back(' ');
+                if((i+1) % (int)canvas_size.x == 0 && i != 0){
+                    layer.push_back('\n');
+                }
             }
         }
-    }
 
-    // Remove the spaces behind newlines
-    for(int i=0;i<layer.size();i++){
-        if(layer[i] == ' ' && layer[i+1] == '\n'){
-            layer.erase(layer.begin() + i);
+        // Remove the spaces behind newlines
+        for(int i=0;i<layer.size();i++){
+            if(layer[i] == ' ' && layer[i+1] == '\n'){
+                layer.erase(layer.begin() + i);
+            }
         }
-    }
 
-    result.push_back(layer);
+        result.push_back(layer);
+        layer.clear();
+    }
     
     return result;
 }
