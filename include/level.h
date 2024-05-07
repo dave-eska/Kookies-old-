@@ -11,7 +11,7 @@ struct Level{
     std::string level_name;
     
     Vector2 canvas_size;
-    int highest_z;
+    int total_layers;
 
     void changeLevel(std::string levelName);
 };
