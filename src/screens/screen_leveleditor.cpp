@@ -31,7 +31,7 @@ static Tile selectedTile;
 static bool has_selected_tile;
 static int selectedTileZ;
 
-static LevelEditorMode current_mode;
+static int current_mode;
 
 static std::vector<std::string> commands;
 
@@ -165,7 +165,7 @@ void InitLevelEditorScreen(){
 
     level.changeLevel("res/maps/test.json");
     canvas_sizeStr = std::to_string((int)level.canvas_size.x) + ", " + std::to_string((int)level.canvas_size.y);
-    current_mode = Mode_Pencil;
+    current_mode = Mode_One_Select;
 
     font_size = 20;
     BlockOutlineTexture = LoadTexture("res/img/inventory_outline.png");
@@ -198,16 +198,13 @@ void UpdateLevelEditorScreen(){
     if(IsKeyPressed(KEY_ESCAPE))
         finish_screen = 1;
 
-    // Translate based on mouse right click
-    if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT) or IsMouseButtonDown(MOUSE_BUTTON_MIDDLE))
-    {
+    if(IsMouseButtonDown(MOUSE_BUTTON_RIGHT) or IsMouseButtonDown(MOUSE_BUTTON_MIDDLE)){
         Vector2 delta = GetMouseDelta();
         delta = Vector2Scale(delta, -1.0f/camera.zoom);
 
         camera.target = Vector2Add(camera.target, delta);
     }
 
-    // Zoom based on mouse wheel
     if(!IsKeyDown(KEY_LEFT_CONTROL)){
         float wheel = GetMouseWheelMove();
         if(wheel != 0){
@@ -235,7 +232,8 @@ void UpdateLevelEditorScreen(){
             selectedTile.setTexture((*it)->getTexture());
         }
     }
-    clamp(selectedTileZ, 0, level.total_layers-1);
+
+    if(is_typing) typingCode();
 
     if(!is_typing){
         float inputX = IsKeyDown(KEY_D)-IsKeyDown(KEY_A);
@@ -243,8 +241,6 @@ void UpdateLevelEditorScreen(){
 
         camera.target.x += (inputX * cam_speed) * GetFrameTime();
         camera.target.y += (inputY * cam_speed) * GetFrameTime();
-
-        clamp(currentTileID, 0, 22);
 
         if(IsKeyDown(KEY_LEFT_CONTROL)){
             currentTileID += (GetMouseWheelMove() * 1);
@@ -255,7 +251,7 @@ void UpdateLevelEditorScreen(){
             }
         }
 
-        //Make new layer
+        // Make new layer
         if(IsKeyPressed(KEY_N)){
             for(int i=0;i<level.canvas_size.x*level.canvas_size.x;i++){
                 auto it = std::find_if(level.tiles.begin(), level.tiles.end(), [i](const auto& tile){
@@ -266,16 +262,16 @@ void UpdateLevelEditorScreen(){
             level.total_layers++;
         }
 
+        // Switch Betweeen Modes
+        if(IsKeyPressed(KEY_LEFT)) current_mode--;
+        if(IsKeyPressed(KEY_RIGHT)) current_mode++;
+
         if(IsKeyPressed(KEY_SLASH)){
             is_typing = true;
         }
 
-        if(has_selected_tile)
-            InteractWithTile();
+        if(has_selected_tile && current_mode == Mode_One_Select) InteractWithTile();
     }
-
-    if(is_typing)
-        typingCode();
 
     for(auto& tile : level.tiles){
         tile->setIsTouchingMouse(false);
@@ -284,19 +280,46 @@ void UpdateLevelEditorScreen(){
             tile->setIsTouchingMouse(true);
         }
 
-        if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) or IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
-            if(tile->getIsTouchingMouse()){
-                selectedTile = Tile(tile->getID(), {tile->getX(), tile->getY()}, tile->getZ());
-                selectedTile.setSlot(tile->getSlot());
-                selectedTile.setTexture(tile->getTexture());
+        switch(current_mode){
+            case Mode_One_Select:
+                {
+                    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) or IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
+                        if(tile->getIsTouchingMouse()){
+                            selectedTile = Tile(tile->getID(), {tile->getX(), tile->getY()}, tile->getZ());
+                            selectedTile.setSlot(tile->getSlot());
+                            selectedTile.setTexture(tile->getTexture());
 
-                selectedTileZ = selectedTile.getZ();
+                            selectedTileZ = selectedTile.getZ();
 
-                if(!has_selected_tile)
-                    has_selected_tile = true;
-            }
+                            if(!has_selected_tile)
+                                has_selected_tile = true;
+                        }
+                    }
+                }
+                break;
+            case Mode_Pencil:
+                {
+                    if(IsMouseButtonDown(MOUSE_BUTTON_LEFT) && tile->getIsTouchingMouse() && tile->getZ() == selectedTileZ){
+                        tile = std::make_unique<Tile>(Tile(currentTileID, {tile->getX(), tile->getY()}, tile->getZ()));
+                    }
+                }
+                break;
+            case Mode_Eraser:
+                {
+                    if(IsMouseButtonDown(MOUSE_BUTTON_LEFT) && tile->getIsTouchingMouse() && tile->getZ() == selectedTileZ){
+                        tile = std::make_unique<Tile>(Tile(Air_Tile, {tile->getX(), tile->getY()}, tile->getZ()));
+                    }
+                }
+                break;
+            default:
+                break;
         }
     }
+
+    // Clamps
+    clamp(selectedTileZ, 0, level.total_layers-1);
+    clamp(currentTileID, 0, 22);
+    clamp(current_mode, 0, Mode_Max-1);
 }
 
 void DrawLevelEditorScreen(){
@@ -315,19 +338,27 @@ void DrawLevelEditorScreen(){
     DrawTextEx(font, "Current Tile", {10, 40}, font_size, 0, WHITE);
     DrawTextureEx(BlockOutlineTexture, {29, 80}, 0, 2.2, WHITE);
     DrawTexturePro(currentTileTexture, {0,0,32,32}, {32, 83, 32*2, 32*2}, {0, 0}, 0, WHITE);
+    DrawTextEx(font, std::to_string(currentTileID).c_str(), {57.5, 103}, font_size+3, 0, WHITE);
 
     DrawTextEx(font, "Selected Tile", {160, 40}, font_size, 0, WHITE);
     DrawTextureEx(BlockOutlineTexture, {179, 80}, 0, 2.2, WHITE);
     DrawTexturePro(selectedTile.getTexture(), {0,0,32,32}, {182, 83, 32*2, 32*2}, {0, 0}, 0, WHITE);
+    DrawTextEx(font, std::to_string(selectedTile.getID()).c_str(), {57.5+150, 103}, font_size+3, 0, WHITE);
 
-    DrawTextEx(font, "Canvas Size: ", {20, 160}, font_size, 0, WHITE);
-    DrawTextEx(font, canvas_sizeStr.c_str(), {185, 160}, font_size, 0, BLACK);
+    // Modes
+    DrawTextEx(font, "     Modes   ", {(float)GetScreenWidth()-200, 40}, font_size+5, 0, WHITE);
+    DrawTextEx(font, "<=                    =>", {(float)GetScreenWidth()-230, 70}, font_size+5, 0, WHITE);
+    DrawTextEx(font, LevelEditorModeToString((LevelEditorMode)current_mode).c_str(), {(float)GetScreenWidth()-(float)193, 70}, font_size+1, 0, WHITE);
 
-    DrawTextEx(font, "Layers: ", {20, 190}, font_size, 0, WHITE);
-    DrawTextEx(font, std::to_string(level.total_layers).c_str(), {120, 190}, font_size, 0, BLACK);
+    // Texts
+    std::string canvsaSizeStr = "Canvas Size: " + canvas_sizeStr;
+    DrawTextEx(font, canvsaSizeStr.c_str(), {20, 190}, font_size, 0, WHITE);
 
-    std::string zStr = "Current Layer: " + std::to_string(selectedTile.getZ()+1);
-    DrawTextEx(font, zStr.c_str(), {20, 220}, font_size, 0, WHITE);
+    std::string layerStr = "Layers: " + std::to_string(level.total_layers);
+    DrawTextEx(font, layerStr.c_str(), {20, 215}, font_size, 0, WHITE);
+
+    std::string zStr = "Current Layer: " + std::to_string(selectedTileZ+1);
+    DrawTextEx(font, zStr.c_str(), {20, 240}, font_size, 0, WHITE);
 
     for(auto e:texts) e.Draw();
 
