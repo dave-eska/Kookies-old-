@@ -177,7 +177,7 @@ void Inventory::toggleCrafting(){
 void Inventory::Draw(Camera2D& camera){
     for(int i=0;i<items.size();i++){
         DrawTextureEx(Outline_texture, {(float)i*OUTLINE_SIZE+pos.x, pos.y}, 0, 2, WHITE);
-        DrawTextureEx(items[i].iconTexture, {(float)i*OUTLINE_SIZE+pos.x+3, pos.y+2}, 0, 1.8, WHITE);
+        DrawTexturePro(items[i].iconTexture, {0,0,32,32}, {(float)i*OUTLINE_SIZE+pos.x+3, pos.y+2, 32*1.8, 32*1.8}, {0, 0}, 0, WHITE);
 
         DrawText(std::to_string(items[i].item_count).c_str(), (float)i*OUTLINE_SIZE+pos.x+20, pos.y+45, 20, LIGHTGRAY);
         if(CheckCollisionPointRec(GetMousePosition(), {(float)i*OUTLINE_SIZE+pos.x, pos.y,
