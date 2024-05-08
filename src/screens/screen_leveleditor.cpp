@@ -9,6 +9,7 @@
 #include <string>
 
 #include <raylib.h>
+#include <unistd.h>
 
 #include "level.h"
 #include "tile.h"
@@ -101,6 +102,12 @@ static void typingCode(){
                         (*it)->setSlot(prevSlot);
                     }
                 }
+            }else if(command == "/del" && level.total_layers > 2){
+                std::erase_if(level.tiles,
+                        [](const auto& tile) {
+                        return tile->getZ() == level.total_layers-1;
+                        });
+                level.total_layers = level.tiles[level.tiles.size()-1]->getZ()+1;
             }
 
             user_input.erase(user_input.begin());
@@ -148,7 +155,7 @@ void InitLevelEditorScreen(){
     currentTileID = Brickwall_Tile;
     currentTileTexture = Tile(currentTileID, {0,0}, 0).getTexture();
 
-    level.changeLevel("res/maps/test.json");
+    level.changeLevel("res/maps/empty.json");
     canvas_sizeStr = std::to_string((int)level.canvas_size.x) + ", " + std::to_string((int)level.canvas_size.y);
 
     camera = { 0 };
@@ -170,7 +177,8 @@ void InitLevelEditorScreen(){
         "/debug",
         "/change",
         "/save",
-        "/load"
+        "/load",
+        "/del"
     };
 }
 
@@ -209,9 +217,6 @@ void UpdateLevelEditorScreen(){
             if (camera.zoom < zoomIncrement) camera.zoom = zoomIncrement;
         }
     }
-    // Create new tiles with new z (still cant be above the highest x)
-    if(IsKeyPressed(KEY_N) && selectedTileZ <= level.total_layers){
-    }
 
     // Selecting Z
     if(IsKeyPressed(KEY_UP) or IsKeyPressed(KEY_DOWN)){
@@ -244,6 +249,17 @@ void UpdateLevelEditorScreen(){
             if(IsKeyPressed(KEY_S)){
                 savingCode();
             }
+        }
+
+        //Make new layer
+        if(IsKeyPressed(KEY_N)){
+            for(int i=0;i<level.canvas_size.x*level.canvas_size.x;i++){
+                auto it = std::find_if(level.tiles.begin(), level.tiles.end(), [i](const auto& tile){
+                        return tile->getSlot() == i;
+                        });
+                level.tiles.push_back(std::make_unique<Tile>(Tile(Air_Tile, {(*it)->getX(), (*it)->getY()}, level.total_layers)));
+            }
+            level.total_layers++;
         }
 
         if(IsKeyPressed(KEY_SLASH)){

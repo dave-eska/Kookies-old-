@@ -1,10 +1,12 @@
 #include<algorithm>
+#include <sys/types.h>
 #include<vector>
 #include<string>
 #include<memory>
 
 #include<raylib.h>
 
+#include "cat.h"
 #include"item.h"
 #include"screens.h"
 
@@ -203,6 +205,7 @@ void InitGameplayScreen(){
     };
 
     player.addItemInv(newItem(Bagofcherry_Tile, 10));
+    entities.push_back(std::make_unique<Cat>(Cat({100,70}, player)));
 }
 
 void UpdateGameplayScreen(){

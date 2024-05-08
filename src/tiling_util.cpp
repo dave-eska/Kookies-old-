@@ -72,7 +72,7 @@ std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path, int&
 
     Vector2 starting_pos={root["x"].asFloat(), root["y"].asFloat()};
 
-    for (const auto& layer : root["layers"]) {
+    for(const auto& layer : root["layers"]) {
         y = 0;
         x = 0;
         for (const auto& e : layer.asString()) {
