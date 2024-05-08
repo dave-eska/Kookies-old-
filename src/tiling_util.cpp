@@ -1,16 +1,14 @@
 #include"tiling_util.h"
 
-#include "json/writer.h"
-#include<algorithm>
-#include <array>
 #include <cctype>
-#include<iostream>
-#include<fstream>
-#include <limits>
-#include<memory>
+#include <iostream>
+#include <fstream>
+#include <memory>
 #include <ostream>
 #include <string>
 #include <vector>
+
+#include "json/writer.h"
 
 #include"tile.h"
 #include"transition.h"

@@ -1,19 +1,21 @@
-#include "chat.h"
-#include "global_func.h"
-#include "item.h"
-#include "raymath.h"
 #include "screens.h"
 
 #include <algorithm>
 #include <memory>
 #include <string>
+#include <unistd.h>
 
 #include <raylib.h>
-#include <unistd.h>
+#include <raymath.h>
+
+#include "global_func.h"
+#include "tiling_util.h"
 
 #include "level.h"
 #include "tile.h"
-#include "tiling_util.h"
+#include "chat.h"
+#include "item.h"
+#include "modes.h"
 
 static int finish_screen = 0;
 
@@ -23,9 +25,13 @@ static int cam_speed;
 static Level level;
 static std::string canvas_sizeStr;
 
+static Texture2D BlockOutlineTexture;
+
 static Tile selectedTile;
 static bool has_selected_tile;
 static int selectedTileZ;
+
+static LevelEditorMode current_mode;
 
 static std::vector<std::string> commands;
 
@@ -38,6 +44,8 @@ static Texture2D currentTileTexture;
 
 static bool is_debugging;
 static bool is_typing;
+
+static int font_size;
 
 static void savingCode(){
     writeTileJson(level, {0,0}, "save.json");
@@ -155,8 +163,12 @@ void InitLevelEditorScreen(){
     currentTileID = Brickwall_Tile;
     currentTileTexture = Tile(currentTileID, {0,0}, 0).getTexture();
 
-    level.changeLevel("res/maps/empty.json");
+    level.changeLevel("res/maps/test.json");
     canvas_sizeStr = std::to_string((int)level.canvas_size.x) + ", " + std::to_string((int)level.canvas_size.y);
+    current_mode = Mode_Pencil;
+
+    font_size = 20;
+    BlockOutlineTexture = LoadTexture("res/img/inventory_outline.png");
 
     camera = { 0 };
     camera.target = { 1000, 500 };
@@ -198,22 +210,13 @@ void UpdateLevelEditorScreen(){
     // Zoom based on mouse wheel
     if(!IsKeyDown(KEY_LEFT_CONTROL)){
         float wheel = GetMouseWheelMove();
-        if (wheel != 0)
-        {
-            // Get the world point that is under the mouse
+        if(wheel != 0){
             Vector2 mouseWorldPos = GetScreenToWorld2D(GetMousePosition(), camera);
-
-            // Set the offset to where the mouse is
             camera.offset = GetMousePosition();
-
-            // Set the target to match, so that the camera maps the world space point 
-            // under the cursor to the screen space point under the cursor at any zoom
             camera.target = mouseWorldPos;
-
-            // Zoom increment
             const float zoomIncrement = 0.125f;
-
             camera.zoom += (wheel*zoomIncrement);
+
             if (camera.zoom < zoomIncrement) camera.zoom = zoomIncrement;
         }
     }
@@ -229,6 +232,7 @@ void UpdateLevelEditorScreen(){
         if(it != level.tiles.end()){
             selectedTile = Tile((*it)->getID(), {(*it)->getX(), (*it)->getY()}, selectedTileZ);
             selectedTile.setSlot((*it)->getSlot());
+            selectedTile.setTexture((*it)->getTexture());
         }
     }
     clamp(selectedTileZ, 0, level.total_layers-1);
@@ -307,22 +311,23 @@ void DrawLevelEditorScreen(){
 
     EndMode2D();
 
-    DrawTextEx(font, "Current Tile: ", {20, 50}, 25, 0, WHITE);
-    DrawTextEx(font, std::to_string(currentTileID).c_str(), {270, 50}, 25, 0, BLACK);
-    DrawRectangleRec({187, 27, 32*2+6, 32*2+6}, BLACK);
-    DrawTextureEx(currentTileTexture, {190, 30}, 0, 2, WHITE);
+    // Drawing UI
+    DrawTextEx(font, "Current Tile", {10, 40}, font_size, 0, WHITE);
+    DrawTextureEx(BlockOutlineTexture, {29, 80}, 0, 2.2, WHITE);
+    DrawTexturePro(currentTileTexture, {0,0,32,32}, {32, 83, 32*2, 32*2}, {0, 0}, 0, WHITE);
 
-    DrawTextEx(font, "Selected Tile: ", {320, 50}, 25, 0, WHITE);
-    DrawTextEx(font, std::to_string(selectedTile.getID()).c_str(), {570, 50}, 25, 0, BLACK);
-    DrawTextEx(font, std::to_string(selectedTile.getZ()).c_str(), {610, 50}, 25, 0, BLACK);
-    DrawRectangleRec({487, 27, 32*2+6, 32*2+6}, BLACK);
-    DrawTextureEx(selectedTile.getTexture(), {490, 30}, 0, 2, WHITE);
+    DrawTextEx(font, "Selected Tile", {160, 40}, font_size, 0, WHITE);
+    DrawTextureEx(BlockOutlineTexture, {179, 80}, 0, 2.2, WHITE);
+    DrawTexturePro(selectedTile.getTexture(), {0,0,32,32}, {182, 83, 32*2, 32*2}, {0, 0}, 0, WHITE);
 
-    DrawTextEx(font, "Canvas Size: ", {20, 140}, 25, 0, WHITE);
-    DrawTextEx(font, canvas_sizeStr.c_str(), {185, 140}, 25, 0, BLACK);
+    DrawTextEx(font, "Canvas Size: ", {20, 160}, font_size, 0, WHITE);
+    DrawTextEx(font, canvas_sizeStr.c_str(), {185, 160}, font_size, 0, BLACK);
 
-    DrawTextEx(font, "Layers: ", {20, 170}, 25, 0, WHITE);
-    DrawTextEx(font, std::to_string(level.total_layers).c_str(), {120, 170}, 25, 0, BLACK);
+    DrawTextEx(font, "Layers: ", {20, 190}, font_size, 0, WHITE);
+    DrawTextEx(font, std::to_string(level.total_layers).c_str(), {120, 190}, font_size, 0, BLACK);
+
+    std::string zStr = "Current Layer: " + std::to_string(selectedTile.getZ()+1);
+    DrawTextEx(font, zStr.c_str(), {20, 220}, font_size, 0, WHITE);
 
     for(auto e:texts) e.Draw();
 

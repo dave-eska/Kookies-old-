@@ -98,6 +98,12 @@ static void typingCode(){
                 }else{
                     typeInChat("Syntax Error: Expected Input Detail.", DARKPURPLE);
                 }
+            }else if(command == "/give"){
+                if(!getSecondWord(user_input).empty()){
+                    player.addItemInv(newItem(stoi(getSecondWord(user_input)), 1));
+                }else{
+                    typeInChat("Syntax Error: Expected Input Detail.", DARKPURPLE);
+                }
             }
         }else{
             user_input.erase(user_input.begin());
@@ -201,7 +207,8 @@ void InitGameplayScreen(){
         "/tell",
         "/reset",
         "/clear",
-        "/debug"
+        "/debug",
+        "/give"
     };
 
     player.addItemInv(newItem(Bagofcherry_Tile, 10));
