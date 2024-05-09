@@ -374,7 +374,7 @@ void UpdateLevelEditorScreen(){
 
     // Clamps
     clamp(selectedTileZ, 0, level.total_layers-1);
-    clamp(currentTileID, 0, 22);
+    clamp(currentTileID, 0, MaxTileID-1);
     clamp(current_mode, 0, Mode_Max-1);
 }
 

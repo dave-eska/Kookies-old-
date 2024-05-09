@@ -129,4 +129,15 @@ enum TileID {
 
     Cherryseeds_Tile = 21,
     Cocoabeansseed_Tile,
+
+    Bush1_Tile = 23,
+    Bush2_Tile,
+    Brush3_Tile,
+
+    Pool_TopLeft_Tile = 26,
+    Pool_TopRight_Tile,
+    Pool_BottomLeft_Tile,
+    Pool_BottomRight_Tile,
+
+    MaxTileID
 };
