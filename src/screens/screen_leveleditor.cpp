@@ -1,12 +1,14 @@
 #include "screens.h"
 
 #include <algorithm>
+#include <iostream>
 #include <memory>
 #include <string>
 #include <unistd.h>
 
 #include <raylib.h>
 #include <raymath.h>
+#include <unordered_set>
 
 #include "global_func.h"
 #include "tiling_util.h"
@@ -46,6 +48,40 @@ static bool is_debugging;
 static bool is_typing;
 
 static int font_size;
+
+// Function to perform fill operation
+static void fill(std::vector<std::unique_ptr<Tile>>& canvas, int x, int y, int z, int targetID, int fillID, std::unordered_set<int>& visited) {
+    // Check if current position is within canvas bounds
+    if(x < 0 || y < 0 || x >= (level.canvas_size.x*TILE_SIZE) || y >= (level.canvas_size.y*TILE_SIZE)) return;
+
+    // Calculate index of the tile in the vector
+    auto it = std::find_if(canvas.begin(), canvas.end(), [x, y, z](const auto& tile){
+            return tile->getX() == x && tile->getY() == y && tile->getZ() == z;
+            });
+
+
+    if(it == canvas.end()) return;
+    int index = (*it)->getSlot();
+
+    // Check if current position has already been visited or has different ID or z value
+    if(visited.find(index) != visited.end() || canvas[index]->getID() != targetID || canvas[index]->getZ() != z)
+        return;
+
+    // Fill current tile with fill ID
+    int prevSlot = canvas[index]->getSlot();
+    canvas[index] = std::make_unique<Tile>(Tile(fillID, canvas[index]->getPos(), canvas[index]->getZ()));
+    canvas[index]->setSlot(prevSlot);
+
+    // Add current index to visited set
+    visited.insert(index);
+
+    // Perform fill operation recursively in all four directions
+    fill(canvas, x + TILE_SIZE, y, z, targetID, fillID, visited); // Right
+    fill(canvas, x - TILE_SIZE, y, z, targetID, fillID, visited); // Left
+    fill(canvas, x, y + TILE_SIZE, z, targetID, fillID, visited); // Down
+    fill(canvas, x, y - TILE_SIZE, z, targetID, fillID, visited); // Up
+}
+
 
 static void savingCode(){
     writeTileJson(level, {0,0}, "save.json");
@@ -300,14 +336,34 @@ void UpdateLevelEditorScreen(){
             case Mode_Pencil:
                 {
                     if(IsMouseButtonDown(MOUSE_BUTTON_LEFT) && tile->getIsTouchingMouse() && tile->getZ() == selectedTileZ){
+                        int prev_slot = tile->getSlot();
                         tile = std::make_unique<Tile>(Tile(currentTileID, {tile->getX(), tile->getY()}, tile->getZ()));
+                        tile->setSlot(prev_slot);
                     }
                 }
                 break;
             case Mode_Eraser:
                 {
                     if(IsMouseButtonDown(MOUSE_BUTTON_LEFT) && tile->getIsTouchingMouse() && tile->getZ() == selectedTileZ){
+                        int prev_slot = tile->getSlot();
                         tile = std::make_unique<Tile>(Tile(Air_Tile, {tile->getX(), tile->getY()}, tile->getZ()));
+                        tile->setSlot(prev_slot);
+                    }
+                }
+                break;
+            case Mode_ColorPicker:
+                {
+                    if(IsMouseButtonDown(MOUSE_BUTTON_LEFT) && tile->getIsTouchingMouse() && tile->getZ() == selectedTileZ){
+                        currentTileID = tile->getID();
+                        currentTileTexture = tile->getTexture();
+                    }
+                }
+                break;
+            case Mode_Fill:
+                {
+                    if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && tile->getIsTouchingMouse() && tile->getZ() == selectedTileZ){
+                        std::unordered_set<int> visited;
+                        fill(level.tiles, tile->getX(), tile->getY(), tile->getZ(), tile->getID(), currentTileID, visited);
                     }
                 }
                 break;
@@ -329,7 +385,7 @@ void DrawLevelEditorScreen(){
         tile->Draw(is_debugging);
     }
 
-    if(has_selected_tile)
+    if(has_selected_tile && current_mode == Mode_One_Select) 
         DrawRectangleRec(selectedTile.getBody(), {200, 200, 200, 255/2});
 
     EndMode2D();

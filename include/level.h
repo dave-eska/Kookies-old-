@@ -13,5 +13,7 @@ struct Level{
     Vector2 canvas_size;
     int total_layers;
 
+    Vector2 starting_pos;
+
     void changeLevel(std::string levelName);
 };

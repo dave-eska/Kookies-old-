@@ -48,7 +48,7 @@ static bool isStrDigit(std::string str){
     return val;
 }
 
-std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path, int& highet_z, Vector2& cvs_size){
+std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path, int& highet_z, Vector2& cvs_size, Vector2& str_pos){
     std::vector<std::unique_ptr<Tile>> vec;
     std::string text = readFile(file_path);
     Json::Value root;
@@ -126,6 +126,7 @@ std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path, int&
 
     highet_z = z;
     cvs_size = {canvas_size.x+1, canvas_size.y+1};
+    str_pos = starting_pos;
 
     return vec;
 }
