@@ -139,5 +139,9 @@ enum TileID {
     Pool_BottomLeft_Tile,
     Pool_BottomRight_Tile,
 
+    PathWalk_Tile = 30,
+    PathWalk_Tile2,
+    Stones,
+
     MaxTileID
 };

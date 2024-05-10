@@ -234,6 +234,7 @@ void UpdateLevelEditorScreen(){
     if(IsKeyPressed(KEY_ESCAPE))
         finish_screen = 1;
 
+    // Camera Movement
     if(IsMouseButtonDown(MOUSE_BUTTON_RIGHT) or IsMouseButtonDown(MOUSE_BUTTON_MIDDLE)){
         Vector2 delta = GetMouseDelta();
         delta = Vector2Scale(delta, -1.0f/camera.zoom);
@@ -241,6 +242,7 @@ void UpdateLevelEditorScreen(){
         camera.target = Vector2Add(camera.target, delta);
     }
 
+    // Zoom with mouse wheel
     if(!IsKeyDown(KEY_LEFT_CONTROL)){
         float wheel = GetMouseWheelMove();
         if(wheel != 0){
@@ -298,6 +300,11 @@ void UpdateLevelEditorScreen(){
             level.total_layers++;
         }
 
+        if(IsKeyPressed(KEY_I)) current_mode = Mode_ColorPicker;
+        if(IsKeyPressed(KEY_B)) current_mode = Mode_Pencil;
+        if(IsKeyPressed(KEY_G)) current_mode = Mode_Fill;
+        if(IsKeyPressed(KEY_E)) current_mode = Mode_Eraser;
+
         // Switch Betweeen Modes
         if(IsKeyPressed(KEY_LEFT)) current_mode--;
         if(IsKeyPressed(KEY_RIGHT)) current_mode++;
@@ -307,6 +314,7 @@ void UpdateLevelEditorScreen(){
         }
 
         if(has_selected_tile && current_mode == Mode_One_Select) InteractWithTile();
+
     }
 
     for(auto& tile : level.tiles){

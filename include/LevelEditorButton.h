@@ -2,15 +2,12 @@
 
 #include<raylib.h>
 
-class LevelEditorButton{
-    private:
-        Rectangle body;
-        Texture2D texture;
+#include "Button.h"
+
+class LevelEditorButton : public Button{
     protected:
-        void onClick(int &game_state);
+        void onClick(int &game_state) override;
     public:
-        void Draw();
-        void Update(int &game_state);
 
         LevelEditorButton(Vector2 position);
         LevelEditorButton();

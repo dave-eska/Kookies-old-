@@ -179,10 +179,10 @@ static void drawInCamMode(){
 
 void InitGameplayScreen(){
     player = Player(
-            /*Body*/{50,200,18*9, 35*9},
+            /*Body*/{50,200,18*8, 35*8},
             /*Speed*/500,
             /*texture_path=*/"res/img/player_atlas.png",
-            /*selectArea*/{0,0,450, 450},
+            /*selectArea*/{0,0,350, 350},
             /*collisionBody=*/{0,0,18*9,10*9},
 
             /*slots=*/10,
@@ -192,7 +192,7 @@ void InitGameplayScreen(){
             /*extra_inv_texture=*/"res/img/Extra_Inven.png",
             /*crafting_menu_texture=*/"res/img/Crafting_UI.png",
 
-            /*display_name=*/"Dave"
+            /*display_name=*/"Daveeska"
             );
 
     level.changeLevel("res/maps/test.json");

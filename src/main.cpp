@@ -48,6 +48,7 @@ int main(void)
     // Initialization
     //---------------------------------------------------------
     SetTraceLogLevel(LOG_NONE);
+    //SetConfigFlags(FLAG_WINDOW_RESIZABLE);
 
     InitWindow(screenWidth, screenHeight, "Kookies 0.1");
 
@@ -113,6 +114,7 @@ static void ChangeToScreen(GameScreen screen)
         case TITLE: UnloadTitleScreen(); break;
         case GAMEPLAY: UnloadGameplayScreen(); break;
         case LEVELEDITOR: UnloadLevelEditorScreen(); break;
+        case OPTIONS: UnloadOptionsScreen(); break;
         default: break;
     }
 
@@ -120,8 +122,9 @@ static void ChangeToScreen(GameScreen screen)
     switch (screen)
     {
         case TITLE: InitTitleScreen(); break;
-        case LEVELEDITOR: InitLevelEditorScreen(); break;
         case GAMEPLAY: InitGameplayScreen(); break;
+        case LEVELEDITOR: InitLevelEditorScreen(); break;
+        case OPTIONS: InitOptionsScreen(); break;
         default: break;
     }
 
@@ -171,6 +174,7 @@ static void UpdateTransition(void)
                 case TITLE: InitTitleScreen(); break;
                 case GAMEPLAY: InitGameplayScreen(); break;
                 case LEVELEDITOR: InitLevelEditorScreen(); break;
+                case OPTIONS: InitOptionsScreen(); break;
                 default: break;
             }
 
@@ -217,13 +221,14 @@ static void UpdateDrawFrame(void)
 
                 if (FinishTitleScreen() == 1) {ResetTitleFinishScreen(); TransitionToScreen(LEVELEDITOR);}
                 else if (FinishTitleScreen() == 2) {ResetTitleFinishScreen(); TransitionToScreen(GAMEPLAY);}
+                else if(FinishTitleScreen() == 3) {ResetTitleFinishScreen(); TransitionToScreen(OPTIONS);}
 
             } break;
             case OPTIONS:
             {
                 UpdateOptionsScreen();
 
-                if (FinishOptionsScreen()) TransitionToScreen(TITLE);
+                if (FinishOptionsScreen()) {ResetOptionsFinishScreen(); TransitionToScreen(TITLE);}
 
             } break;
             case GAMEPLAY:
