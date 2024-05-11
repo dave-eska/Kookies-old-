@@ -29,3 +29,5 @@ void changeMainLevel(std::string levelName);
 
 Player &getPlayer();
 Level &getCurrentLevel();
+
+bool isWalkable(Rectangle newPos);

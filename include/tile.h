@@ -20,6 +20,8 @@ class Tile{
         Texture2D texture;
         Texture2D debugbox;
 
+        int rotation;
+
         std::string name;
         std::string type;
         int id;
@@ -41,7 +43,6 @@ class Tile{
 
         //Debug var
         bool isTouchingMouse;
-        bool hasCollision;
         bool isTouchingPlayer;
         bool isTouchingSelectAreaPlayer;
         int slot;
@@ -56,12 +57,14 @@ class Tile{
         int getZ(){return z_level;}
         int getID(){return id;}
 
+        int getRotation(){return rotation;}
+
         int getSlot(){return slot;}
 
         int getFruitID(){return fruitID;};
 
         bool HasAnimFrame(){return hasAnimation;}
-        bool HasCollision(){return hasCollision;}
+        bool HasCollision(){return collision;}
 
         bool getIsRunningAnimation(){return isRunningAnimation;}
 
@@ -84,6 +87,7 @@ class Tile{
         void setIsTouchingPlayer(bool val){isTouchingPlayer = val;}
         void setIsTouchingSelectAreaPlayer(bool val){isTouchingSelectAreaPlayer = val;}
         void setTexture(Texture2D new_texture){texture = new_texture;}
+        void setRotation(int val){rotation=val;}
 
         void runAnimation(){isRunningAnimation=true;}
 

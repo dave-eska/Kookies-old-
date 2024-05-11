@@ -165,8 +165,10 @@ void Inventory::decreaseItemCount(int slot, int count){
 }
 
 void Inventory::toggleDrawUI(){
+    /*
     if(IsKeyPressed(KEY_E))
         isDrawingUI = !isDrawingUI;
+        */
 }
 
 

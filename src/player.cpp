@@ -4,8 +4,7 @@
 
 #include<string>
 
-#include"global_func.h"
-
+#include "global_func.h"
 #include"inventory.h"
 
 //Private functions
@@ -13,8 +12,16 @@ void Player::move(float dt){
     float inputX = IsKeyDown(KEY_D)-IsKeyDown(KEY_A);
     float inputY = IsKeyDown(KEY_S)-IsKeyDown(KEY_W);
 
-    body.x+=(inputX*speed)*dt;
-    body.y+=(inputY*speed)*dt;
+    Vector2 npOffSet = {55, 140};
+
+    newPos.x = (body.x + npOffSet.x) + (inputX*speed)*dt;
+    newPos.y = (body.y + npOffSet.y) + (inputY*speed)*dt;
+
+    if(isWalkable(newPos)){
+        body.x = newPos.x - npOffSet.x;
+        body.y = newPos.y - npOffSet.y;
+    }else 
+        typeInChat("niggers");
 
     if(inputX==1) direction=DIRECTION_RIGHT;
     else if(inputX==-1) direction=DIRECTION_LEFT;
@@ -88,8 +95,11 @@ void Player::Draw(bool isDebuggin){
     animate();
     DrawRectangleV({(body.x-(float)display_name.size()+20)-60, body.y-40}, {(float)display_name.size()*30+40,45}, {50,50,50,100});
     DrawText(display_name.c_str(), (body.x+35)-60, body.y-40, 50, BLACK);
+
+    DrawRectangleRec(newPos, {255, 255, 255, 255/2});
+
     if(isDebuggin) {
-        DrawRectangleRec(body, {0,200,0,150});
+        //DrawRectangleRec(body, {0,200,0,150});
         DrawRectangleRec(selectArea, {0,0,0,100});
         //DrawRectangleRec(collisionArea, {213, 70, 90, 150});
     }
@@ -133,7 +143,7 @@ Player::Player(Rectangle body, int speed, const char* texture_path, Rectangle se
         std::string crafting_menu_texture,
         /*customization*/
         std::string display_name)
-:body{body},selectArea{selectArea},default_speed{speed},display_name{display_name},speed{speed}{
+:body{body}, selectArea{selectArea}, collisionArea{collisionBody}, default_speed{speed}, display_name{display_name}, speed{speed}{
     texture=LoadTexture(texture_path);
 
     inv = Inventory(inventory_pos, slots, 
@@ -208,6 +218,9 @@ Player::Player(Rectangle body, int speed, const char* texture_path, Rectangle se
         CreateSpriteAnimation(texture, 11, walkRightRect, 6), //7
     };
 
+    newPos = body;
+    newPos.width /= 2;
+    newPos.height /= 2;
 }
 
 Player::Player(){

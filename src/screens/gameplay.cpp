@@ -174,15 +174,20 @@ static void drawInCamMode(){
     for(auto& entity:entities)
         if(entity->getLevelName() == level.level_name) entity->Draw();
 
+    player.UpdateInventory();
+    player.UpdateVariables();
+
+
     player.Draw(is_debugging);
+    if(!isTyping) player.move(GetFrameTime());
 }
 
 void InitGameplayScreen(){
     player = Player(
-            /*Body*/{50,200,18*8, 35*8},
+            /*Body*/{100,200,18*9, 35*9},
             /*Speed*/500,
             /*texture_path=*/"res/img/player_atlas.png",
-            /*selectArea*/{0,0,350, 350},
+            /*selectArea*/{0,0,430, 430},
             /*collisionBody=*/{0,0,18*9,10*9},
 
             /*slots=*/10,
@@ -218,10 +223,6 @@ void InitGameplayScreen(){
 
 void UpdateGameplayScreen(){
     if(!isTyping){
-        player.UpdateInventory();
-        player.UpdateVariables();
-        player.move(GetFrameTime());
-
         camera.target = { player.getBody().x + 18*7, player.getBody().y + 35*7 };
     }
 

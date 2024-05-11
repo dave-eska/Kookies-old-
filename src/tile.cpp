@@ -53,9 +53,9 @@ InventoryItem Tile::asItem(int total_count){
 
 void Tile::Draw(bool is_debugging){
     if(isRunningAnimation) {
-        DrawSpriteAnimationPro(animation, {body.x, body.y, TILE_SIZE, TILE_SIZE}, {0, 0}, 0, WHITE, isRunningAnimation);
+        DrawSpriteAnimationPro(animation, {body.x, body.y, TILE_SIZE, TILE_SIZE}, {0, 0}, rotation, WHITE, isRunningAnimation);
     }
-    else DrawTexturePro(texture, {0,0,32,32}, {body.x,body.y,TILE_SIZE,TILE_SIZE}, {0,0}, 0, WHITE);
+    else DrawTexturePro(texture, {0,0,32,32}, {body.x,body.y,TILE_SIZE,TILE_SIZE}, {0,0}, rotation, WHITE);
 
     if(is_debugging){
         DrawTextureEx(debugbox, {body.x, body.y}, 0, 3, WHITE);
@@ -91,8 +91,11 @@ Tile::Tile(int id, Vector2 pos, int z_level){
     isTouchingPlayer = false;
     isTouchingSelectAreaPlayer = false;
     isRunningAnimation = true;
+    this->collision = false;
 
     debugbox=LoadTexture("res/img/debugbox.png");
+
+    rotation = 0;
 
     std::vector<std::string> file_names=getAllFileNamesInDirectory("res/items/");
     Json::Reader jsonreader;

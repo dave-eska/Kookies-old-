@@ -1,4 +1,5 @@
 #include "global_func.h"
+#include "raylib.h"
 #include "screens.h"
 
 #include<iostream>
@@ -141,3 +142,22 @@ void typeInChat(std::string text, Color color){
     addChatText(texts, text, color);
 }
 
+
+bool isWalkable(Rectangle newPos) {
+    // Check if the tile is walkable
+    Rectangle half_newPos = {newPos.x+newPos.width, newPos.y, newPos.width, newPos.height/2};
+    auto up = std::find_if(getCurrentLevel().tiles.begin(), getCurrentLevel().tiles.end(), [half_newPos](const auto& tile){
+            DrawRectangleRec(half_newPos, BROWN);
+            return CheckCollisionRecs(half_newPos, tile->getBody()) && tile->getZ() == 0;
+            });
+
+    half_newPos = {newPos.x, newPos.y+(4*(newPos.width/2)), newPos.width, newPos.height/2};
+    auto down = std::find_if(getCurrentLevel().tiles.begin(), getCurrentLevel().tiles.end(), [half_newPos](const auto& tile){
+            return CheckCollisionRecs(half_newPos, tile->getBody()) && tile->getZ() == 0;
+            });
+
+    if(up != getCurrentLevel().tiles.end() && down != getCurrentLevel().tiles.end()){
+        return !(*up)->HasCollision() && !(*down)->HasCollision();
+    }
+    return false;
+}
