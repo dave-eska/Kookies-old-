@@ -8,6 +8,12 @@
 
 * Maps are also defined inside res/maps. ( But I haven't Found A Way To Load Different Maps WIthout Re-Compiling ).
 
+* Tiles:
+    
+    * Seed Tile -> Can grow, Can be picked up.
+
+    * Transition Tile -> Can change the current level.
+
 ## Hint For Modders : 
 
 * Tile ID's : 
