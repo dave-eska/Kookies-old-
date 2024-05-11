@@ -142,12 +142,10 @@ void typeInChat(std::string text, Color color){
     addChatText(texts, text, color);
 }
 
-
-bool isWalkable(Rectangle newPos) {
+bool isWalkable(Rectangle newPos){
     // Check if the tile is walkable
     Rectangle half_newPos = {newPos.x+newPos.width, newPos.y, newPos.width, newPos.height/2};
     auto up = std::find_if(getCurrentLevel().tiles.begin(), getCurrentLevel().tiles.end(), [half_newPos](const auto& tile){
-            DrawRectangleRec(half_newPos, BROWN);
             return CheckCollisionRecs(half_newPos, tile->getBody()) && tile->getZ() == 0;
             });
 
