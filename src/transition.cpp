@@ -24,14 +24,14 @@ void TransitionTile::Draw(bool is_debugging){
 
     if(is_debugging){
         DrawRectangleRec(body, {RED.r, RED.g, RED.b, 255/2});
-        DrawText(dest.c_str(), body.x, body.y, 20, BLACK);
+        DrawText(dest.c_str(), body.x+TILE_SIZE, body.y, 20, BLACK);
     }
 }
 
 TransitionTile::TransitionTile(){
 }
 
-TransitionTile::TransitionTile(Vector2 pos, int z_level){
+TransitionTile::TransitionTile(int id, Vector2 pos, int z_level){
     //Debug Variables
     isTouchingMouse=false;
     isRunningAnimation=true;
@@ -58,8 +58,11 @@ TransitionTile::TransitionTile(Vector2 pos, int z_level){
             this->name = jsonvalue["name"].asString();
             this->id = jsonvalue["id"].asInt();
             this->type = jsonvalue["type"].asString();
+            this->collision = false;
 
             this->filename = "res/items/"+e;
+
+            this->texture = LoadTexture(jsonvalue["texture"].asString().c_str());
         }
     }
 

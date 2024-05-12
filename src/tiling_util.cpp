@@ -82,7 +82,7 @@ std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path, int&
                     vec.push_back(std::make_unique<SeedTile>(tile));
                     id.clear();
                 }else if(tile_id == Transition_Tile){
-                    TransitionTile tile = TransitionTile({starting_pos.x+x*TILE_SIZE, starting_pos.y+(y*TILE_SIZE)}, z);
+                    TransitionTile tile = TransitionTile(tile_id, {starting_pos.x+x*TILE_SIZE, starting_pos.y+(y*TILE_SIZE)}, z);
                     tile.setSlot(vec.size());
                     if(!destination.empty()){
                         tile.attachLevel(destination);
@@ -142,6 +142,13 @@ std::vector<std::string> tilesToStrings(std::vector<std::unique_ptr<Tile>>& tile
                 std::string tileID = std::to_string(tiles[i]->getID());
                 for(const char& c:tileID)
                     layer.push_back(c);
+                if(tileID == "9"){
+                    auto transitionTile = dynamic_cast<TransitionTile*>(tiles[i].get());
+                    for(const char& c:transitionTile->getDestination()){
+                        if(c=='.') break;
+                        layer.push_back(c);
+                    }
+                }
                 layer.push_back(' ');
                 if((i+1) % (int)canvas_size.x == 0 && i != 0){
                     layer.push_back('\n');

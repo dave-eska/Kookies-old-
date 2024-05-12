@@ -20,5 +20,5 @@ class TransitionTile: public Tile{
         void Draw(bool is_debugging) override;
 
         TransitionTile();
-        TransitionTile(Vector2 pos, int z_level);
+        TransitionTile(int id, Vector2 pos, int z_level);
 };

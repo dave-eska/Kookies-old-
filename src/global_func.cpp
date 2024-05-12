@@ -155,6 +155,11 @@ bool isWalkable(Rectangle newPos){
             });
 
     if(up != getCurrentLevel().tiles.end() && down != getCurrentLevel().tiles.end()){
+        DrawRectangleRec((*up)->getBody(), WHITE);
+        DrawText(std::to_string((*up)->getID()).c_str(), (*up)->getX(), (*up)->getY(), 40, BLACK);
+
+        DrawRectangleRec((*down)->getBody(), WHITE);
+        DrawText(std::to_string((*down)->getID()).c_str(), (*down)->getX(), (*down)->getY(), 40, BLACK);
         return !(*up)->HasCollision() && !(*down)->HasCollision();
     }
     return false;
