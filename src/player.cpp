@@ -4,7 +4,7 @@
 
 #include<string>
 
-#include "global_func.h"
+#include"global_func.h"
 #include"inventory.h"
 
 //Private functions
@@ -12,14 +12,16 @@ void Player::move(float dt){
     float inputX = IsKeyDown(KEY_D)-IsKeyDown(KEY_A);
     float inputY = IsKeyDown(KEY_S)-IsKeyDown(KEY_W);
 
-    Vector2 npOffSet = {55, 140};
+    Vector2 npOffSet = {55, 180};
 
     newPos.x = (body.x + npOffSet.x) + (inputX*speed)*dt;
     newPos.y = (body.y + npOffSet.y) + (inputY*speed)*dt;
 
-    if(isWalkable(newPos)){
+    if(isWalkableX(newPos, {body.x+npOffSet.x, body.y+npOffSet.y, body.width, body.height})){
         body.x = newPos.x - npOffSet.x;
-        body.y = newPos.y - npOffSet.y;
+    }
+    if(isWalkableY(newPos, {body.x+npOffSet.x, body.y+npOffSet.y, body.width, body.height})){
+        body.y = newPos.y - npOffSet.y;;
     }
 
     if(inputX==1) direction=DIRECTION_RIGHT;
@@ -97,7 +99,7 @@ void Player::Draw(bool isDebuggin){
 
 
     if(isDebuggin) {
-        DrawRectangleRec(selectArea, {0,0,0,100});
+        DrawRectangleRec(selectArea, {150,150,150,100});
         DrawRectangleRec(newPos, {255, 255, 255, 255/2});
     }
 }
@@ -218,6 +220,7 @@ Player::Player(Rectangle body, int speed, const char* texture_path, Rectangle se
     newPos = body;
     newPos.width /= 2;
     newPos.height /= 2;
+    newPos.height -= 40;
 }
 
 Player::Player(){

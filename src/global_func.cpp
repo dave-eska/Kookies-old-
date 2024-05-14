@@ -142,25 +142,53 @@ void typeInChat(std::string text, Color color){
     addChatText(texts, text, color);
 }
 
-bool isWalkable(Rectangle newPos){
+bool AABBx(Rectangle rec1, Rectangle rec2){
+    bool collision = false;
+
+    if((rec1.x < (rec2.x + rec2.width) && (rec1.x + rec1.width) > rec2.x)) collision = true;
+
+    return collision;
+}
+
+bool AABBy(Rectangle rec1, Rectangle rec2){
+    bool collision = false;
+
+    if((rec1.y < (rec2.y + rec2.height) && (rec1.y + rec1.height) > rec2.y)) collision = true;
+
+    return collision;
+}
+
+bool isWalkableX(Rectangle newPos, Rectangle body){
     // Check if the tile is walkable
-    Rectangle half_newPos = {newPos.x+newPos.width, newPos.y, newPos.width, newPos.height/2};
+    Rectangle half_newPos = {newPos.x+newPos.width, body.y, newPos.width, newPos.height/2};
     auto up = std::find_if(getCurrentLevel().tiles.begin(), getCurrentLevel().tiles.end(), [half_newPos](const auto& tile){
+            //DrawRectangleRec(half_newPos, BLUE);
             return CheckCollisionRecs(half_newPos, tile->getBody()) && tile->getZ() == 0;
             });
 
-    half_newPos = {newPos.x, newPos.y+(4*(newPos.width/2)), newPos.width, newPos.height/2};
+    half_newPos = {newPos.x, body.y+(2*(newPos.width/2)), newPos.width, newPos.height/2};
     auto down = std::find_if(getCurrentLevel().tiles.begin(), getCurrentLevel().tiles.end(), [half_newPos](const auto& tile){
             return CheckCollisionRecs(half_newPos, tile->getBody()) && tile->getZ() == 0;
             });
 
-    if(up != getCurrentLevel().tiles.end() && down != getCurrentLevel().tiles.end()){
-        DrawRectangleRec((*up)->getBody(), WHITE);
-        DrawText(std::to_string((*up)->getID()).c_str(), (*up)->getX(), (*up)->getY(), 40, BLACK);
-
-        DrawRectangleRec((*down)->getBody(), WHITE);
-        DrawText(std::to_string((*down)->getID()).c_str(), (*down)->getX(), (*down)->getY(), 40, BLACK);
+    if(up != getCurrentLevel().tiles.end() && down != getCurrentLevel().tiles.end())
         return !(*up)->HasCollision() && !(*down)->HasCollision();
-    }
+    return false;
+}
+
+bool isWalkableY(Rectangle newPos, Rectangle body){
+    // Check if the tile is walkable
+    Rectangle half_newPos = {body.x+newPos.width, newPos.y, newPos.width, newPos.height/2};
+    auto up = std::find_if(getCurrentLevel().tiles.begin(), getCurrentLevel().tiles.end(), [half_newPos](const auto& tile){
+            return CheckCollisionRecs(half_newPos, tile->getBody()) && tile->getZ() == 0;
+            });
+
+    half_newPos = {body.x, newPos.y+(newPos.height), newPos.width, newPos.height/2};
+    auto down = std::find_if(getCurrentLevel().tiles.begin(), getCurrentLevel().tiles.end(), [half_newPos](const auto& tile){
+            return CheckCollisionRecs(half_newPos, tile->getBody()) && tile->getZ() == 0;
+            });
+
+    if(up != getCurrentLevel().tiles.end() && down != getCurrentLevel().tiles.end())
+        return !(*up)->HasCollision() && !(*down)->HasCollision();
     return false;
 }

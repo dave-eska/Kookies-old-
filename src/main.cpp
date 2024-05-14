@@ -43,8 +43,7 @@ static void UpdateDrawFrame(void);          // Update and draw one frame
 //----------------------------------------------------------------------------------
 // Main entry point
 //----------------------------------------------------------------------------------
-int main(void)
-{
+int main(void){
     // Initialization
     //---------------------------------------------------------
     SetTraceLogLevel(LOG_NONE);

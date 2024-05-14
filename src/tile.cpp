@@ -66,7 +66,7 @@ void Tile::Draw(bool is_debugging){
             DrawRectangleRec(body, {0, 200, 10, 255/2});
         }
         if(isTouchingSelectAreaPlayer){
-            DrawRectangleRec(body, {0, 0, 210, 255/2});
+            DrawRectangleRec(body, {100, 100, 100, 255/4});
         }
         if(isTouchingMouse){
             DrawRectangleRec({(float)body.x+(body.width/2 - 15), body.y+(body.height/2-15), 30, 30}, BLACK);

@@ -174,12 +174,8 @@ static void drawInCamMode(){
     for(auto& entity:entities)
         if(entity->getLevelName() == level.level_name) entity->Draw();
 
-    player.UpdateInventory();
-    player.UpdateVariables();
-
-
     player.Draw(is_debugging);
-    if(!isTyping) player.move(GetFrameTime());
+    player.move(GetFrameTime());
 }
 
 void InitGameplayScreen(){
@@ -225,6 +221,9 @@ void UpdateGameplayScreen(){
     if(!isTyping){
         camera.target = { player.getBody().x + 18*7, player.getBody().y + 35*7 };
     }
+
+    player.UpdateInventory();
+    player.UpdateVariables();
 
     if(IsKeyPressed(KEY_SLASH)){
         isTyping=true;
