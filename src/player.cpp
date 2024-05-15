@@ -1,5 +1,6 @@
 #include"player.h"
 
+#include <cmath>
 #include<raylib.h>
 
 #include<string>
@@ -14,14 +15,19 @@ void Player::move(float dt){
 
     Vector2 npOffSet = {55, 180};
 
-    newPos.x = (body.x + npOffSet.x) + (inputX*speed)*dt;
-    newPos.y = (body.y + npOffSet.y) + (inputY*speed)*dt;
-
-    if(isWalkableX(newPos, {body.x+npOffSet.x, body.y+npOffSet.y, body.width, body.height})){
-        body.x = newPos.x - npOffSet.x;
+    if(inputX != 0){
+        newPos.x = (body.x + npOffSet.x) + (inputX*speed)*dt;
+        if(isWalkableX(newPos, {body.x+npOffSet.x, body.y+npOffSet.y, body.width, body.height})){
+            body.x = newPos.x - npOffSet.x;
+        }
     }
-    if(isWalkableY(newPos, {body.x+npOffSet.x, body.y+npOffSet.y, body.width, body.height})){
-        body.y = newPos.y - npOffSet.y;;
+
+    if(inputY != 0){
+        newPos.y = (body.y + npOffSet.y) + (inputY*speed)*dt;
+
+        if(isWalkableY(newPos, {body.x+npOffSet.x, body.y+npOffSet.y, body.width, body.height})){
+            body.y = newPos.y - npOffSet.y;;
+        }
     }
 
     if(inputX==1) direction=DIRECTION_RIGHT;
