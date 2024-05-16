@@ -175,7 +175,7 @@ static void drawInCamMode(){
         if(entity->getLevelName() == level.level_name) entity->Draw();
 
     player.Draw(is_debugging);
-    player.move(GetFrameTime());
+    if(!isTyping) player.move(GetFrameTime());
 }
 
 void InitGameplayScreen(){
@@ -266,7 +266,6 @@ void DrawGameplayScreen(){
 }
 
 void UnloadGameplayScreen(){
-    //TODO
 }
 
 void ResetGameplayFinishScreen(){

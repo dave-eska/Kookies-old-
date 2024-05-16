@@ -159,36 +159,65 @@ bool AABBy(Rectangle rec1, Rectangle rec2){
 }
 
 bool isWalkableX(Rectangle newPos, Rectangle body){
-    // Check if the tile is walkable
-    Rectangle half_newPos = {newPos.x+newPos.width, body.y, newPos.width, newPos.height/2};
+    Rectangle half_newPos = {newPos.x, body.y, newPos.width/2, newPos.height/2};
     auto up = std::find_if(getCurrentLevel().tiles.begin(), getCurrentLevel().tiles.end(), [half_newPos](const auto& tile){
+            //DrawRectangleRec(half_newPos, RED);
+            return CheckCollisionRecs(half_newPos, tile->getBody()) && tile->getZ() == 0;
+            });
+
+    half_newPos = {newPos.x, body.y+(newPos.height/2), newPos.width/2, newPos.height/2};
+    auto down = std::find_if(getCurrentLevel().tiles.begin(), getCurrentLevel().tiles.end(), [half_newPos](const auto& tile){
+            //DrawRectangleRec(half_newPos, YELLOW);
+            return CheckCollisionRecs(half_newPos, tile->getBody()) && tile->getZ() == 0;
+            });
+
+    half_newPos = {newPos.x+(newPos.width), body.y, newPos.width/2, newPos.height/2};
+    auto up_right = std::find_if(getCurrentLevel().tiles.begin(), getCurrentLevel().tiles.end(), [half_newPos](const auto& tile){
             //DrawRectangleRec(half_newPos, BLUE);
             return CheckCollisionRecs(half_newPos, tile->getBody()) && tile->getZ() == 0;
             });
 
-    half_newPos = {newPos.x, body.y+(2*(newPos.width/2)), newPos.width, newPos.height/2};
-    auto down = std::find_if(getCurrentLevel().tiles.begin(), getCurrentLevel().tiles.end(), [half_newPos](const auto& tile){
+    half_newPos = {newPos.x+(newPos.width), body.y+(newPos.height/2), newPos.width/2, newPos.height/2};
+    auto down_right = std::find_if(getCurrentLevel().tiles.begin(), getCurrentLevel().tiles.end(), [half_newPos](const auto& tile){
+            //DrawRectangleRec(half_newPos, BROWN);
             return CheckCollisionRecs(half_newPos, tile->getBody()) && tile->getZ() == 0;
             });
 
-    if(up != getCurrentLevel().tiles.end() && down != getCurrentLevel().tiles.end())
-        return !(*up)->HasCollision() && !(*down)->HasCollision();
+    if(up != getCurrentLevel().tiles.end() && down != getCurrentLevel().tiles.end() && 
+            up_right != getCurrentLevel().tiles.end() && down_right != getCurrentLevel().tiles.end())
+        return !(*up)->HasCollision() && !(*down)->HasCollision() &&
+            !(*up_right)->HasCollision() && !(*down_right)->HasCollision();
     return false;
 }
 
 bool isWalkableY(Rectangle newPos, Rectangle body){
-    // Check if the tile is walkable
-    Rectangle half_newPos = {body.x+newPos.width, newPos.y, newPos.width, newPos.height/2};
+    Rectangle half_newPos = {body.x, newPos.y, newPos.width/2, newPos.height/2};
     auto up = std::find_if(getCurrentLevel().tiles.begin(), getCurrentLevel().tiles.end(), [half_newPos](const auto& tile){
+            //DrawRectangleRec(half_newPos, RED);
             return CheckCollisionRecs(half_newPos, tile->getBody()) && tile->getZ() == 0;
             });
 
-    half_newPos = {body.x, newPos.y+(newPos.height), newPos.width, newPos.height/2};
+    half_newPos = {body.x, newPos.y+(newPos.height), newPos.width/2, newPos.height/2};
     auto down = std::find_if(getCurrentLevel().tiles.begin(), getCurrentLevel().tiles.end(), [half_newPos](const auto& tile){
+            //DrawRectangleRec(half_newPos, YELLOW);
             return CheckCollisionRecs(half_newPos, tile->getBody()) && tile->getZ() == 0;
             });
 
-    if(up != getCurrentLevel().tiles.end() && down != getCurrentLevel().tiles.end())
-        return !(*up)->HasCollision() && !(*down)->HasCollision();
+    half_newPos = {body.x+(newPos.width), newPos.y, newPos.width/2, newPos.height/2};
+    auto up_right = std::find_if(getCurrentLevel().tiles.begin(), getCurrentLevel().tiles.end(), [half_newPos](const auto& tile){
+            //DrawRectangleRec(half_newPos, BLUE);
+            return CheckCollisionRecs(half_newPos, tile->getBody()) && tile->getZ() == 0;
+            });
+
+    half_newPos = {body.x+(newPos.width), newPos.y+(newPos.height), newPos.width/2, newPos.height/2};
+    auto down_right = std::find_if(getCurrentLevel().tiles.begin(), getCurrentLevel().tiles.end(), [half_newPos](const auto& tile){
+            //DrawRectangleRec(half_newPos, BROWN);
+            return CheckCollisionRecs(half_newPos, tile->getBody()) && tile->getZ() == 0;
+            });
+
+    if(up != getCurrentLevel().tiles.end() && down != getCurrentLevel().tiles.end() && 
+            up_right != getCurrentLevel().tiles.end() && down_right != getCurrentLevel().tiles.end())
+        return !(*up)->HasCollision() && !(*down)->HasCollision() &&
+            !(*up_right)->HasCollision() && !(*down_right)->HasCollision();
     return false;
 }

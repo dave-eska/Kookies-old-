@@ -1,6 +1,5 @@
 #include"player.h"
 
-#include <cmath>
 #include<raylib.h>
 
 #include<string>
@@ -13,21 +12,17 @@ void Player::move(float dt){
     float inputX = IsKeyDown(KEY_D)-IsKeyDown(KEY_A);
     float inputY = IsKeyDown(KEY_S)-IsKeyDown(KEY_W);
 
-    Vector2 npOffSet = {55, 180};
+    Vector2 npOffSet = {55, 200};
 
-    if(inputX != 0){
-        newPos.x = (body.x + npOffSet.x) + (inputX*speed)*dt;
-        if(isWalkableX(newPos, {body.x+npOffSet.x, body.y+npOffSet.y, body.width, body.height})){
-            body.x = newPos.x - npOffSet.x;
-        }
+    newPos.x = (body.x + npOffSet.x) + (inputX*speed)*dt;
+    if(isWalkableX(newPos, {body.x+npOffSet.x, body.y+npOffSet.y, body.width, body.height})){
+        body.x = newPos.x - npOffSet.x;
     }
 
-    if(inputY != 0){
-        newPos.y = (body.y + npOffSet.y) + (inputY*speed)*dt;
+    newPos.y = (body.y + npOffSet.y) + (inputY*speed)*dt;
 
-        if(isWalkableY(newPos, {body.x+npOffSet.x, body.y+npOffSet.y, body.width, body.height})){
-            body.y = newPos.y - npOffSet.y;;
-        }
+    if(isWalkableY(newPos, {body.x+npOffSet.x, body.y+npOffSet.y, body.width, body.height})){
+        body.y = newPos.y - npOffSet.y;;
     }
 
     if(inputX==1) direction=DIRECTION_RIGHT;
@@ -225,8 +220,7 @@ Player::Player(Rectangle body, int speed, const char* texture_path, Rectangle se
 
     newPos = body;
     newPos.width /= 2;
-    newPos.height /= 2;
-    newPos.height -= 40;
+    newPos.height = TILE_SIZE;
 }
 
 Player::Player(){
