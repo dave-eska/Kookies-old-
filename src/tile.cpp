@@ -100,44 +100,40 @@ Tile::Tile(int id, Vector2 pos, int z_level){
     std::vector<std::string> file_names=getAllFileNamesInDirectory("res/items/");
     Json::Reader jsonreader;
 
-    for(auto &e:file_names){
-        std::ifstream file("res/items/"+e);
-        Json::Value jsonvalue;
-        jsonreader.parse(file, jsonvalue);
+    std::ifstream file("res/items/items.json");
+    Json::Value jsonvalue;
+    jsonreader.parse(file, jsonvalue);
 
-        //Cheecking if id is the same
-        if(jsonvalue["id"].asInt()==id){
-            body = {
-                pos.x,
-                pos.y,
-                TILE_SIZE,
-                TILE_SIZE
-            };
-            this->z_level=z_level;
-            this->name = jsonvalue["name"].asString();
-            this->id = jsonvalue["id"].asInt();
-            this->type = jsonvalue["type"].asString();
-            this->hasAnimation = jsonvalue["animation"].asBool();
+    //Cheecking if id is the same
+    body = {
+        pos.x,
+        pos.y,
+        TILE_SIZE,
+        TILE_SIZE
+    };
+    this->z_level=z_level;
+    this->name = jsonvalue["name"].asString();
+    this->id = jsonvalue["id"].asInt();
+    this->type = jsonvalue["type"].asString();
+    this->hasAnimation = jsonvalue["animation"].asBool();
 
-            if(jsonvalue.isMember("collision"))
-                this->collision = jsonvalue["collision"].asBool();
-            else
-                this->collision = false;
+    if(jsonvalue.isMember("collision"))
+        this->collision = jsonvalue["collision"].asBool();
+    else
+        this->collision = false;
 
-            if(jsonvalue.isMember("seed")){
-                this->fruitID = jsonvalue["seed"].asInt();
-            }
+    if(jsonvalue.isMember("seed")){
+        this->fruitID = jsonvalue["seed"].asInt();
+    }
 
-            this->filename = "res/items/"+e;
+    this->filename = "res/items/items.json";
 
-            if(jsonvalue.isMember("texture")){
-                texture=LoadTexture(jsonvalue["texture"].asString().c_str());
-            }else{
-                int probability=GetRandomValue(1,2);
-                if(probability==1) texture=LoadTexture(jsonvalue["texture1"].asString().c_str());
-                if(probability==2) texture=LoadTexture(jsonvalue["texture2"].asString().c_str());
-            }
-        }
+    if(jsonvalue.isMember("texture")){
+        texture=LoadTexture(jsonvalue["texture"].asString().c_str());
+    }else{
+        int probability=GetRandomValue(1,2);
+        if(probability==1) texture=LoadTexture(jsonvalue["texture1"].asString().c_str());
+        if(probability==2) texture=LoadTexture(jsonvalue["texture2"].asString().c_str());
     }
 
     Rectangle animRect[TOTAL_ANIM_FRAME]={
