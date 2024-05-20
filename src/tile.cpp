@@ -1,6 +1,5 @@
 #include"tile.h"
 
-#include <iostream>
 #include<vector>
 #include<fstream>
 #include<string>
@@ -12,8 +11,6 @@
 
 #include"animation.h"
 
-#include"global_func.h"
-
 bool compareTiles(Tile& tile1, Tile& tile2){
     return tile1.getZ() < tile2.getZ();
 }
@@ -23,12 +20,12 @@ InventoryItem Tile::asItem(int total_count){
 
     Json::Reader jsonreader;
 
-    std::ifstream file(filename);
+    std::ifstream file("res/yes.json");
     Json::Value jsonvalue;
     jsonreader.parse(file, jsonvalue);
 
-    if(jsonvalue.isMember("recipe")){
-        const Json::Value recipeArray = jsonvalue["recipe"];
+    if(jsonvalue[id].isMember("recipe")){
+        const Json::Value recipeArray = jsonvalue[id]["recipe"];
 
         // Iterate through the JSON array and populate the vector
         for (const auto& elem : recipeArray) {
