@@ -1,195 +1,136 @@
 [
-    //Air
     {
         "name": "air",
-        //"texture": "res/img/air.png",
-
         "type": "Block",
-        "collision": false,
+        "collision": false
     },
-
-    //Full blocks
     {
         "name": "grass",
         "texture1": "res/img/grass1.png",
         "texture2": "res/img/grass2.png",
-
         "type": "Block",
-        "collision": false,
+        "collision": false
     },
-
     {
         "name": "farmland",
         "texture": "res/img/farmland.png",
-
-        "type": "Special",
+        "type": "Special"
     },
-
     {
         "name": "brick_wall",
         "texture": "res/img/brick_wall.png",
-
         "type": "Block",
-        "collision": true,
+        "collision": true
     },
-
     {
         "name": "floor",
         "texture": "res/img/floor.png",
-
         "type": "Decorations",
-        "collision": true,
+        "collision": true
     },
-
-    //Decorations
     {
         "name": "dorrUp",
         "texture": "res/img/doorUp.png",
-
-        "type": "Block",
+        "type": "Block"
     },
-
     {
         "name": "dorrDown",
         "texture": "res/img/doorDown.png",
-
-        "type": "Block",
+        "type": "Block"
     },
-
-    //Interactable
     {
         "name": "chest",
         "texture": "res/img/chest.png",
         "animation": true,
-
-        "type": "Item",
+        "type": "Item"
     },
-
     {
         "name": "crafting_table",
         "texture": "res/img/crafting_table.png",
-
         "type": "Block",
-
         "id": 8
     },
-
-    //Specials
     {
         "name": "transitionarea",
-        //"texture": "res/img/air.png",
-
-        "type": "Special",
+        "type": "Special"
     },
-
     {
         "name": "itemarea",
-        //"texture": "res/img/air.png",
-
-        "type": "Special",
+        "type": "Special"
     },
-
     {
         "name": "placearea",
         "texture": "res/img/PlaceableArea.png",
-
         "type": "Special",
-        "collision": false,
+        "collision": false
     },
-
-    //Foods
     {
         "name": "chocolate",
         "texture": "res/img/chocolate.png",
-
         "type": "Item",
-
-        "recipe": [[17, 1], [15, 3]],
+        "recipe": [[17, 1], [15, 3]]
     },
-
     {
         "name": "chocolateCake",
         "texture": "res/img/chocolate_cake.png",
-
         "type": "Item",
-
-        "recipe": [[12, 4], [14, 1]],
+        "recipe": [[12, 4], [14, 1]]
     },
-
     {
         "name": "cherry",
         "texture": "res/img/cherry.png",
-
-        "type": "Item",
+        "type": "Item"
     },
-
     {
         "name": "milk",
         "texture": "res/img/milk.png",
-
-        "type": "Item",
+        "type": "Item"
     },
-
     {
         "name": "cookie",
         "texture": "res/img/cookie.png",
-
         "type": "Item",
-
-        "recipe": [[12, 2], [15, 2]],
+        "recipe": [[12, 2], [15, 2]]
     },
-
     {
         "name": "Cocoa Beans",
         "texture": "res/img/cocoa_beans.png",
-
-        "type": "Item",
+        "type": "Item"
     },
-
-    //Baf Of Seeds
     {
         "name": "Empty Bag",
         "texture": "res/img/empty_bag.png",
-
-        "type": "Item",
+        "type": "Item"
     },
-
     {
         "name": "Bag Of Cherry",
         "texture": "res/img/bag_of_cherrySeed.png",
-
         "type": "BagOfSeed",
-
         "recipe": [[18, 1], [14, 1]],
-
-        "seed": 21,
+        "seed": 21
     },
-
     {
         "name": "Bag Of Cocoa Beans",
         "texture": "res/img/bag_of_cocoa_beans.png",
-
         "type": "BagOfSeed",
-
         "recipe": [[18, 1], [17, 1]],
-
-        "seed": 22,
+        "seed": 22
     },
-
-    //Seeds
     {
         "name": "cherrySeeds",
-        "textures": ["res/img/cherry_seeds.png", "res/img/cherry_seeds2.png", "res/img/cherry_seeds3.png", "res/img/cherry_seeds4.png", "res/img/cherry_seeds5.png"],
-
+        "textures": [
+            "res/img/cherry_seeds.png",
+            "res/img/cherry_seeds2.png",
+            "res/img/cherry_seeds3.png",
+            "res/img/cherry_seeds4.png",
+            "res/img/cherry_seeds5.png"
+        ],
         "type": "Seeds",
-
-        "fruitID": 14,
+        "fruitID": 14
     },
-
     {
         "name": "Cocoa Bean Seeds",
         "texture": "res/img/cocoa_bean_seeds.png",
-
-        "type": "Seeds",
-    },
+        "type": "Seeds"
+    }
 ]
