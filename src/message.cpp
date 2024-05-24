@@ -76,7 +76,6 @@ void Message::respond(){
     }
 }
 
-
 void Message::Draw(){
     DrawTextureEx(texture, {body.x, body.y}, 0, 7, WHITE);
     if(isDrawingDarkButton) DrawRectangleV(dark_button_pos, {button_dark_body.width, button_dark_body.height}, {66, 20, 13, 255});

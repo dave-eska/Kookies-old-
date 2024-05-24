@@ -169,7 +169,11 @@ static void UpdateTiles(){
 static void drawInCamMode(){
     for(auto& tile : level.tiles){
         tile->Draw(isDebugging);
+        if(tile->HasCollision() && isDebugging)
+            DrawRectangleRec(tile->getBody(), {255,255,255,50});
     }
+    for(auto& tile : level.tiles)
+        if(tile->HasCollision() && isDebugging) DrawRectangleRec(tile->getBody(), {255,255,255,50});
 
     for(auto& entity:entities)
         if(entity->getLevelName() == level.level_name) entity->Draw();
@@ -179,6 +183,9 @@ static void drawInCamMode(){
 }
 
 void InitGameplayScreen(){
+    isDebugging = false;
+    isTyping = false;
+
     player = Player(
             /*Body*/{100,200,18*9, 35*9},
             /*Speed*/500,

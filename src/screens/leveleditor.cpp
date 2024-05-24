@@ -1,14 +1,14 @@
 #include "screens.h"
 
 #include <algorithm>
-#include <iostream>
 #include <memory>
 #include <string>
 #include <unistd.h>
+#include <unordered_set>
 
 #include <raylib.h>
+#include <raygui.h>
 #include <raymath.h>
-#include <unordered_set>
 
 #include "global_func.h"
 #include "tiling_util.h"
@@ -419,6 +419,12 @@ void DrawLevelEditorScreen(){
 
     std::string zStr = "Current Layer: " + std::to_string(selectedTileZ+1);
     DrawTextEx(font, zStr.c_str(), {20, 240}, font_size, 0, WHITE);
+
+
+    // Draw Save button
+    if(GuiButton((Rectangle){ (float)GetScreenWidth() - 100, (float)GetScreenHeight() - 50, 80, 30 }, "Save")){
+        savingCode();
+    }
 
     for(auto e:texts) e.Draw();
 

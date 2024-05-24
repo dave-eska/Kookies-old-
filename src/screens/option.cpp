@@ -52,12 +52,6 @@ void DrawOptionsScreen(){
     // Draw slider
     GuiSlider({ box.x + 20, box.y + 40, 260, 20 }, "0.1f", "3.0f", &cameraZoom, 0.1f, 3.0f);
 
-    // Draw Save button
-    if (GuiButton((Rectangle){ (float)GetScreenWidth() - 100, (float)GetScreenHeight() - 50, 80, 30 }, "Save"))
-    {
-        SaveConfigToJson();
-    }
-
     //! Player Display Name
     box = { 10, 100, 320, 30 };
     DrawRectangleRec(box, GRAY);
@@ -68,6 +62,12 @@ void DrawOptionsScreen(){
     // Draw slider
     if(GuiTextBox({ box.x + 170, box.y, 150, 30 }, plr_display_name, 10, isEditingPDN)){
         isEditingPDN = !isEditingPDN;
+    }
+
+    // Draw Save button
+    if (GuiButton((Rectangle){ (float)GetScreenWidth() - 100, (float)GetScreenHeight() - 50, 80, 30 }, "Save"))
+    {
+        SaveConfigToJson();
     }
 }
 
