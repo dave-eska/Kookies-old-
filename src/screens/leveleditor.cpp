@@ -44,9 +44,6 @@ static std::string prev_user_input;
 static int currentTileID;
 static Texture2D currentTileTexture;
 
-static bool is_debugging;
-static bool is_typing;
-
 static int font_size;
 
 // Function to perform fill operation
@@ -116,7 +113,7 @@ static void typingCode(){
 
             if(command == "/reset") InitLevelEditorScreen();
             else if(command == "/clear") texts.clear();
-            else if(command == "/debug") is_debugging = !is_debugging;
+            else if(command == "/debug") isDebugging = !isDebugging;
             else if(command == "/save") savingCode();
 
             else if(command == "/load"){
@@ -162,7 +159,7 @@ static void typingCode(){
         last_input = user_input;
         prev_user_input.clear();
         user_input.clear();
-        is_typing = false;
+        isTyping = false;
     }
     for(auto &text:texts) text.Update();
 }
@@ -193,8 +190,7 @@ static void InteractWithTile(){
 }
 
 void InitLevelEditorScreen(){
-    is_debugging = true;
-    is_typing = false;
+    isDebugging = true;
 
     currentTileID = Brickwall_Tile;
     currentTileTexture = Tile(currentTileID, {0,0}, 0).getTexture();
@@ -271,9 +267,9 @@ void UpdateLevelEditorScreen(){
         }
     }
 
-    if(is_typing) typingCode();
+    if(isTyping) typingCode();
 
-    if(!is_typing){
+    if(!isTyping){
         float inputX = IsKeyDown(KEY_D)-IsKeyDown(KEY_A);
         float inputY = IsKeyDown(KEY_S)-IsKeyDown(KEY_W);
 
@@ -310,7 +306,7 @@ void UpdateLevelEditorScreen(){
         if(IsKeyPressed(KEY_RIGHT)) current_mode++;
 
         if(IsKeyPressed(KEY_SLASH)){
-            is_typing = true;
+            isTyping = true;
         }
 
         if(has_selected_tile && current_mode == Mode_One_Select) InteractWithTile();
@@ -390,7 +386,7 @@ void DrawLevelEditorScreen(){
     BeginMode2D(camera);
 
     for(auto& tile : level.tiles){
-        tile->Draw(is_debugging);
+        tile->Draw(isDebugging);
     }
 
     if(has_selected_tile && current_mode == Mode_One_Select) 
@@ -426,7 +422,7 @@ void DrawLevelEditorScreen(){
 
     for(auto e:texts) e.Draw();
 
-    if(is_typing){
+    if(isTyping){
         DrawRectangleRec({30,(float)GetScreenHeight()-50,500,35}, {20,20,20,130});
         DrawText(user_input.c_str(), 30, (float)GetScreenHeight()-50, 35, WHITE);
     }

@@ -132,5 +132,15 @@
         "name": "Cocoa Bean Seeds",
         "texture": "res/img/cocoa_bean_seeds.png",
         "type": "Seeds"
+    },
+    {
+        "name": "Pickaxe",
+        "texture": "res/img/pickaxe.png",
+        "type": "Tools"
+    },
+    {
+        "name": "Effect Book (Empty)",
+        "texture": "res/img/effect_book.png",
+        "type": "Book"
     }
 ]

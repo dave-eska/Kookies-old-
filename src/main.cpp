@@ -1,4 +1,9 @@
+#include <fstream>
+
 #include<raylib.h>
+
+#include <json/json.h>
+#include <json/reader.h>
 
 #include"screens.h"    // NOTE: Declares global (extern) variables and screens functions
 
@@ -61,14 +66,18 @@ int main(void){
 
     // Load global data (assets that must be available in all screens, i.e. font)
     font = LoadFont("res/fonts/Minecraft.ttf");
-    //music = LoadMusicStream("resources/ambient.ogg");
-    //fxCoin = LoadSound("resources/coin.wav");
+
+    isDebugging = false;
+    isTyping = false;
+
+    Json::Reader jsonreader;
+
+    std::ifstream file("config.json");
+    jsonreader.parse(file, config);
 
     // Setup and init first screen
     currentScreen = TITLE;
     InitTitleScreen();
-
-    ToggleFullscreen();
 
     SetExitKey(KEY_NULL);
     //SetTargetFPS(60);       // Set our game to run at 60 frames-per-second

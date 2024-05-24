@@ -134,5 +134,9 @@ enum TileID {
     Cherryseeds_Tile = 21,
     Cocoabeansseed_Tile,
 
+    Pickaxe_Tile = 23,
+
+    Effectbook_Tile = 24,
+
     MaxTileID
 };

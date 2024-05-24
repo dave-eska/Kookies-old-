@@ -23,7 +23,7 @@ InventoryItem Inventory::getItemIdFromSlot(int slot){
     return items[slot];
 }
 
-InventoryItem Inventory::getItemFromCurrentSot(){
+InventoryItem Inventory::getItemFromCurrentSlot(){
     return items[current_slot];
 }
 
@@ -46,6 +46,14 @@ int Inventory::getFirstEmptySlot(){
             return item.tileID == targetId;
             });
     return it->item_invslot;
+}
+
+bool Inventory::hasType(std::string type){
+    auto it = std::find_if(items.begin(), items.end(),
+            [type](const InventoryItem& item) {
+            return item.item_type == type;
+            });
+    return it != items.end();
 }
 
 bool Inventory::has(int id){
@@ -190,8 +198,8 @@ void Inventory::Draw(Camera2D& camera){
     }
 
     DrawTextureEx(SelectOutline_texture, {(float)current_slot*OUTLINE_SIZE+pos.x, pos.y}, 0, 2, {255,255,255,outline_transparancy});
-    if(!timerDone(&drawingNameTimer) && getItemFromCurrentSot().item_name!="air")
-        DrawText(getItemFromCurrentSot().item_name.c_str(), current_slot*OUTLINE_SIZE+pos.x, OUTLINE_SIZE+pos.y, 40, BLACK);
+    if(!timerDone(&drawingNameTimer) && getItemFromCurrentSlot().item_name!="air")
+        DrawText(getItemFromCurrentSlot().item_name.c_str(), current_slot*OUTLINE_SIZE+pos.x, OUTLINE_SIZE+pos.y, 40, BLACK);
 
     if(isDrawingUI){
         for(int i=0;i<5;i++){

@@ -1,5 +1,6 @@
 #include"player.h"
 
+#include <iostream>
 #include<raylib.h>
 
 #include<string>
@@ -93,11 +94,24 @@ void Player::toggleInvenCrafting(){
     inv.toggleCrafting();
 }
 
-void Player::Draw(bool isDebuggin){
+void Player::Draw(bool isDebuggin, Camera2D& camera){
     animate();
     DrawRectangleV({(body.x-(float)display_name.size()+20)-60, body.y-40}, {(float)display_name.size()*30+40,45}, {50,50,50,100});
     DrawText(display_name.c_str(), (body.x+35)-60, body.y-40, 50, BLACK);
 
+    if(inv.getItemFromCurrentSlot().item_type == "Tools"){
+        int flip = 1;
+        if(GetMouseX() > body.x+body.width) flip = 1;
+        if(direction == DIRECTION_LEFT) flip = -1;
+        Rectangle dest = {
+            GetScreenToWorld2D(GetMousePosition(), camera).x,
+            GetScreenToWorld2D(GetMousePosition(), camera).y,
+            32 * 3,
+            32 * 3
+        };
+        DrawTexturePro(newItem(inv.getItemFromCurrentSlot().tileID).iconTexture, 
+                {0, 0, (float)32*flip, 32}, dest, {32, 32}, 80, WHITE);
+    }
 
     if(isDebuggin) {
         DrawRectangleRec(selectArea, {150,150,150,100});
@@ -125,7 +139,7 @@ int Player::getCurrentInvCraftAbleID(){
 }
 
 int Player::getCurrentInvIDSlot(){
-    return inv.getItemFromCurrentSot().tileID;
+    return inv.getItemFromCurrentSlot().tileID;
 }
 
 void Player::decreaseItemInv(int slot){
@@ -145,7 +159,6 @@ Player::Player(Rectangle body, int speed, const char* texture_path, Rectangle se
         std::string display_name)
 :body{body}, selectArea{selectArea}, collisionArea{collisionBody}, default_speed{speed}, display_name{display_name}, speed{speed}{
     texture=LoadTexture(texture_path);
-
     inv = Inventory(inventory_pos, slots, 
             LoadTexture(inventory_texture.c_str()), LoadTexture(inventory_selecting_texture.c_str()), 
             LoadTexture(extra_inv_texture.c_str()), LoadTexture(crafting_menu_texture.c_str()));

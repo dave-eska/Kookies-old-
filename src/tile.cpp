@@ -28,7 +28,7 @@ InventoryItem Tile::asItem(int total_count){
         const Json::Value recipeArray = jsonvalue[id]["recipe"];
 
         // Iterate through the JSON array and populate the vector
-        for (const auto& elem : recipeArray) {
+        for(const auto& elem : recipeArray) {
             RecipeItem arr;
             arr.id = elem[0].asInt();
             arr.count = elem[1].asInt();

@@ -1,4 +1,5 @@
 #include<algorithm>
+#include <iostream>
 #include <sys/types.h>
 #include<vector>
 #include<string>
@@ -23,8 +24,6 @@
 
 #define INTERACT_KEY KEY_I
 
-static bool is_debugging=false;
-static bool isTyping=false;
 static int finish_screen=0;
 
 static Player player;
@@ -90,7 +89,7 @@ static void typingCode(){
             else if(command ==  "/clear")
                 texts.clear();
             else if(command == "/debug")
-                is_debugging = !is_debugging;
+                isDebugging = !isDebugging;
             else if(command == "/tell"){
                 if(getSecondWord(user_input) == "player.pos"){
                     typeInChat("X: " + std::to_string(player.getBody().x));
@@ -168,13 +167,13 @@ static void UpdateTiles(){
 
 static void drawInCamMode(){
     for(auto& tile : level.tiles)
-        tile->Draw(is_debugging);
+        tile->Draw(isDebugging);
 
 
     for(auto& entity:entities)
         if(entity->getLevelName() == level.level_name) entity->Draw();
 
-    player.Draw(is_debugging);
+    player.Draw(isDebugging, camera);
     if(!isTyping) player.move(GetFrameTime());
 }
 
@@ -202,7 +201,8 @@ void InitGameplayScreen(){
     camera.target = { player.getBody().x + 18*7, player.getBody().y + 35*7 };
     camera.offset = { GetScreenWidth()/2.0f, GetScreenHeight()/2.0f };
     camera.rotation = 0.0f;
-    camera.zoom = 0.6;
+    std::cout<<config["camera_zoom"].asFloat()<<std::endl;
+    camera.zoom = config["camera_zoom"].asFloat();
 
     commands = {
         "/tell",
@@ -213,7 +213,7 @@ void InitGameplayScreen(){
         "/load"
     };
 
-    player.addItemInv(newItem(Bagofcherry_Tile, 10));
+    player.addItemInv(newItem(Pickaxe_Tile, 10));
     entities.push_back(std::make_unique<Cat>(Cat({100,70}, player)));
 }
 
@@ -261,7 +261,7 @@ void DrawGameplayScreen(){
         DrawText(user_input.c_str(), 30, (float)GetScreenHeight()-50, 35, BLACK);
     }
 
-    if(is_debugging)
+    if(isDebugging)
         drawDebugInfo();
 }
 

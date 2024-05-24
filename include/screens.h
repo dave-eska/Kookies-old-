@@ -3,8 +3,11 @@
 //--------------------------------------------------------------------------------//
 // Global Include Files (used by multiple source files)
 //--------------------------------------------------------------------------------//
+#include <raylib.h>
+
+#include <json/json.h>
+
 #include "chat.h"
-#include<raylib.h>
 
 //--------------------------------------------------------------------------------//
 // Types and Structures Definition
@@ -16,8 +19,11 @@ typedef enum GameScreen { UNKNOWN, TITLE, OPTIONS, GAMEPLAY, LEVELEDITOR } GameS
 //--------------------------------------------------------------------------------//
 extern GameScreen currentScreen;
 extern Font font;
-extern Music music;
-extern Sound fxCoin;
+
+inline Json::Value config;
+
+inline bool isDebugging;
+inline bool isTyping;
 
 inline std::vector<ChatText> texts;
 

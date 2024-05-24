@@ -38,7 +38,7 @@ class Inventory{
     public:
         //Getters;
         InventoryItem getItemIdFromSlot(int slot);
-        InventoryItem getItemFromCurrentSot();
+        InventoryItem getItemFromCurrentSlot();
 
         int getSlotWithItem(int id);
         int getCurrentSlot(){return current_slot;}
@@ -48,6 +48,8 @@ class Inventory{
         bool getIsCrafting(){return isCrafting;}
 
         void printItems();
+
+        bool hasType(std::string type);
 
         bool has(int id);
         bool has(RecipeItem item_data);

@@ -1,6 +1,5 @@
 #include"seed.h"
 
-#include <iostream>
 #include<raylib.h>
 
 #include<fstream>
@@ -27,15 +26,17 @@ void SeedTile::Update(){
 }
 
 std::string SeedTile::Interact(){
-    if(state == MAX_STATE){
-        getPlayer().addItemInv(newItem(fruitID, 1));
-        hasBeenHarved = true;
-        typeInChat("Taken Some Cherries");
-    }
+    if(getPlayer().getCurrentInvIDSlot() == Pickaxe_Tile){
+        if(state == MAX_STATE){
+            getPlayer().addItemInv(newItem(fruitID, 1));
+            hasBeenHarved = true;
+            typeInChat("Taken Some Cherries");
+        }
 
-    if(hasBeenHarved){
-        std::string tile_return_code = "x001 " + std::to_string(slot);
-        return tile_return_code;
+        if(hasBeenHarved){
+            std::string tile_return_code = "x001 " + std::to_string(slot);
+            return tile_return_code;
+        }
     }
 
     return "";

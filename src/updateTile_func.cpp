@@ -3,8 +3,6 @@
 #include "seed.h"
 #include "tile.h"
 #include <algorithm>
-#include <iostream>
-#include <ostream>
 #include <vector>
 
 void TileUpdateFunction::Interact(std::unique_ptr<Tile>& tile, std::string& tile_interect_return_code){
@@ -49,7 +47,7 @@ void TileUpdateFunction::PlaceItem(std::unique_ptr<Tile>& tile, Level& level){
 }
 
 void TileUpdateFunction::PlantSeed(std::unique_ptr<Tile>& tile, Level& level){
-    if(tile->getID() == Farmland_Tile && tile->getIsTouchinSelectAreaPlayer() && getPlayer().getInv().getItemFromCurrentSot().item_type == "BagOfSeed"){
+    if(tile->getID() == Farmland_Tile && tile->getIsTouchinSelectAreaPlayer() && getPlayer().getInv().getItemFromCurrentSlot().item_type == "BagOfSeed"){
         if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) && tile->getIsTouchingMouse()){
             Vector2 belowPos = {tile->getBody().x, tile->getBody().y};
             int below_z = tile->getZ();

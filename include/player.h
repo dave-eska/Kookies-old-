@@ -36,11 +36,6 @@ class Player{
 
         //Debug variable
         bool isToucingItem;
-
-        void takeItem();
-        void placeItem();
-        void interactWithItem();
-
     public:
         //Getter
         Rectangle getBody(){return body;}
@@ -77,7 +72,7 @@ class Player{
 
         void UpdateInventory();
 
-        void Draw(bool isDebuggin);
+        void Draw(bool isDebuggin, Camera2D& camera);
         void InventoryDraw(Camera2D& camera);
 
         Player();
