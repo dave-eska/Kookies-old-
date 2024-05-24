@@ -3,7 +3,7 @@
 Entity::Entity(){
 }
 
-void Entity::Update(Player& plr){
+void Entity::Update(Player& plr, Camera2D& camera){
 }
 
 void Entity::Draw(){

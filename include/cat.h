@@ -12,7 +12,7 @@ class Cat: public Entity{
         bool isFollowing;
         Vector2 pos_diff;
     public:
-        void Update(Player& plr) override;
+        void Update(Player& plr, Camera2D& camera) override;
         void Draw() override;
         
         Cat();

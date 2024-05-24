@@ -243,7 +243,7 @@ void UpdateGameplayScreen(){
         typingCode();
 
     for(auto& entity:entities)
-        if(entity->getLevelName() == level.level_name) entity->Update(player);
+        if(entity->getLevelName() == level.level_name) entity->Update(player, camera);
 
     UpdateTiles();
 

@@ -24,7 +24,7 @@ Cat::Cat(Vector2 max_diff_pos, Player& player, std::string levelName){
     this->levelName = levelName;
 }
 
-void Cat::Update(Player& plr){
+void Cat::Update(Player& plr, Camera2D& camera){
     if(body.x > plr.getBody().x + plr.getBody().width + pos_diff.x)
         body.x -= speed * GetFrameTime();
     else if(body.x + body.width < plr.getBody().x - pos_diff.x)

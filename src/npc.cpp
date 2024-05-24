@@ -2,9 +2,9 @@
 #include "raylib.h"
 #include <string>
 
-void NPC::Update(Player& plr){
+void NPC::Update(Player& plr, Camera2D& camera){
     if(CheckCollisionRecs(body, plr.getBody())){
-        if(IsKeyPressed(KEY_I)){
+        if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) && CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), body)){
             if(conv.hasFinised()){
                 conv.restart();
             }

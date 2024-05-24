@@ -13,7 +13,7 @@ class NPC: public Entity{
         Conversation conv;
         bool isTalking;
     public:
-        void Update(Player& plr) override;
+        void Update(Player& plr, Camera2D& camera) override;
         void Draw() override;
 
         void Draw_UI() override;

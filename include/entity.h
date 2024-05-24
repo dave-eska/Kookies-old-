@@ -13,7 +13,7 @@ class Entity{
         Texture2D texture;
         std::string levelName;
     public:
-        virtual void Update(Player& plr);
+        virtual void Update(Player& plr, Camera2D& camera);
         virtual void Draw();
 
         virtual void Draw_UI();

@@ -62,7 +62,7 @@ int main(void){
     SetTraceLogLevel(LOG_NONE);
     //SetConfigFlags(FLAG_WINDOW_RESIZABLE);
 
-    InitWindow(screenWidth, screenHeight, "Kookies 0.1");
+    InitWindow(screenWidth, screenHeight, "Kookies");
 
     InitAudioDevice();      // Initialize audio device
                             //
