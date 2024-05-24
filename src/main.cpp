@@ -1,6 +1,8 @@
 #include <fstream>
 
-#include<raylib.h>
+#include <iostream>
+#include <raylib.h>
+#include <raygui.h>
 
 #include <json/json.h>
 #include <json/reader.h>
@@ -50,6 +52,12 @@ static void UpdateDrawFrame(void);          // Update and draw one frame
 //----------------------------------------------------------------------------------
 int main(void){
     // Initialization
+
+    Json::Reader jsonreader;
+
+    std::ifstream file("config.json");
+    jsonreader.parse(file, config);
+
     //---------------------------------------------------------
     SetTraceLogLevel(LOG_NONE);
     //SetConfigFlags(FLAG_WINDOW_RESIZABLE);
@@ -65,15 +73,12 @@ int main(void){
     SetWindowIcon(icon);
 
     // Load global data (assets that must be available in all screens, i.e. font)
-    font = LoadFont("res/fonts/Minecraft.ttf");
+    std::cout<<config["FontPath"].asString().c_str()<<std::endl;
+    font = LoadFont(config["FontPath"].asString().c_str());
+    GuiSetFont(font);
 
     isDebugging = false;
     isTyping = false;
-
-    Json::Reader jsonreader;
-
-    std::ifstream file("config.json");
-    jsonreader.parse(file, config);
 
     // Setup and init first screen
     currentScreen = TITLE;

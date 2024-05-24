@@ -13,13 +13,17 @@ int finish_screen = 0;
 
 float cameraZoom;
 
-char plr_display_name[10] = "Daveeska";
+char plr_display_name[64] = "Daveeska";
 bool isEditingPDN;
+
+char font_path[128] = "res/fonts/Minecraft.ttf";
+bool isEditingFP;
 
 static void SaveConfigToJson(){
     Json::Value root;
     root["camera_zoom"] = cameraZoom;
     root["DisplayName"] = plr_display_name;
+    root["FontPath"] = font_path;
 
     std::ofstream file_id("config.json");
     file_id << root;
@@ -63,6 +67,19 @@ void DrawOptionsScreen(){
     if(GuiTextBox({ box.x + 170, box.y, 150, 30 }, plr_display_name, 10, isEditingPDN)){
         isEditingPDN = !isEditingPDN;
     }
+
+    //! Font Path
+    box = { 10, 135, 320, 30 };
+    DrawRectangleRec(box, GRAY);
+
+    // Draw "Camera zoom" text
+    DrawText("Font Path = ", box.x + 10, box.y + 5, 20, BLACK);
+
+    // Draw slider
+    if(GuiTextBox({ box.x + 170, box.y, 150, 30 }, font_path, 10, isEditingFP)){
+        isEditingFP = !isEditingFP;
+    }
+
 
     // Draw Save button
     if (GuiButton((Rectangle){ (float)GetScreenWidth() - 100, (float)GetScreenHeight() - 50, 80, 30 }, "Save"))
