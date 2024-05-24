@@ -422,9 +422,11 @@ void DrawLevelEditorScreen(){
 
 
     // Draw Save button
-    if(GuiButton((Rectangle){ (float)GetScreenWidth() - 100, (float)GetScreenHeight() - 50, 80, 30 }, "Save")){
+    if(GuiButton((Rectangle){ (float)GetScreenWidth() - 200, (float)GetScreenHeight() - 50, 80, 30 }, "Re-Load"))
+        level.changeLevel("save.json");
+
+    if(GuiButton((Rectangle){ (float)GetScreenWidth() - 100, (float)GetScreenHeight() - 50, 80, 30 }, "Save"))
         savingCode();
-    }
 
     for(auto e:texts) e.Draw();
 
