@@ -192,7 +192,7 @@ void InitGameplayScreen(){
             /*extra_inv_texture=*/"res/img/Extra_Inven.png",
             /*crafting_menu_texture=*/"res/img/Crafting_UI.png",
 
-            /*display_name=*/"Daveeska"
+            /*display_name=*/config["DisplayName"].asString()
             );
 
     level.changeLevel("res/maps/test.json");
@@ -201,7 +201,6 @@ void InitGameplayScreen(){
     camera.target = { player.getBody().x + 18*7, player.getBody().y + 35*7 };
     camera.offset = { GetScreenWidth()/2.0f, GetScreenHeight()/2.0f };
     camera.rotation = 0.0f;
-    std::cout<<config["camera_zoom"].asFloat()<<std::endl;
     camera.zoom = config["camera_zoom"].asFloat();
 
     commands = {

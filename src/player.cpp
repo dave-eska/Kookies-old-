@@ -101,8 +101,8 @@ void Player::Draw(bool isDebuggin, Camera2D& camera){
 
     if(inv.getItemFromCurrentSlot().item_type == "Tools"){
         int flip = 1;
-        if(GetMouseX() > body.x+body.width) flip = 1;
-        if(direction == DIRECTION_LEFT) flip = -1;
+        if(GetScreenToWorld2D(GetMousePosition(), camera).x > body.x + body.width/2) flip = 1;
+        if(GetScreenToWorld2D(GetMousePosition(), camera).x < body.x + body.width/2) flip = -1;
         Rectangle dest = {
             GetScreenToWorld2D(GetMousePosition(), camera).x,
             GetScreenToWorld2D(GetMousePosition(), camera).y,
@@ -110,7 +110,7 @@ void Player::Draw(bool isDebuggin, Camera2D& camera){
             32 * 3
         };
         DrawTexturePro(newItem(inv.getItemFromCurrentSlot().tileID).iconTexture, 
-                {0, 0, (float)32*flip, 32}, dest, {32, 32}, 80, WHITE);
+                {0, 0, (float)32*flip, 32}, dest, {32, 32}, 80*flip, WHITE);
     }
 
     if(isDebuggin) {

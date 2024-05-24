@@ -2,7 +2,6 @@
 
 #include <fstream>
 
-#include <iostream>
 #include <raylib.h>
 
 #define RAYGUI_IMPLEMENTATION
@@ -14,11 +13,13 @@ int finish_screen = 0;
 
 float cameraZoom;
 
-static void SaveZoomToJson()
-{
+char plr_display_name[10] = "Daveeska";
+bool isEditingPDN;
+
+static void SaveConfigToJson(){
     Json::Value root;
     root["camera_zoom"] = cameraZoom;
-    std::cout<<root["camera_zoom"].asFloat()<<std::endl;
+    root["DisplayName"] = plr_display_name;
 
     std::ofstream file_id("config.json");
     file_id << root;
@@ -39,6 +40,7 @@ void UpdateOptionsScreen(){
 }
 
 void DrawOptionsScreen(){
+    //! Camera Zoom
     // Draw grey box
     Rectangle box = { 10, 10, 285, 30 };
     DrawRectangleRec(box, GRAY);
@@ -53,7 +55,19 @@ void DrawOptionsScreen(){
     // Draw Save button
     if (GuiButton((Rectangle){ (float)GetScreenWidth() - 100, (float)GetScreenHeight() - 50, 80, 30 }, "Save"))
     {
-        SaveZoomToJson();
+        SaveConfigToJson();
+    }
+
+    //! Player Display Name
+    box = { 10, 100, 320, 30 };
+    DrawRectangleRec(box, GRAY);
+
+    // Draw "Camera zoom" text
+    DrawText("Player Name = ", box.x + 10, box.y + 5, 20, BLACK);
+
+    // Draw slider
+    if(GuiTextBox({ box.x + 170, box.y, 150, 30 }, plr_display_name, 10, isEditingPDN)){
+        isEditingPDN = !isEditingPDN;
     }
 }
 
