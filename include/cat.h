@@ -16,6 +16,6 @@ class Cat: public Entity{
         void Draw() override;
         
         Cat();
-        Cat(Vector2 pos);
-        Cat(Vector2 max_diff_pos, Player& player);
+        Cat(Vector2 pos, std::string levelName);
+        Cat(Vector2 max_diff_pos, Player& player, std::string levelName);
 };

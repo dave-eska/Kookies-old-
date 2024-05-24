@@ -7,19 +7,21 @@
 Cat::Cat(){
 }
 
-Cat::Cat(Vector2 pos){
+Cat::Cat(Vector2 pos, std::string levelName){
     body = {pos.x, pos.y, CAT_WIDTH, CAT_HEIGHT};
     speed = 200;
     texture = LoadTexture("res/img/cat.png");
     isFollowing=false;
+    this->levelName = levelName;
 }
 
-Cat::Cat(Vector2 max_diff_pos, Player& player){
+Cat::Cat(Vector2 max_diff_pos, Player& player, std::string levelName){
     body = {max_diff_pos.x, max_diff_pos.y, CAT_WIDTH, CAT_HEIGHT};
     speed = 200;
     texture = LoadTexture("res/img/cat.png");
     isFollowing=true;
     pos_diff = max_diff_pos;
+    this->levelName = levelName;
 }
 
 void Cat::Update(Player& plr){

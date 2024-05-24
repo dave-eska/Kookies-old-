@@ -9,6 +9,7 @@
 
 #include "cat.h"
 #include"item.h"
+#include "npc.h"
 #include"screens.h"
 
 #include"global_func.h"
@@ -166,15 +167,15 @@ static void UpdateTiles(){
 }
 
 static void drawInCamMode(){
-    for(auto& tile : level.tiles)
+    for(auto& tile : level.tiles){
         tile->Draw(isDebugging);
-
+    }
 
     for(auto& entity:entities)
         if(entity->getLevelName() == level.level_name) entity->Draw();
 
     player.Draw(isDebugging, camera);
-    if(!isTyping) player.move(GetFrameTime());
+    
 }
 
 void InitGameplayScreen(){
@@ -212,13 +213,16 @@ void InitGameplayScreen(){
         "/load"
     };
 
-    player.addItemInv(newItem(Pickaxe_Tile, 10));
-    entities.push_back(std::make_unique<Cat>(Cat({100,70}, player)));
+    player.addItemInv(newItem(Hoe_Tile, 1));
+    //entities.push_back(std::make_unique<Cat>(Cat({100,70}, player, "res/maps/test.json")));
+    entities.push_back(std::make_unique<NPC>(NPC("res/maps/test.json", {TILE_SIZE*3, (TILE_SIZE*level.canvas_size.y)-TILE_SIZE*4},
+                "Opening", "opening.json", 7)));
 }
 
 void UpdateGameplayScreen(){
     if(!isTyping){
         camera.target = { player.getBody().x + 18*7, player.getBody().y + 35*7 };
+        player.move(GetFrameTime());
     }
 
     player.UpdateInventory();

@@ -26,7 +26,7 @@ void SeedTile::Update(){
 }
 
 std::string SeedTile::Interact(){
-    if(getPlayer().getCurrentInvIDSlot() == Pickaxe_Tile){
+    if(getPlayer().getCurrentInvIDSlot() == Hoe_Tile){
         if(state == MAX_STATE){
             getPlayer().addItemInv(newItem(fruitID, 1));
             hasBeenHarved = true;
