@@ -8,11 +8,19 @@
 
 * Maps are also defined inside res/maps. ( But I haven't Found A Way To Load Different Maps WIthout Re-Compiling ).
 
+* Entitiy is a base class and is easily extendable (Easy to make new type of entity).
+
 * Tiles:
     
     * Seed Tile -> Can grow, Can be picked up.
 
     * Transition Tile -> Can change the current level.
+
+* Entity:
+
+    * Cat -> Can follow you with x amount of speed
+
+    * NPC -> Have the ability to make conversation with NPC. The text can be edited without re-compiling.
 
 ## Hint For Modders : 
 
