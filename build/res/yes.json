@@ -138,14 +138,4 @@
         "texture": "res/img/effect_book.png",
         "type": "Book"
     },
-    {
-        "name": "Hoe",
-        "texture": "res/img/pickaxe.png",
-        "type": "Tools"
-    },
-    {
-        "name": "Sword",
-        "texture": "res/img/sword.png",
-        "type": "Tools"
-    }
 ]

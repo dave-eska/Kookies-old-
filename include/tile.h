@@ -98,6 +98,7 @@ class Tile{
         //Constructors
         Tile();
         Tile(int id, Vector2 pos, int z_level);
+        Tile(int id);
 
         virtual ~Tile() = default;
 };
@@ -135,9 +136,6 @@ enum TileID {
     Cocoabeansseed_Tile,
 
     Effectbook_Tile = 23,
-
-    Hoe_Tile = 24,
-    Sword_Tile,
 
     MaxTileID
 };

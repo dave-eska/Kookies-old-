@@ -7,6 +7,7 @@
 
 #include"global_func.h"
 #include"inventory.h"
+#include "tool.h"
 
 //Private functions
 void Player::move(float dt){
@@ -99,7 +100,7 @@ void Player::Draw(bool isDebuggin, Camera2D& camera){
     DrawRectangleV({(body.x-(float)display_name.size()+20)-60, body.y-40}, {(float)display_name.size()*30+40,45}, {50,50,50,100});
     DrawText(display_name.c_str(), (body.x+35)-60, body.y-40, 50, BLACK);
 
-    if(inv.getItemFromCurrentSlot().item_type == "Tools"){
+    if(inv.getItemFromCurrentSlot().item_type == "Tool"){
         int flip = 1;
         if(GetScreenToWorld2D(GetMousePosition(), camera).x > body.x + body.width/2) flip = 1;
         if(GetScreenToWorld2D(GetMousePosition(), camera).x < body.x + body.width/2) flip = -1;
@@ -109,8 +110,7 @@ void Player::Draw(bool isDebuggin, Camera2D& camera){
             32 * 3,
             32 * 3
         };
-        DrawTexturePro(newItem(inv.getItemFromCurrentSlot().tileID).iconTexture, 
-                {0, 0, (float)32*flip, 32}, dest, {32, 32}, 80*flip, WHITE);
+        DrawTexturePro(inv.getItemFromCurrentSlot().iconTexture, {0, 0, (float)32*flip, 32}, dest, {32, 32}, 80*flip, WHITE);
     }
 
     if(isDebuggin) {

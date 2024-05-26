@@ -1,0 +1,10 @@
+[
+    {
+        "name": "Hoe",
+        "texture": "res/img/pickaxe.png"
+    },
+    {
+        "name": "Sword",
+        "texture": "res/img/sword.png",
+    }
+]

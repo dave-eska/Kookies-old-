@@ -11,6 +11,7 @@
 
 #include"global_func.h"
 #include "item.h"
+#include "tool.h"
 
 #define GROW_TIME 2.0f
 #define MAX_STATE 4
@@ -26,9 +27,9 @@ void SeedTile::Update(){
 }
 
 std::string SeedTile::Interact(){
-    if(getPlayer().getCurrentInvIDSlot() == Hoe_Tile){
+    if(getPlayer().getCurrentInvIDSlot() == Hoe_Tool && getPlayer().getInv().getItemFromCurrentSlot().item_type == "Tool"){
         if(state == MAX_STATE){
-            getPlayer().addItemInv(newItem(fruitID, 1));
+            getPlayer().addItemInv(newItem<Tile>(fruitID, 1));
             hasBeenHarved = true;
             typeInChat("Taken Some Cherries");
         }

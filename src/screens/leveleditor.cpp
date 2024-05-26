@@ -278,7 +278,7 @@ void UpdateLevelEditorScreen(){
 
         if(IsKeyDown(KEY_LEFT_CONTROL)){
             currentTileID += (GetMouseWheelMove() * 1);
-            if(GetMouseWheelMove() != 0) currentTileTexture = newItem(currentTileID).iconTexture;
+            if(GetMouseWheelMove() != 0) currentTileTexture = newItem<Tile>(currentTileID).iconTexture;
 
             if(IsKeyPressed(KEY_S)){
                 savingCode();

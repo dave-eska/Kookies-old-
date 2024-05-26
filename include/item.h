@@ -23,7 +23,14 @@ struct InventoryItem{
     Texture2D iconTexture{};
 };
 
-InventoryItem newItem(int tileID);
-InventoryItem newItem(int tileID, int count);
+template<typename T>
+InventoryItem newItem(int tileID){
+    return T(tileID).asItem(1);
+}
+
+template<typename T>
+InventoryItem newItem(int tileID, int count){
+    return T(tileID).asItem(count);
+}
 
 void assignInvSlot(InventoryItem& item, int slot);

@@ -21,6 +21,7 @@
 #include"chat.h"
 
 #include"entity.h"
+#include "tool.h"
 #include"updateTile_func.h"
 
 #define INTERACT_KEY KEY_I
@@ -100,7 +101,13 @@ static void typingCode(){
                 }
             }else if(command == "/give"){
                 if(!getSecondWord(user_input).empty()){
-                    player.addItemInv(newItem(stoi(getSecondWord(user_input)), 1));
+                    player.addItemInv(newItem<Tile>(stoi(getSecondWord(user_input)), 1));
+                }else{
+                    typeInChat("Syntax Error: Expected Input Detail.", DARKPURPLE);
+                }
+            }else if(command == "/givet"){
+                if(!getSecondWord(user_input).empty()){
+                    player.addItemInv(newItem<Tool>(stoi(getSecondWord(user_input)), 1));
                 }else{
                     typeInChat("Syntax Error: Expected Input Detail.", DARKPURPLE);
                 }
@@ -217,11 +224,11 @@ void InitGameplayScreen(){
         "/clear",
         "/debug",
         "/give",
+        "/givet",
         "/load"
     };
 
-    player.addItemInv(newItem(Hoe_Tile, 1));
-    //entities.push_back(std::make_unique<Cat>(Cat({100,70}, player, "res/maps/test.json")));
+    player.addItemInv(newItem<Tool>(Sword_Tool, 1));
     entities.push_back(std::make_unique<NPC>(NPC("res/maps/test.json", {TILE_SIZE*3, (TILE_SIZE*level.canvas_size.y)-TILE_SIZE*4},
                 "Opening", "opening.json", 7)));
 }
