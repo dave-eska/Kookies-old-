@@ -77,6 +77,8 @@ int main(void){
     font = LoadFont(config["FontPath"].asString().c_str());
     GuiSetFont(font);
 
+    GuiSetStyle(DEFAULT, TEXT_SIZE, 20);
+
     isDebugging = false;
     isTyping = false;
 
