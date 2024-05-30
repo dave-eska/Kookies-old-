@@ -19,6 +19,8 @@ Tool::Tool(int id):id{id}{
 
     if(id <= jsonvalue.size() && id >= 0){
         name = jsonvalue[id]["name"].asString();
+        type = jsonvalue[id]["type"].asString();
+
         texture = LoadTexture(jsonvalue[id]["texture"].asString().c_str());
     }
 }
@@ -49,6 +51,7 @@ InventoryItem Tool::asItem(int count){
         .tileID=id,
             .item_type="Tool",
             .item_name=name,
+            .filename = "res/tools.json",
             .item_invslot=0,
             .item_count=count,
             .recipe = resep,

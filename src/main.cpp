@@ -60,7 +60,7 @@ int main(void){
 
     //---------------------------------------------------------
     SetTraceLogLevel(LOG_NONE);
-    //SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
 
     InitWindow(screenWidth, screenHeight, "Kookies");
 
@@ -89,6 +89,9 @@ int main(void){
     SetExitKey(KEY_NULL);
     SetTargetFPS(60);       // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
+
+    if(config["fullscreen"].asBool())
+        ToggleFullscreen();
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key

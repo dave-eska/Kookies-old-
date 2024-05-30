@@ -229,6 +229,7 @@ void InitGameplayScreen(){
     };
 
     player.addItemInv(newItem<Tool>(Sword_Tool, 1));
+    entities.push_back(std::make_unique<Cat>(Cat({TILE_SIZE*2, TILE_SIZE*3}, player, "res/maps/test.json")));
     entities.push_back(std::make_unique<NPC>(NPC("res/maps/test.json", {TILE_SIZE*3, (TILE_SIZE*level.canvas_size.y)-TILE_SIZE*4},
                 "Opening", "opening.json", 7)));
 }

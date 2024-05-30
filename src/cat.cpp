@@ -1,4 +1,5 @@
 #include"cat.h"
+#include "global_func.h"
 #include "raylib.h"
 
 #define CAT_WIDTH 26*4
@@ -34,6 +35,13 @@ void Cat::Update(Player& plr, Camera2D& camera){
         body.y += speed * GetFrameTime();
     else if(body.y > plr.getBody().y + plr.getBody().height)
         body.y -= speed * GetFrameTime();
+
+    if(CheckCollisionRecs(body, getPlayer().getSelectArea()) 
+            && getPlayer().getInv().getItemFromCurrentSlot().filename == "res/tools.json"
+            && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+        typeInChat("nigger detected, opiniions + human rights rejected.");
+    }
+
 }
 
 void Cat::Draw(){

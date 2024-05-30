@@ -41,6 +41,7 @@ InventoryItem Tile::asItem(int total_count){
         .tileID=id,
             .item_type=type,
             .item_name=name,
+            .filename = "res/tools.json",
             .item_invslot=0,
             .item_count=total_count,
             .recipe = resep,

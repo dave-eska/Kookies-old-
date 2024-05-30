@@ -15,6 +15,8 @@ struct InventoryItem{
     std::string item_type{};
     std::string item_name{};
 
+    std::string filename{};
+
     int item_invslot{};
     int item_count{};
 

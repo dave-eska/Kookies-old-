@@ -1,13 +1,20 @@
 #pragma once
 
-#include "item.h"
-#include <raylib.h>
 #include <string>
+
+#include <raylib.h>
+
+#include "enchant.h"
+#include "item.h"
 
 class Tool{
     private:
         std::string name;
+        std::string type;
         int id;
+
+        std::vector<Enchant> enchants;
+        int damage;
 
         Texture2D texture;
     public:

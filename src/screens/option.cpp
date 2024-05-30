@@ -19,9 +19,12 @@ bool isEditingPDN;
 char font_path[128] = "res/fonts/Minecraft.ttf";
 bool isEditingFP;
 
+float fullscreenOnLaunch;
+
 static void SaveConfigToJson(){
     Json::Value root;
     root["camera_zoom"] = cameraZoom;
+    root["fullscreen"] = (bool)fullscreenOnLaunch;
     root["DisplayName"] = plr_display_name;
     root["FontPath"] = font_path;
 
@@ -37,6 +40,7 @@ static void SaveConfigToJson(){
 
 void InitOptionsScreen(){
     cameraZoom = 0.6f;
+    fullscreenOnLaunch = 0.6f;
 }
 
 void UpdateOptionsScreen(){
@@ -57,7 +61,7 @@ void DrawOptionsScreen(){
     GuiSlider({ box.x + 20, box.y + 40, 260, 20 }, "0.1f", "3.0f", &cameraZoom, 0.1f, 3.0f);
 
     //! Player Display Name
-    box = { 10, 100, 320, 30 };
+    box = { 10, 75, 320, 30 };
     DrawRectangleRec(box, GRAY);
 
     // Draw "Camera zoom" text
@@ -69,17 +73,26 @@ void DrawOptionsScreen(){
     }
 
     //! Font Path
-    box = { 10, 135, 320, 30 };
+    box = { 10, 100, 320, 30 };
     DrawRectangleRec(box, GRAY);
 
-    // Draw "Camera zoom" text
+    // Draw "Font Path" text
     DrawText("Font Path = ", box.x + 10, box.y + 5, 20, BLACK);
 
     // Draw slider
-    if(GuiTextBox({ box.x + 170, box.y, 150, 30 }, font_path, 10, isEditingFP)){
+    if(GuiTextBox({ box.x + 170, box.y, 150, 30 }, font_path, 128, isEditingFP)){
         isEditingFP = !isEditingFP;
     }
 
+    //! Fullscreen on Launch
+    box = { 10, 135, 320, 30 };
+    DrawRectangleRec(box, GRAY);
+
+    // Draw "Fullscreen on Launch" text
+    DrawText("Fullscreen on Launch = ", box.x + 10, box.y + 5, 20, BLACK);
+    DrawText((fullscreenOnLaunch == true) ? "True" : "False", box.x + 260, box.y + 5, 20, BLACK);
+
+    GuiSlider({ box.x + 20, box.y + 40, 260, 20 }, "False", "True", &fullscreenOnLaunch, 0, 1);
 
     // Draw Save button
     if (GuiButton((Rectangle){ (float)GetScreenWidth() - 100, (float)GetScreenHeight() - 50, 80, 30 }, "Save"))
