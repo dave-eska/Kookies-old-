@@ -144,7 +144,8 @@ std::vector<std::string> tilesToStrings(std::vector<std::unique_ptr<Tile>>& tile
                     layer.push_back(c);
                 if(tileID == "9"){
                     auto transitionTile = dynamic_cast<TransitionTile*>(tiles[i].get());
-                    for(const char& c:transitionTile->getDestination()){
+                    std::string temp  = transitionTile->getDestination();
+                    for(const char& c:temp){
                         if(c=='.') break;
                         layer.push_back(c);
                     }

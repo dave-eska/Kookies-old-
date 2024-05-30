@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.11)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-project(raygui C)
+project(raygui)
 
 # Config options
 option(BUILD_RAYGUI_EXAMPLES "Build the examples." OFF)

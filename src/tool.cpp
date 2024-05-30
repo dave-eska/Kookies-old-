@@ -17,7 +17,7 @@ Tool::Tool(int id):id{id}{
 
     if(!jsonvalue.isArray()) return;
 
-    if(id <= jsonvalue.size()){
+    if(id <= jsonvalue.size() && id >= 0){
         name = jsonvalue[id]["name"].asString();
         texture = LoadTexture(jsonvalue[id]["texture"].asString().c_str());
     }

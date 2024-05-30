@@ -9,7 +9,7 @@
 #include"raylib.h"
 
 void TransitionTile::attachLevel(std::string levelName){
-    this->dest = levelName + ".json";
+    dest = levelName + ".json";
 }
 
 void TransitionTile::Update(){

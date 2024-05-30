@@ -8,7 +8,7 @@
 
 class TransitionTile: public Tile{
     private:
-        std::string dest /*Only being used by `transation` tile*/;
+        std::string dest; /*Only being used by `transation` tile*/
     public:
 
         std::string getDestination(){return dest;} /*Only being used by `transation` tile*/

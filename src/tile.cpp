@@ -105,7 +105,7 @@ Tile::Tile(int id, Vector2 pos, int z_level){
     jsonreader.parse(file, jsonvalue);
 
     if(!jsonvalue.isArray()) return;
-    if(id < jsonvalue.size()){
+    if(id <= jsonvalue.size() && id >= 0){
         name = jsonvalue[id]["name"].asString();
         type = jsonvalue[id]["type"].asString();
         hasAnimation = jsonvalue[id]["animation"].asBool();
@@ -152,7 +152,7 @@ Tile::Tile(int id){
     jsonreader.parse(file, jsonvalue);
 
     if(!jsonvalue.isArray()) return;
-    if(id < jsonvalue.size()){
+    if(id <= jsonvalue.size() && id >= 0){
         name = jsonvalue[id]["name"].asString();
         type = jsonvalue[id]["type"].asString();
         hasAnimation = jsonvalue[id]["animation"].asBool();
