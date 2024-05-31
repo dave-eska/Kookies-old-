@@ -1,13 +1,13 @@
 [
     {
         "name": "Stone Hoe",
-        "texture": "res/img/pickaxe.png",
+        "texture": "res/img/tools/hoe.png",
         "damage": 3,
         "type": "Hoe"
     },
     {
         "name": "Frostreon Sword",
-        "texture": "res/img/sword.png",
+        "texture": "res/img/tools/sword.png",
         "damage": 17,
         "type": "Hoe"
     }

@@ -284,6 +284,10 @@ void DrawGameplayScreen(){
 }
 
 void UnloadGameplayScreen(){
+    level.tiles.clear();
+    level.level_name.clear();
+
+    entities.clear();
 }
 
 void ResetGameplayFinishScreen(){

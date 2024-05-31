@@ -2,28 +2,12 @@
 
 #include <raylib.h>
 
-#define CAT_WIDTH 26*4
-#define CAT_HEIGHT 29*4
-
 #define REDBOX_TIMER 0.5f
 
 Cat::Cat(){
 }
 
-/*
-Cat::Cat(Vector2 pos, std::string levelName){
-    body = {pos.x, pos.y, CAT_WIDTH, CAT_HEIGHT};
-    speed = 200;
-    texture = LoadTexture("res/img/cat.png");
-    isFollowing=false;
-    this->levelName = levelName;
-}
-*/
-
 Cat::Cat(Vector2 max_diff_pos, Player& player, std::string levelName){
-    body = {max_diff_pos.x, max_diff_pos.y, CAT_WIDTH, CAT_HEIGHT};
-    pos_diff = max_diff_pos;
-
     speed = 200;
     isFollowing = true;
 
@@ -33,18 +17,42 @@ Cat::Cat(Vector2 max_diff_pos, Player& player, std::string levelName){
 
     texture = LoadTexture("res/img/cat.png");
     this->levelName = levelName;
+
+    body = {max_diff_pos.x, max_diff_pos.y, (float)texture.width/3, (float)texture.height};
+    pos_diff = max_diff_pos;
+
+    Rectangle walkingRect[] = {
+        {body.width, 0, body.width, body.height},
+        {body.width*2, 0, body.width, body.height}};
+
+    Rectangle idleRect[] = {
+        {0, 0, body.width, body.height},
+    };
+
+    animation = CreateSpriteAnimation(texture, 4, walkingRect, 2);
+    idle = CreateSpriteAnimation(texture, 4, idleRect, 1);
+    isPlayingAnimation = false;
 }
 
 void Cat::Update(Player& plr, Camera2D& camera){
-    if(body.x > plr.getBody().x + plr.getBody().width + pos_diff.x)
+    isPlayingAnimation = false;
+    if(body.x > plr.getBody().x + plr.getBody().width + pos_diff.x){
         body.x -= speed * GetFrameTime();
-    else if(body.x + body.width < plr.getBody().x - pos_diff.x)
+        isPlayingAnimation = true;
+    }
+    else if(body.x + body.width < plr.getBody().x - pos_diff.x){
         body.x += speed * GetFrameTime();
+        isPlayingAnimation = true;
+    }
 
-    if(body.y + body.height < plr.getBody().y)
+    if(body.y + body.height < plr.getBody().y){
         body.y += speed * GetFrameTime();
-    else if(body.y > plr.getBody().y + plr.getBody().height)
+        isPlayingAnimation = true;
+    }
+    else if(body.y > plr.getBody().y + plr.getBody().height){
         body.y -= speed * GetFrameTime();
+        isPlayingAnimation = true;
+    }
 
     if(CheckCollisionRecs(body, plr.getSelectArea()) 
             && CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), body)
@@ -54,7 +62,7 @@ void Cat::Update(Player& plr, Camera2D& camera){
         isDrawingRedBox = true;
     }
     if(isDrawingRedBox){
-        drawRedBoxTimer -= GetFrameTime()/10;
+        drawRedBoxTimer -= GetFrameTime();
     }
     if(drawRedBoxTimer <= 0){
         isDrawingRedBox = false;
@@ -63,6 +71,6 @@ void Cat::Update(Player& plr, Camera2D& camera){
 }
 
 void Cat::Draw(){
-    DrawTextureEx(texture, {body.x, body.y}, 0, 3.5, WHITE);
+    DrawSpriteAnimationPro(isPlayingAnimation ? animation : idle, {body.x, body.y, body.width, body.width}, {0,0}, 0, WHITE);
     if(isDrawingRedBox) DrawRectangleRec(body, {255, 0, 0, 255/2});
 }
