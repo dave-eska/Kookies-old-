@@ -44,6 +44,7 @@ InventoryItem Tile::asItem(int total_count){
             .filename = "res/tools.json",
             .item_invslot=0,
             .item_count=total_count,
+            .damage=1,
             .recipe = resep,
             .iconTexture=texture
     };

@@ -1,4 +1,6 @@
 #include"chat.h"
+#include "raylib.h"
+#include "screens.h"
 
 #include<iostream>
 
@@ -9,7 +11,7 @@ void ChatText::Update(){
 }
 
 void ChatText::Draw(){
-    DrawText(text.c_str(), pos.x, pos.y, 25, {color.r,color.g,color.b,transparancy});
+    DrawTextEx(font, text.c_str(), pos, 25, 0, {color.r,color.g,color.b,transparancy});
 }
 
 void ChatText::decreaseY(){

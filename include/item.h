@@ -20,6 +20,8 @@ struct InventoryItem{
     int item_invslot{};
     int item_count{};
 
+    int damage;
+
     std::vector<RecipeItem> recipe;
 
     Texture2D iconTexture{};

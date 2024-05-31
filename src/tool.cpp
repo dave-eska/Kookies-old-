@@ -54,6 +54,7 @@ InventoryItem Tool::asItem(int count){
             .filename = "res/tools.json",
             .item_invslot=0,
             .item_count=count,
+            .damage=damage,
             .recipe = resep,
             .iconTexture=texture
     };
