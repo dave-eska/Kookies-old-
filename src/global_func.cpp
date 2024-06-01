@@ -160,7 +160,7 @@ bool AABBy(Rectangle rec1, Rectangle rec2){
 
 bool isWalkableX(Rectangle newPos, Rectangle body) {
     // Store current level tiles to avoid multiple calls to getCurrentLevel()
-    const auto tiles = getCurrentLevel().getTiles();
+    const auto& tiles = getCurrentLevel().tiles;
 
     // Array of rectangle positions to check
     std::array<std::pair<Rectangle, Color>, 4> checkRects = {{
@@ -191,7 +191,7 @@ bool isWalkableX(Rectangle newPos, Rectangle body) {
 
 bool isWalkableY(Rectangle newPos, Rectangle body){
     // Store current level tiles to avoid multiple calls to getCurrentLevel()
-    const auto tiles = getCurrentLevel().getTiles();
+    const auto& tiles = getCurrentLevel().tiles;
 
     // Array of rectangle positions to check
     std::array<std::pair<Rectangle, Color>, 4> checkRects = {{

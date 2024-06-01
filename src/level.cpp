@@ -1,21 +1,17 @@
 #include "level.h"
 
-#include "global_func.h"
-#include "screens.h"
-#include "seed.h"
-#include "tiling_util.h"
 #include <iostream>
+
+#include "screens.h"
+#include "global_func.h"
+#include "tiling_util.h"
+
+#include "seed.h"
 
 void Level::changeLevel(std::string levelName){
     level_name = levelName;
     tiles = loadLevelFromFile(levelName, total_layers, canvas_size, starting_pos);
     std::cout<<"Level changed to "<<level_name<<std::endl;
-}
-
-Level::Level(std::string levelName){
-    level_name = levelName;
-    tiles = loadLevelFromFile(levelName, total_layers, canvas_size, starting_pos);
-    std::cout<<"Created Level: "<<level_name<<std::endl;
 }
 
 void Level::Interact(std::unique_ptr<Tile>& tile, std::string& tile_interect_return_code){
@@ -153,6 +149,12 @@ void Level::Draw(){
 
     for(auto& entity : entities)
         if(entity->getLevelName() == level_name) entity->Draw();
+}
+
+Level::Level(std::string levelName){
+    level_name = levelName;
+    tiles = loadLevelFromFile(levelName, total_layers, canvas_size, starting_pos);
+    std::cout<<"Created Level: "<<level_name<<std::endl;
 }
 
 Level::~Level(){

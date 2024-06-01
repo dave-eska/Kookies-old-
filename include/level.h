@@ -9,7 +9,6 @@
 
 class Level{
     private:
-        std::vector<std::unique_ptr<Tile>> tiles;
         std::vector<std::unique_ptr<Entity>> entities;
         std::string level_name;
 
@@ -27,13 +26,15 @@ class Level{
         Vector2 getCanvasSize(){return canvas_size;}
         int getTotalLayes(){return total_layers;}
 
-        std::vector<std::unique_ptr<Tile>> getTiles(){return tiles;}
+        std::vector<std::unique_ptr<Tile>> tiles;
         int getTotalTiles(){return tiles.size();}
 
         void removeTile(int slot){tiles.erase(tiles.begin() + slot);}
 
+        /*
         template<typename T>
             void AddEntity(T entity){entities.push_back(std::make_unique<T>(entity));}
+            */
 
         void changeLevel(std::string levelName);
 

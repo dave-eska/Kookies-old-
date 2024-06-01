@@ -1,9 +1,5 @@
-#include<algorithm>
-#include <iostream>
-#include <sys/types.h>
-#include<vector>
-#include<string>
-#include<memory>
+#include <vector>
+#include <string>
 
 #include<raylib.h>
 
@@ -20,7 +16,6 @@
 #include"tile.h"
 #include"chat.h"
 
-#include"entity.h"
 #include "tool.h"
 
 #define INTERACT_KEY KEY_I
@@ -146,7 +141,7 @@ void InitGameplayScreen(){
             /*display_name=*/config["DisplayName"].asString()
             );
 
-    level.changeLevel("res/maps/test.json");
+    level = Level("res/maps/test.json");
 
     camera = { 0 };
     camera.target = { player.getBody().x + 18*7, player.getBody().y + 35*7 };
@@ -165,9 +160,11 @@ void InitGameplayScreen(){
     };
 
     player.addItemInv(newItem<Tool>(Sword_Tool, 1));
+    /*
     level.AddEntity<Cat>(Cat({TILE_SIZE*2, TILE_SIZE*3}, player, "res/maps/test.json"));
     level.AddEntity<NPC>(NPC("res/maps/test.json", {TILE_SIZE*3, (TILE_SIZE*level.getCanvasSize().y)-TILE_SIZE*4},
                 "Opening", "opening.json", 7));
+                */
 }
 
 void UpdateGameplayScreen(){
