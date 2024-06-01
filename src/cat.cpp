@@ -1,4 +1,6 @@
 #include "cat.h"
+#include "global_func.h"
+#include "screens.h"
 
 #include <raylib.h>
 
@@ -11,11 +13,12 @@ Cat::Cat(Vector2 max_diff_pos, Player& player, std::string levelName){
     speed = 200;
     isFollowing = true;
 
-    health = 10;
+    health = 30;
     drawRedBoxTimer = REDBOX_TIMER;
     isDrawingRedBox = false;
 
     texture = LoadTexture("res/img/cat.png");
+    redBox = LoadTexture("res/img/redCat.png");
     this->levelName = levelName;
 
     body = {max_diff_pos.x, max_diff_pos.y, (float)texture.width/3, (float)texture.height};
@@ -58,11 +61,17 @@ void Cat::Update(Player& plr, Camera2D& camera){
             && CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), body)
             && plr.getInv().getItemFromCurrentSlot().filename == "res/tools.json"
             && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-        health -= plr.getInv().getItemFromCurrentSlot().damage;
-        isDrawingRedBox = true;
+        int plr_damage = plr.getInv().getItemFromCurrentSlot().damage;
+        if(health <= plr_damage){
+            typeInChat("da nigga dead");
+            health = 7;
+        }else{
+            health -= plr_damage;
+            isDrawingRedBox = true;
+        }
     }
     if(isDrawingRedBox){
-        drawRedBoxTimer -= GetFrameTime();
+        drawRedBoxTimer -= GetFrameTime()*4;
     }
     if(drawRedBoxTimer <= 0){
         isDrawingRedBox = false;
@@ -72,5 +81,8 @@ void Cat::Update(Player& plr, Camera2D& camera){
 
 void Cat::Draw(){
     DrawSpriteAnimationPro(isPlayingAnimation ? animation : idle, {body.x, body.y, body.width, body.width}, {0,0}, 0, WHITE);
-    if(isDrawingRedBox) DrawRectangleRec(body, {255, 0, 0, 255/2});
+    if(isDrawingRedBox){
+        DrawTexture(redBox, body.x, body.y, WHITE);
+        DrawTextEx(font, std::to_string(health).c_str(), {body.x, body.y}, 25, 0, WHITE);
+    }
 }

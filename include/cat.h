@@ -19,6 +19,8 @@ class Cat: public Entity{
         SpriteAnimation animation;
         SpriteAnimation idle;
         bool isPlayingAnimation;
+
+        Texture2D redBox;
     public:
         void Update(Player& plr, Camera2D& camera) override;
         void Draw() override;

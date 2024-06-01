@@ -8,7 +8,7 @@
     {
         "name": "Frostreon Sword",
         "texture": "res/img/tools/sword.png",
-        "damage": 17,
+        "damage": 7,
         "type": "Hoe"
     }
 ]

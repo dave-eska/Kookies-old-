@@ -20,6 +20,7 @@ Tool::Tool(int id):id{id}{
     if(id <= jsonvalue.size() && id >= 0){
         name = jsonvalue[id]["name"].asString();
         type = jsonvalue[id]["type"].asString();
+        damage = jsonvalue[id]["damage"].asInt();
 
         texture = LoadTexture(jsonvalue[id]["texture"].asString().c_str());
     }
