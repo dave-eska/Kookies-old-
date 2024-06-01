@@ -22,16 +22,13 @@
 
 #include"entity.h"
 #include "tool.h"
-#include"updateTile_func.h"
 
 #define INTERACT_KEY KEY_I
 
 static int finish_screen=0;
 
 static Player player;
-static std::vector<std::unique_ptr<Entity>> entities;
 
-static Camera2D camera ;
 static Sound pickupsound;
 
 static Level level;
@@ -62,7 +59,7 @@ static void drawDebugInfo(){
     printText("Mouse X: ", std::to_string((int)GetMousePosition().x), {0,100}, 20);
     printText("Mouse Y: ", std::to_string((int)GetMousePosition().y), {0,120}, 20);
 
-    printText("Total Tiles: ", std::to_string(level.tiles.size()), {0,160}, 20);
+    printText("Total Tiles: ", std::to_string(level.getTotalTiles()), {0,160}, 20);
 
     printText("Total texts: ", std::to_string(texts.size()), {0,200}, 20);
 
@@ -122,68 +119,7 @@ static void typingCode(){
     for(auto &text:texts) text.Update();
 }
 
-static void UpdateTiles(){
-    std::string tile_interect_return_code;
-    for(auto& tile : level.tiles){
-        tile->setIsTouchingSelectAreaPlayer(false);
-        tile->setIsTouchingPlayer(false);
-        tile->setIsTouchingMouse(false);
-
-        if(CheckCollisionRecs(tile->getBody(), player.getSelectArea())){
-            tile->setIsTouchingSelectAreaPlayer(true);
-        }
-
-        if(CheckCollisionRecs(tile->getBody(), player.getBody())){
-            tile->setIsTouchingPlayer(true);
-        }
-
-        if(CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tile->getBody())){
-            tile->setIsTouchingMouse(true);
-        }
-
-        tile->Update();
-
-        if((tile->getType() == "Item" || tile->getType() == "BagOfSeed")&& tile->getIsTouchinSelectAreaPlayer() && tile->getIsTouchingMouse()){
-            if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-                player.addItemInv(tile->asItem(1));
-                std::erase(level.tiles, tile);
-                break;
-            }
-        }
-
-        TileUpdateFunction::Interact(tile, tile_interect_return_code);
-
-        TileUpdateFunction::UseCraftingTable(tile);
-
-        TileUpdateFunction::PlaceItem(tile, level);
-
-        TileUpdateFunction::PlantSeed(tile, level);
-    }
-
-    if(!tile_interect_return_code.empty()){
-        //x001 is the code to remove that tile. For now being use only to remove SeedTIle when harved.
-        if(getFirstWord(tile_interect_return_code) == "x001" && !getSecondWord(tile_interect_return_code).empty()){
-            level.tiles.erase(std::remove_if(level.tiles.begin(), level.tiles.end(), [tile_interect_return_code](const auto& tile){
-                        return tile->getSlot() == std::stoi(getSecondWord(tile_interect_return_code));
-                        }), level.tiles.end());
-        }
-        else{
-            level.changeLevel(tile_interect_return_code);
-        }
-    }
-}
-
 static void drawInCamMode(){
-    for(auto& tile : level.tiles){
-        tile->Draw(isDebugging);
-        if(tile->HasCollision() && isDebugging)
-            DrawRectangleRec(tile->getBody(), {255,255,255,50});
-    }
-    for(auto& tile : level.tiles)
-        if(tile->HasCollision() && isDebugging) DrawRectangleRec(tile->getBody(), {255,255,255,50});
-
-    for(auto& entity:entities)
-        if(entity->getLevelName() == level.level_name) entity->Draw();
 
     player.Draw(isDebugging, camera);
     
@@ -229,9 +165,9 @@ void InitGameplayScreen(){
     };
 
     player.addItemInv(newItem<Tool>(Sword_Tool, 1));
-    entities.push_back(std::make_unique<Cat>(Cat({TILE_SIZE*2, TILE_SIZE*3}, player, "res/maps/test.json")));
-    entities.push_back(std::make_unique<NPC>(NPC("res/maps/test.json", {TILE_SIZE*3, (TILE_SIZE*level.canvas_size.y)-TILE_SIZE*4},
-                "Opening", "opening.json", 7)));
+    level.AddEntity<Cat>(Cat({TILE_SIZE*2, TILE_SIZE*3}, player, "res/maps/test.json"));
+    level.AddEntity<NPC>(NPC("res/maps/test.json", {TILE_SIZE*3, (TILE_SIZE*level.getCanvasSize().y)-TILE_SIZE*4},
+                "Opening", "opening.json", 7));
 }
 
 void UpdateGameplayScreen(){
@@ -250,18 +186,6 @@ void UpdateGameplayScreen(){
     if(isTyping)
         typingCode();
 
-    for(auto& entity:entities){
-        if(entity->getLevelName() == level.level_name){
-            entity->Update(player, camera);
-            if(entity->isDead()){
-                typeInChat("da nigga dead");
-                std::erase(entities, entity);
-                break;
-            }
-        }
-    }
-
-    UpdateTiles();
 
     if(IsKeyPressed(KEY_ESCAPE))
         finish_screen = 1;
@@ -274,9 +198,6 @@ void DrawGameplayScreen(){
 
     EndMode2D();
 
-    for(auto& entity : entities){
-        if(entity->getLevelName() == level.level_name) entity->Draw_UI();
-    }
 
     player.InventoryDraw(camera);
 
@@ -292,10 +213,6 @@ void DrawGameplayScreen(){
 }
 
 void UnloadGameplayScreen(){
-    level.tiles.clear();
-    level.level_name.clear();
-
-    entities.clear();
 }
 
 void ResetGameplayFinishScreen(){

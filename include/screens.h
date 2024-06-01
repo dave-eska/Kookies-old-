@@ -20,6 +20,8 @@ typedef enum GameScreen { UNKNOWN, TITLE, OPTIONS, GAMEPLAY, LEVELEDITOR } GameS
 extern GameScreen currentScreen;
 extern Font font;
 
+inline Camera2D camera;
+
 inline Json::Value config;
 
 inline bool isDebugging;

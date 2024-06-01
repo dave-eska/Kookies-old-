@@ -37,7 +37,7 @@ Cat::Cat(Vector2 max_diff_pos, Player& player, std::string levelName){
 }
 
 void Cat::Update(Player& plr, Camera2D& camera){
-    isPlayingAnimation = false;
+    isPlayingAnimation = true;
     if(body.x > plr.getBody().x + plr.getBody().width + pos_diff.x){
         body.x -= speed * GetFrameTime();
         isPlayingAnimation = true;
