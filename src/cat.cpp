@@ -1,5 +1,4 @@
 #include "cat.h"
-#include "global_func.h"
 #include "screens.h"
 
 #include <raylib.h>
@@ -62,13 +61,8 @@ void Cat::Update(Player& plr, Camera2D& camera){
             && plr.getInv().getItemFromCurrentSlot().filename == "res/tools.json"
             && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
         int plr_damage = plr.getInv().getItemFromCurrentSlot().damage;
-        if(health <= plr_damage){
-            typeInChat("da nigga dead");
-            health = 7;
-        }else{
-            health -= plr_damage;
-            isDrawingRedBox = true;
-        }
+        health -= plr_damage;
+        isDrawingRedBox = true;
     }
     if(isDrawingRedBox){
         drawRedBoxTimer -= GetFrameTime()*4;

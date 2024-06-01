@@ -9,7 +9,6 @@
 
 class Cat: public Entity{
     private:
-        int health;
         bool isFollowing;
         Vector2 pos_diff;
 

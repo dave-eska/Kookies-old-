@@ -250,8 +250,16 @@ void UpdateGameplayScreen(){
     if(isTyping)
         typingCode();
 
-    for(auto& entity:entities)
-        if(entity->getLevelName() == level.level_name) entity->Update(player, camera);
+    for(auto& entity:entities){
+        if(entity->getLevelName() == level.level_name){
+            entity->Update(player, camera);
+            if(entity->isDead()){
+                typeInChat("da nigga dead");
+                std::erase(entities, entity);
+                break;
+            }
+        }
+    }
 
     UpdateTiles();
 
