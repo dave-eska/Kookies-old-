@@ -7,6 +7,6 @@ if [ $# -eq 0 ]; then
 fi
 
 # Run git commands
-git add src/ include/ thirdparty/
+git add src/ include/ thirdparty/ build/res/ README.md build/config.json
 git status
 git commit -m "$*"
