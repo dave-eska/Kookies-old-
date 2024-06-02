@@ -4,17 +4,17 @@
 #include<raylib.h>
 
 #include "cat.h"
-#include"item.h"
+#include "item.h"
 #include "npc.h"
-#include"screens.h"
+#include "screens.h"
 
-#include"global_func.h"
+#include "global_func.h"
 
-#include"level.h"
+#include "level.h"
 
-#include"player.h"
-#include"tile.h"
-#include"chat.h"
+#include "player.h"
+#include "tile.h"
+#include "chat.h"
 
 #include "tool.h"
 
@@ -117,7 +117,6 @@ static void typingCode(){
 static void drawInCamMode(){
     level->Draw();
     player.Draw(isDebugging, camera);
-    
 }
 
 void InitGameplayScreen(){
@@ -195,6 +194,7 @@ void DrawGameplayScreen(){
 
     EndMode2D();
 
+    level->DrawUI();
 
     player.InventoryDraw(camera);
 

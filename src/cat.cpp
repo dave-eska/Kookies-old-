@@ -56,7 +56,7 @@ void Cat::Update(Player& plr, Camera2D& camera){
         isPlayingAnimation = true;
     }
 
-    if(CheckCollisionRecs(body, plr.getSelectArea()) 
+    if(CheckCollisionRecs(body, plr.getSelectArea())
             && CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), body)
             && plr.getInv().getItemFromCurrentSlot().filename == "res/tools.json"
             && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){

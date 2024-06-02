@@ -1,6 +1,7 @@
 #include"conversation.h"
 
 #include"global_func.h"
+#include <iostream>
 #include <string>
 
 void Conversation::restart(){

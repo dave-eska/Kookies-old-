@@ -1,9 +1,11 @@
-#include"npc.h"
-#include "raylib.h"
+#include "npc.h"
+
 #include <string>
 
+#include <raylib.h>
+
 void NPC::Update(Player& plr, Camera2D& camera){
-    if(CheckCollisionRecs(body, plr.getBody())){
+    if(CheckCollisionRecs(body, plr.getSelectArea())){
         if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) && CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), body)){
             if(conv.hasFinised()){
                 conv.restart();

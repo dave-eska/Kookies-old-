@@ -1,4 +1,5 @@
 #include "tool.h"
+#include "enchant.h"
 
 #include <fstream>
 
@@ -47,6 +48,12 @@ InventoryItem Tool::asItem(int count){
             resep.push_back(arr);
         }
     }
+
+    auto it = std::find_if(enchants.begin(), enchants.end(), [](const auto enchant){
+        return enchant == Enchant::Sharpness;
+    });
+    if(it != enchants.end())
+        damage *= 1.3;
 
     return{
         .tileID=id,

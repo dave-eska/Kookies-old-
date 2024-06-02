@@ -1,9 +1,11 @@
 #pragma once
 
-#include<string>
-#include<vector>
+#include <string>
+#include <vector>
 
-#include<raylib.h>
+#include <raylib.h>
+
+#include "enchant.h"
 
 struct RecipeItem{
     int id;
@@ -23,6 +25,7 @@ struct InventoryItem{
     int damage;
 
     std::vector<RecipeItem> recipe;
+    std::vector<Enchant> enchants;
 
     Texture2D iconTexture{};
 };
