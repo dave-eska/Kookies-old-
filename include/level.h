@@ -24,17 +24,17 @@ class Level{
     public:
         Vector2 getStartingPos(){return starting_pos;}
         Vector2 getCanvasSize(){return canvas_size;}
-        int getTotalLayes(){return total_layers;}
+        int getTotalLayers(){return total_layers;}
 
         std::vector<std::unique_ptr<Tile>> tiles;
         int getTotalTiles(){return tiles.size();}
 
         void removeTile(int slot){tiles.erase(tiles.begin() + slot);}
 
-        /*
+        void setTotalLayers(int val){total_layers = val;}
+
         template<typename T>
             void AddEntity(T entity){entities.push_back(std::make_unique<T>(entity));}
-            */
 
         void changeLevel(std::string levelName);
 

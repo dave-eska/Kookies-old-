@@ -26,13 +26,13 @@ static Player player;
 
 static Sound pickupsound;
 
-static Level level;
+static Level *level;
 static std::string user_input;
 
 static std::vector<std::string> commands;
 
 void changeMainLevel(std::string levelName){
-    level.changeLevel(levelName);
+    level->changeLevel(levelName);
 }
 
 Player &getPlayer(){
@@ -40,7 +40,7 @@ Player &getPlayer(){
 }
 
 Level &getCurrentLevel(){
-    return level;
+    return *level;
 }
 
 static void drawDebugInfo(){
@@ -54,7 +54,7 @@ static void drawDebugInfo(){
     printText("Mouse X: ", std::to_string((int)GetMousePosition().x), {0,100}, 20);
     printText("Mouse Y: ", std::to_string((int)GetMousePosition().y), {0,120}, 20);
 
-    printText("Total Tiles: ", std::to_string(level.getTotalTiles()), {0,160}, 20);
+    printText("Total Tiles: ", std::to_string(level->getTotalTiles()), {0,160}, 20);
 
     printText("Total texts: ", std::to_string(texts.size()), {0,200}, 20);
 
@@ -103,7 +103,7 @@ static void typingCode(){
                 }else{
                     typeInChat("Syntax Error: Expected Input Detail.", DARKPURPLE);
                 }
-            }else if(command == "/load" && !getSecondWord(user_input).empty())  level.changeLevel(getSecondWord(user_input));
+            }else if(command == "/load" && !getSecondWord(user_input).empty())  level->changeLevel(getSecondWord(user_input));
         }else{
             user_input.erase(user_input.begin());
             addChatText(texts, player.getDisplayName() + ": " + user_input);
@@ -115,7 +115,7 @@ static void typingCode(){
 }
 
 static void drawInCamMode(){
-
+    level->Draw();
     player.Draw(isDebugging, camera);
     
 }
@@ -141,10 +141,10 @@ void InitGameplayScreen(){
             /*display_name=*/config["DisplayName"].asString()
             );
 
-    level = Level("res/maps/test.json");
+    level = new Level("res/maps/test.json");
 
     camera = { 0 };
-    camera.target = { player.getBody().x + 18*7, player.getBody().y + 35*7 };
+    camera.target = {player.getBody().x + (player.getBody().width/2), player.getBody().y + (player.getBody().height/2)};
     camera.offset = { GetScreenWidth()/2.0f, GetScreenHeight()/2.0f };
     camera.rotation = 0.0f;
     camera.zoom = config["camera_zoom"].asFloat();
@@ -160,21 +160,21 @@ void InitGameplayScreen(){
     };
 
     player.addItemInv(newItem<Tool>(Sword_Tool, 1));
-    /*
-    level.AddEntity<Cat>(Cat({TILE_SIZE*2, TILE_SIZE*3}, player, "res/maps/test.json"));
-    level.AddEntity<NPC>(NPC("res/maps/test.json", {TILE_SIZE*3, (TILE_SIZE*level.getCanvasSize().y)-TILE_SIZE*4},
+    level->AddEntity<Cat>(Cat({TILE_SIZE*2, TILE_SIZE*3}, player, "res/maps/test.json"));
+    level->AddEntity<NPC>(NPC("res/maps/test.json", {TILE_SIZE*3, (TILE_SIZE*level->getCanvasSize().y)-TILE_SIZE*4},
                 "Opening", "opening.json", 7));
-                */
 }
 
 void UpdateGameplayScreen(){
     if(!isTyping){
-        camera.target = { player.getBody().x + 18*7, player.getBody().y + 35*7 };
+        camera.target = {player.getBody().x + (player.getBody().width/2), player.getBody().y + (player.getBody().height/2)};
         player.move(GetFrameTime());
     }
 
     player.UpdateInventory();
     player.UpdateVariables();
+
+    level->Update();
 
     if(IsKeyPressed(KEY_SLASH)){
         isTyping=true;
@@ -210,6 +210,7 @@ void DrawGameplayScreen(){
 }
 
 void UnloadGameplayScreen(){
+    delete level;
 }
 
 void ResetGameplayFinishScreen(){

@@ -177,7 +177,7 @@ void writeTileJson(Level &level, Vector2 pos, std::string filename){
     root["x"] = (int)pos.x;
     root["y"] = (int)pos.y;
 
-    std::vector<std::string> strTiles = tilesToStrings(level.tiles, level.getCanvasSize(), level.getTotalLayes());
+    std::vector<std::string> strTiles = tilesToStrings(level.tiles, level.getCanvasSize(), level.getTotalLayers());
     for(int i=0;i<strTiles.size();i++)
         root["layers"][i] = strTiles[i];
 

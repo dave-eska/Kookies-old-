@@ -22,10 +22,9 @@
 
 static int finish_screen = 0;
 
-static Camera2D camera;
 static int cam_speed;
 
-static Level level;
+static Level *level;
 static std::string canvas_sizeStr;
 
 static Texture2D BlockOutlineTexture;
@@ -53,7 +52,7 @@ static bool isEditingTD;
 // Function to perform fill operation
 static void fill(std::vector<std::unique_ptr<Tile>>& canvas, int x, int y, int z, int targetID, int fillID, std::unordered_set<int>& visited) {
     // Check if current position is within canvas bounds
-    if(x < 0 || y < 0 || x >= (level.canvas_size.x*TILE_SIZE) || y >= (level.canvas_size.y*TILE_SIZE)) return;
+    if(x < 0 || y < 0 || x >= (level->getCanvasSize().x*TILE_SIZE) || y >= (level->getCanvasSize().y*TILE_SIZE)) return;
 
     // Calculate index of the tile in the vector
     auto it = std::find_if(canvas.begin(), canvas.end(), [x, y, z](const auto& tile){
@@ -84,7 +83,7 @@ static void fill(std::vector<std::unique_ptr<Tile>>& canvas, int x, int y, int z
 }
 
 static void savingCode(){
-    writeTileJson(level, {0,0}, "save.json");
+    writeTileJson(*level, {0,0}, "save.json");
 }
 
 static void typingCode(){
@@ -120,12 +119,12 @@ static void typingCode(){
             else if(command == "/save") savingCode();
 
             else if(command == "/load"){
-                if(!argument.empty()) level.changeLevel(argument);
-                else level.changeLevel("save.json");
+                if(!argument.empty()) level->changeLevel(argument);
+                else level->changeLevel("save.json");
             }
             else if(command == "/tell"){
                 if(argument == "tiles"){
-                    typeInChat("There are " + std::to_string(level.getTiles().size()) + " tiles.");
+                    typeInChat("There are " + std::to_string(level->tiles.size()) + " tiles.");
                 }else if(argument == "ctiles"){
                     typeInChat("Selected Tile: " + selectedTile.getName() + "(" + std::to_string(selectedTile.getID()) + ")");
                     typeInChat("Z layer: " + std::to_string(selectedTile.getZ()));
@@ -136,14 +135,14 @@ static void typingCode(){
             }
             else if(command == "/change"){
                 if(has_selected_tile && !argument.empty()){
-                    level.getTiles()[selectedTile.getSlot()] = std::make_unique<Tile>(Tile(currentTileID, {selectedTile.getX(), selectedTile.getY()}, selectedTile.getZ()));
+                    level->tiles[selectedTile.getSlot()] = std::make_unique<Tile>(Tile(currentTileID, {selectedTile.getX(), selectedTile.getY()}, selectedTile.getZ()));
                 }
-            }else if(command == "/del" && level.getTotalLayes() > 2){
-                std::erase_if(level.getTiles(),
+            }else if(command == "/del" && level->getTotalLayers() > 2){
+                std::erase_if(level->tiles,
                         [](const auto& tile) {
-                        return tile->getZ() == level.getTotalLayers()-1;
+                        return tile->getZ() == level->getTotalLayers()-1;
                         });
-                level.getTotalLayers() = level.getTiles()[level.getTiles().size()-1]->getZ()+1;
+                level->setTotalLayers(level->tiles[level->tiles.size()-1]->getZ()+1);
             }
 
             user_input.erase(user_input.begin());
@@ -161,11 +160,11 @@ static void typingCode(){
 
 static void InteractWithTile(){
     if(IsKeyPressed(KEY_DELETE)){
-        level.getTiles()[selectedTile.getSlot()] = std::make_unique<Tile>(Tile(Air_Tile, {selectedTile.getX(), selectedTile.getY()}, selectedTile.getZ()));
+        level->tiles[selectedTile.getSlot()] = std::make_unique<Tile>(Tile(Air_Tile, {selectedTile.getX(), selectedTile.getY()}, selectedTile.getZ()));
         has_selected_tile = false;
     }
     if(IsKeyPressed(KEY_C)){
-        level.getTiles()[selectedTile.getSlot()] = std::make_unique<Tile>(Tile(currentTileID, {selectedTile.getX(), selectedTile.getY()}, selectedTile.getZ()));
+        level->tiles[selectedTile.getSlot()] = std::make_unique<Tile>(Tile(currentTileID, {selectedTile.getX(), selectedTile.getY()}, selectedTile.getZ()));
     }
 }
 
@@ -175,8 +174,8 @@ void InitLevelEditorScreen(){
     currentTileID = Brickwall_Tile;
     currentTileTexture = Tile(currentTileID, {0,0}, 0).getTexture();
 
-    level.changeLevel("res/maps/test.json");
-    canvas_sizeStr = std::to_string((int)level.canvas_size.x) + ", " + std::to_string((int)level.canvas_size.y);
+    level = new Level("res/maps/test.json");
+    canvas_sizeStr = std::to_string((int)level->getCanvasSize().x) + ", " + std::to_string((int)level->getCanvasSize().y);
     current_mode = Mode_One_Select;
 
     font_size = 20;
@@ -237,10 +236,10 @@ void UpdateLevelEditorScreen(){
         if(IsKeyPressed(KEY_UP)) selectedTileZ++;
         if(IsKeyPressed(KEY_DOWN)) selectedTileZ--;
 
-        auto it = std::find_if(level.getTiles().begin(), level.getTiles().end(), [](const auto& tile){
+        auto it = std::find_if(level->tiles.begin(), level->tiles.end(), [](const auto& tile){
                 return (tile->getX() == selectedTile.getX() && tile->getY() == selectedTile.getY()) && tile->getZ() == selectedTileZ;
                 });
-        if(it != level.getTiles().end()){
+        if(it != level->tiles.end()){
             selectedTile = Tile((*it)->getID(), {(*it)->getX(), (*it)->getY()}, selectedTileZ);
             selectedTile.setSlot((*it)->getSlot());
             selectedTile.setTexture((*it)->getTexture());
@@ -268,11 +267,11 @@ void UpdateLevelEditorScreen(){
 
         // Make new layer
         if(IsKeyPressed(KEY_N)){
-            for(int i=0;i<level.canvas_size.x*level.canvas_size.x;i++){
-                auto& tile = level.getTiles()[i];
-                level.getTiles().push_back(std::make_unique<Tile>(Tile(Air_Tile, {tile->getX(), tile->getY()}, level.getTotalLayers())));
+            for(int i=0;i<level->getCanvasSize().x*level->getCanvasSize().x;i++){
+                auto& tile = level->tiles[i];
+                level->tiles.push_back(std::make_unique<Tile>(Tile(Air_Tile, {tile->getX(), tile->getY()}, level->getTotalLayers())));
             }
-            level.getTotalLayers()++;
+            level->setTotalLayers(level->getTotalLayers()+1);
         }
 
         if(IsKeyPressed(KEY_I)) current_mode = Mode_ColorPicker;
@@ -292,7 +291,7 @@ void UpdateLevelEditorScreen(){
 
     }
 
-    for(auto& tile : level.getTiles()){
+    for(auto& tile : level->tiles){
         tile->setIsTouchingMouse(false);
 
         if(CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), tile->getBody())){
@@ -346,7 +345,7 @@ void UpdateLevelEditorScreen(){
                 {
                     if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && tile->getIsTouchingMouse() && tile->getZ() == selectedTileZ){
                         std::unordered_set<int> visited;
-                        fill(level.getTiles(), tile->getX(), tile->getY(), tile->getZ(), tile->getID(), currentTileID, visited);
+                        fill(level->tiles, tile->getX(), tile->getY(), tile->getZ(), tile->getID(), currentTileID, visited);
                     }
                 }
                 break;
@@ -356,7 +355,7 @@ void UpdateLevelEditorScreen(){
     }
 
     // Clamps
-    clamp(selectedTileZ, 0, level.getTotalLayers()-1);
+    clamp(selectedTileZ, 0, level->getTotalLayers()-1);
     clamp(currentTileID, 0, MaxTileID-1);
     clamp(current_mode, 0, Mode_Max-1);
 }
@@ -364,9 +363,7 @@ void UpdateLevelEditorScreen(){
 void DrawLevelEditorScreen(){
     BeginMode2D(camera);
 
-    for(auto& tile : level.getTiles()){
-        tile->Draw(isDebugging);
-    }
+    level->Draw();
 
     if(has_selected_tile && current_mode == Mode_One_Select) 
         DrawRectangleRec(selectedTile.getBody(), {200, 200, 200, 255/2});
@@ -393,17 +390,17 @@ void DrawLevelEditorScreen(){
     std::string canvsaSizeStr = "Canvas Size: " + canvas_sizeStr;
     DrawTextEx(font, canvsaSizeStr.c_str(), {20, 190}, font_size, 0, WHITE);
 
-    std::string layerStr = "Layers: " + std::to_string(level.getTotalLayers());
+    std::string layerStr = "Layers: " + std::to_string(level->getTotalLayers());
     DrawTextEx(font, layerStr.c_str(), {20, 215}, font_size, 0, WHITE);
 
     std::string zStr = "Current Layer: " + std::to_string(selectedTileZ+1);
     DrawTextEx(font, zStr.c_str(), {20, 240}, font_size, 0, WHITE);
 
     Rectangle box = { 100, 85, 285, 30 };
-    if(level.getTiles()[selectedTile.getSlot()]->getID() == Transition_Tile){
+    if(level->tiles[selectedTile.getSlot()]->getID() == Transition_Tile){
         if(GuiTextBox({ box.x + 170, box.y, 200, 30 }, tr_dest, 128, isEditingTD)){
             if(isEditingTD){
-                auto transitionTile = dynamic_cast<TransitionTile*>(level.getTiles()[selectedTile.getSlot()].get());
+                auto transitionTile = dynamic_cast<TransitionTile*>(level->tiles[selectedTile.getSlot()].get());
                 transitionTile->attachLevel(tr_dest);
             }
             isEditingTD = !isEditingTD;
@@ -415,7 +412,7 @@ void DrawLevelEditorScreen(){
         savingCode();
 
     if(GuiButton((Rectangle){ (float)GetScreenWidth() - 230, (float)GetScreenHeight() - 50, 110, 30 }, "Re-Load"))
-        level.changeLevel("save.json");
+        level->changeLevel("save.json");
 
     for(auto e:texts) e.Draw();
 
@@ -426,6 +423,7 @@ void DrawLevelEditorScreen(){
 }
 
 void UnloadLevelEditorScreen(){
+    delete level;
 }
 
 void ResetLevelEditorScreen(){
