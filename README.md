@@ -58,5 +58,13 @@ enum TileID {
 
     Cherryseeds_Tile = 21,
     Cocoabeansseed_Tile,
+
+    ... (tile.h)
 };
 ```
+
+## Known Bug : 
+
+    * Sword is somehow placeable and doesn't have any texture when placed.
+
+    * Hoe gets replaced with fruit when harvesting.
