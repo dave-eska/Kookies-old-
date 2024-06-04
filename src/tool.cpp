@@ -1,6 +1,7 @@
 #include "tool.h"
 #include "enchant.h"
 
+#include <algorithm>
 #include <fstream>
 
 #include <json/json.h>
@@ -52,18 +53,19 @@ InventoryItem Tool::asItem(int count){
     auto it = std::find_if(enchants.begin(), enchants.end(), [](const auto enchant){
         return enchant == Enchant::Sharpness;
     });
+
     if(it != enchants.end())
-        damage *= 1.3;
+        damage += 2;
 
     return{
         .tileID=id,
-            .item_type="Tool",
-            .item_name=name,
-            .filename = "res/tools.json",
-            .item_invslot=0,
-            .item_count=count,
-            .damage=damage,
-            .recipe = resep,
-            .iconTexture=texture
+        .item_type="Tool",
+        .item_name=name,
+        .filename = "res/tools.json",
+        .item_invslot=0,
+        .item_count=count,
+        .damage=damage,
+        .recipe = resep,
+        .iconTexture=texture
     };
 }

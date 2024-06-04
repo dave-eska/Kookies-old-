@@ -43,24 +43,6 @@ Level &getCurrentLevel(){
     return *level;
 }
 
-static void drawDebugInfo(){
-    printText("FPS: ", std::to_string(GetFPS()), {0,0}, 20);
-
-    printText("Player X: ", std::to_string((int)player.getBody().x), {0,20}, 20);
-    printText("Player Y: ", std::to_string((int)player.getBody().y), {0,40}, 20);
-
-    printText("Player Is Toucing Item: ", std::to_string(player.getIsToucingItem()), {0,60}, 20);
-
-    printText("Mouse X: ", std::to_string((int)GetMousePosition().x), {0,100}, 20);
-    printText("Mouse Y: ", std::to_string((int)GetMousePosition().y), {0,120}, 20);
-
-    printText("Total Tiles: ", std::to_string(level->getTotalTiles()), {0,160}, 20);
-
-    printText("Total texts: ", std::to_string(texts.size()), {0,200}, 20);
-
-    printText("Inventory current craftable id: ", std::to_string(player.getCurrentInvCraftAbleID()), {0,240}, 20);
-}
-
 static void typingCode(){
     for(int i = 0;i<texts.size();i++){
         texts[i].Update();
@@ -160,7 +142,7 @@ void InitGameplayScreen(){
 
     player.addItemInv(newItem<Tool>(Sword_Tool, 1));
     level->AddEntity<Cat>(Cat({TILE_SIZE*2, TILE_SIZE*3}, player, "res/maps/test.json"));
-    level->AddEntity<NPC>(NPC("res/maps/test.json", {TILE_SIZE*3, (TILE_SIZE*level->getCanvasSize().y)-TILE_SIZE*4},
+    level->AddEntity<NPC>(NPC("res/maps/test.json", {TILE_SIZE*4, TILE_SIZE},
                 "Opening", "opening.json", 7));
 }
 
@@ -204,9 +186,6 @@ void DrawGameplayScreen(){
         DrawRectangleRec({30,(float)GetScreenHeight()-50,500,35}, {20,20,20,130});
         DrawText(user_input.c_str(), 30, (float)GetScreenHeight()-50, 35, BLACK);
     }
-
-    if(isDebugging)
-        drawDebugInfo();
 }
 
 void UnloadGameplayScreen(){

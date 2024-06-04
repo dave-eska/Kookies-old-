@@ -1,4 +1,5 @@
 #include "cat.h"
+#include "enchant.h"
 #include "screens.h"
 
 #include <raylib.h>
@@ -60,8 +61,10 @@ void Cat::Update(Player& plr, Camera2D& camera){
             && CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), body)
             && plr.getInv().getItemFromCurrentSlot().filename == "res/tools.json"
             && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-        int plr_damage = plr.getInv().getItemFromCurrentSlot().damage;
-        health -= plr_damage;
+        InventoryItem plrTool = plr.getInv().getItemFromCurrentSlot();
+        int damage = plrTool.damage;
+
+        health -= damage;
         isDrawingRedBox = true;
     }
     if(isDrawingRedBox){
