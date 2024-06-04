@@ -142,8 +142,7 @@ void InitGameplayScreen(){
 
     player.addItemInv(newItem<Tool>(Sword_Tool, 1));
     level->AddEntity<Cat>(Cat({TILE_SIZE*2, TILE_SIZE*3}, player, "res/maps/test.json"));
-    level->AddEntity<NPC>(NPC("res/maps/test.json", {TILE_SIZE*4, TILE_SIZE},
-                "Opening", "opening.json", 7));
+    level->AddEntity<NPC>(NPC("res/maps/test.json", {TILE_SIZE*4, 0}, "Opening", "opening.json", 7));
 }
 
 void UpdateGameplayScreen(){
@@ -183,7 +182,7 @@ void DrawGameplayScreen(){
     for(auto e:texts) e.Draw();
 
     if(isTyping){
-        DrawRectangleRec({30,(float)GetScreenHeight()-50,500,35}, {20,20,20,130});
+        DrawRectangleRec({30,(float)GetScreenHeight()-50, (float)(GetScreenWidth()-60), 35}, {20,20,20,130});
         DrawText(user_input.c_str(), 30, (float)GetScreenHeight()-50, 35, BLACK);
     }
 }

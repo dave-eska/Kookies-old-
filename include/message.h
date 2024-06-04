@@ -28,8 +28,10 @@ class Message{
         Vector2 text_pos;
         int timer;
 
+        bool animationDone;
+
         int scroll_level;
-        
+
         int user_response;
         bool has_responded;
     public:
