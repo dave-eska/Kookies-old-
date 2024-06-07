@@ -6,6 +6,7 @@
 #include<raylib.h>
 
 #include"animation.h"
+#include "enchant.h"
 #include"inventory.h"
 
 #define DIRECTION_UP 1
@@ -56,16 +57,19 @@ class Player{
         void toggleInvenCrafting();
         void setInvIsCrafting(bool value);
         void updateCraftableItem();
+        void enchantInvItem(int slot, Enchant enchantmen);
 
-        int getCurrentInvIDSlot();        
+        int getCurrentInvIDSlot();
         int getCurrentInvSlot();
         int getCurrentInvCraftAbleID();
+
 
         bool invHas(int id);
         bool invHas(RecipeItem criteria);
 
         //Public Functions
         void move(float dt);
+        void attack(int &health, int& gDammage);
 
         void UpdateVariables();
         void animate();
@@ -80,7 +84,7 @@ class Player{
         //Constructor
         Player(Rectangle body, int speed, const char* texture_path, Rectangle selectArea, Rectangle collisionBody,
                 /*inv*/
-                int slots, Vector2 inventory_pos, 
+                int slots, Vector2 inventory_pos,
                 std::string inventory_texture, std::string inventory_selecting_texture, std::string extra_inv_texture,
                 std::string crafting_menu_texture,
                 /*customization*/

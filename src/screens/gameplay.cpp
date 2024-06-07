@@ -4,6 +4,7 @@
 #include<raylib.h>
 
 #include "cat.h"
+#include "enchant.h"
 #include "item.h"
 #include "npc.h"
 #include "screens.h"
@@ -85,7 +86,11 @@ static void typingCode(){
                 }else{
                     typeInChat("Syntax Error: Expected Input Detail.", DARKPURPLE);
                 }
-            }else if(command == "/load" && !getSecondWord(user_input).empty())  level->changeLevel(getSecondWord(user_input));
+            }else if(command == "/load" && !getSecondWord(user_input).empty()){
+                level->changeLevel(getSecondWord(user_input));
+            }else if(command == "/enchant" && !getSecondWord(user_input).empty()){
+                player.enchantInvItem(player.getCurrentInvSlot(), Enchant::Sharpness);
+            }
         }else{
             user_input.erase(user_input.begin());
             addChatText(texts, player.getDisplayName() + ": " + user_input);
@@ -106,21 +111,21 @@ void InitGameplayScreen(){
     isTyping = false;
 
     player = Player(
-            /*Body*/{100,200,18*9, 35*9},
-            /*Speed*/500,
-            /*texture_path=*/"res/img/player_atlas.png",
-            /*selectArea*/{0,0,430, 430},
-            /*collisionBody=*/{0,0,18*9,10*9},
+        /*Body*/{100,200,18*9, 35*9},
+        /*Speed*/500,
+        /*texture_path=*/"res/img/player_atlas.png",
+        /*selectArea*/{0,0,430, 430},
+        /*collisionBody=*/{0,0,18*9,10*9},
 
-            /*slots=*/10,
-            /*inventory_pos=*/{13, 13},
-            /*inventory_texture=*/"res/img/inventory_outline.png",
-            /*inventory_selecting_texture=*/"res/img/Outline_selector.png",
-            /*extra_inv_texture=*/"res/img/Extra_Inven.png",
-            /*crafting_menu_texture=*/"res/img/Crafting_UI.png",
+        /*slots=*/10,
+        /*inventory_pos=*/{13, 13},
+        /*inventory_texture=*/"res/img/inventory_outline.png",
+        /*inventory_selecting_texture=*/"res/img/Outline_selector.png",
+        /*extra_inv_texture=*/"res/img/Extra_Inven.png",
+        /*crafting_menu_texture=*/"res/img/Crafting_UI.png",
 
-            /*display_name=*/config["DisplayName"].asString()
-            );
+        /*display_name=*/config["DisplayName"].asString()
+    );
 
     level = new Level("res/maps/test.json");
 
@@ -137,7 +142,8 @@ void InitGameplayScreen(){
         "/debug",
         "/give",
         "/givet",
-        "/load"
+        "/load",
+        "/enchant",
     };
 
     player.addItemInv(newItem<Tool>(Sword_Tool, 1));

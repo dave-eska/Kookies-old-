@@ -23,9 +23,14 @@ struct InventoryItem{
     int item_count{};
 
     int damage;
+    int durability;
 
     std::vector<RecipeItem> recipe;
     std::vector<Enchant> enchants;
+
+    std::string drawItem;
+    void UpdateDrawItem();
+
 
     Texture2D iconTexture{};
 };

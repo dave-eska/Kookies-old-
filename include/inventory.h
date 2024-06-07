@@ -4,6 +4,7 @@
 
 #include<raylib.h>
 
+#include "enchant.h"
 #include"item.h"
 #include"timer.h"
 
@@ -76,6 +77,8 @@ class Inventory{
 
         void craft(InventoryItem item);
         bool canCraft(InventoryItem item);
+
+        void addEnchant(int slot, Enchant enchantment);
 
         void Draw(Camera2D& camera);
         void DrawItemName();

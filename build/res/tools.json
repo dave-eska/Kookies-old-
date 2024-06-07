@@ -2,13 +2,19 @@
     {
         "name": "Stone Hoe",
         "texture": "res/img/tools/hoe.png",
+
         "damage": 3,
+        "durability": 150,
+
         "type": "Hoe"
     },
     {
         "name": "Frostreon Sword",
         "texture": "res/img/tools/sword.png",
+
         "damage": 7,
+        "durability": 150,
+
         "type": "Hoe"
     }
 ]

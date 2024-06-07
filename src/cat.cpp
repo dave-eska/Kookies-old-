@@ -1,10 +1,10 @@
 #include "cat.h"
-#include "enchant.h"
 #include "screens.h"
 
+#include <algorithm>
 #include <raylib.h>
 
-#define REDBOX_TIMER 0.5f
+#define REDBOX_TIMER 1.0f
 
 Cat::Cat(){
 }
@@ -13,7 +13,7 @@ Cat::Cat(Vector2 max_diff_pos, Player& player, std::string levelName){
     speed = 200;
     isFollowing = true;
 
-    health = 30;
+    health = 30000;
     drawRedBoxTimer = REDBOX_TIMER;
     isDrawingRedBox = false;
 
@@ -35,6 +35,10 @@ Cat::Cat(Vector2 max_diff_pos, Player& player, std::string levelName){
     animation = CreateSpriteAnimation(texture, 4, walkingRect, 2);
     idle = CreateSpriteAnimation(texture, 4, idleRect, 1);
     isPlayingAnimation = false;
+
+    rotation = GetRandomValue(-45, 45);
+
+    plrDamage = 0;
 }
 
 void Cat::Update(Player& plr, Camera2D& camera){
@@ -61,11 +65,9 @@ void Cat::Update(Player& plr, Camera2D& camera){
             && CheckCollisionPointRec(GetScreenToWorld2D(GetMousePosition(), camera), body)
             && plr.getInv().getItemFromCurrentSlot().filename == "res/tools.json"
             && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
-        InventoryItem plrTool = plr.getInv().getItemFromCurrentSlot();
-        int damage = plrTool.damage;
-
-        health -= damage;
+        plr.attack(health, plrDamage);
         isDrawingRedBox = true;
+        rotation = GetRandomValue(-45, 45);
     }
     if(isDrawingRedBox){
         drawRedBoxTimer -= GetFrameTime()*4;
@@ -80,6 +82,6 @@ void Cat::Draw(){
     DrawSpriteAnimationPro(isPlayingAnimation ? animation : idle, {body.x, body.y, body.width, body.width}, {0,0}, 0, WHITE);
     if(isDrawingRedBox){
         DrawTexture(redBox, body.x, body.y, WHITE);
-        DrawTextEx(font, std::to_string(health).c_str(), {body.x, body.y}, 25, 0, WHITE);
+        DrawTextPro(font, std::to_string(plrDamage).c_str(), {body.x, body.y}, {0,0}, rotation, 50, 0, WHITE);
     }
 }

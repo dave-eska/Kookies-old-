@@ -1,12 +1,11 @@
-#include"message.h"
+#include "message.h"
 
-#include<json/json.h>
-#include<json/value.h>
-#include <string>
+#include <json/json.h>
+#include <json/value.h>
+#include  <string>
 
-#include"global_func.h"
-#include"raylib.h"
-#include "screens.h"
+#include "global_func.h"
+#include "raylib.h"
 
 Message::Message(){
 }

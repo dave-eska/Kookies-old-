@@ -149,12 +149,15 @@ void Inventory::addItem(InventoryItem item){
     for(auto& inv_item:items){
         if(inv_item.tileID==0){
             assignInvSlot(item, inv_item.item_invslot);
-            inv_item=item;
+            inv_item = item;
             break;
         }else if(inv_item.tileID!=0 && inv_item.tileID==item.tileID){
             inv_item.item_count++;
             break;
         }
+    }
+    for(auto& item : items){
+        item.UpdateDrawItem();
     }
 }
 
@@ -185,6 +188,11 @@ void Inventory::toggleCrafting(){
     isCrafting = !isCrafting;
 }
 
+void Inventory::addEnchant(int slot, Enchant enchantment){
+    items[slot].enchants.push_back(enchantment);
+    items[slot].UpdateDrawItem();
+}
+
 void Inventory::Draw(Camera2D& camera){
     for(int i=0;i<items.size();i++){
         DrawTextureEx(Outline_texture, {(float)i*OUTLINE_SIZE+pos.x, pos.y}, 0, 2, WHITE);
@@ -200,11 +208,14 @@ void Inventory::Draw(Camera2D& camera){
 
     DrawTextureEx(SelectOutline_texture, {(float)current_slot*OUTLINE_SIZE+pos.x, pos.y}, 0, 2, {255,255,255,outline_transparancy});
     if(!timerDone(&drawingNameTimer) && getItemFromCurrentSlot().item_name!="air"){
+        DrawTextEx(font, getItemFromCurrentSlot().drawItem.c_str(), {current_slot*OUTLINE_SIZE+pos.x, OUTLINE_SIZE+pos.y}, 20, 0, WHITE);
+        /*
         DrawTextEx(font, getItemFromCurrentSlot().item_name.c_str(), {current_slot*OUTLINE_SIZE+pos.x, OUTLINE_SIZE+pos.y}, 20, 0, WHITE);
         if(getItemFromCurrentSlot().filename == "res/tools.json"){
             std::string temp = "Damage: " + std::to_string(getItemFromCurrentSlot().damage);
             DrawTextEx(font, temp.c_str(), {current_slot*OUTLINE_SIZE+pos.x, OUTLINE_SIZE+pos.y+22}, 20, 0, PURPLE);
         }
+        */
     }
 
     if(isDrawingUI){

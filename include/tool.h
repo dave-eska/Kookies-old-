@@ -15,6 +15,7 @@ class Tool{
 
         std::vector<Enchant> enchants;
         int damage;
+        int durability;
 
         Texture2D texture;
     public:

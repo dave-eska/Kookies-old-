@@ -15,11 +15,15 @@ class Cat: public Entity{
         bool isDrawingRedBox;
         float drawRedBoxTimer;
 
+        int rotation;
+
         SpriteAnimation animation;
         SpriteAnimation idle;
         bool isPlayingAnimation;
 
         Texture2D redBox;
+
+        int plrDamage;
     public:
         void Update(Player& plr, Camera2D& camera) override;
         void Draw() override;

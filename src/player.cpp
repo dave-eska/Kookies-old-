@@ -1,13 +1,13 @@
 #include"player.h"
 
-#include <iostream>
+#include <algorithm>
 #include<raylib.h>
 
 #include<string>
 
+#include "enchant.h"
 #include"global_func.h"
 #include"inventory.h"
-#include "tool.h"
 
 //Private functions
 void Player::move(float dt){
@@ -138,6 +138,21 @@ int Player::getCurrentInvCraftAbleID(){
     return inv.getCurrent_craftableTileId();
 }
 
+void Player::attack(int &health, int& gDammage){
+    InventoryItem plrTool = getInv().getItemFromCurrentSlot();
+    int damage = plrTool.damage;
+    auto it = std::find_if(plrTool.enchants.begin(), plrTool.enchants.end(),
+                           [](const Enchant& item) {
+                           return item == Enchant::Sharpness;
+                           });
+    if(it != plrTool.enchants.end())
+        damage += 3;
+
+    gDammage = damage;
+    health -= damage;
+    plrTool.durability -= 20;
+}
+
 int Player::getCurrentInvIDSlot(){
     return inv.getItemFromCurrentSlot().tileID;
 }
@@ -150,18 +165,23 @@ void Player::InventoryDraw(Camera2D& camera){
     inv.Draw(camera);
 }
 
+void Player::enchantInvItem(int slot, Enchant enchantmen){
+    inv.addEnchant(slot, enchantmen);
+}
+
 Player::Player(Rectangle body, int speed, const char* texture_path, Rectangle selectArea, Rectangle collisionBody,
-        /*inv*/
-        int slots, Vector2 inventory_pos, 
-        std::string inventory_texture, std::string inventory_selecting_texture, std::string extra_inv_texture,
-        std::string crafting_menu_texture,
-        /*customization*/
-        std::string display_name)
+               /*inv*/
+               int slots, Vector2 inventory_pos,
+               std::string inventory_texture, std::string inventory_selecting_texture, std::string extra_inv_texture,
+               std::string crafting_menu_texture,
+               /*customization*/
+               std::string display_name)
 :body{body}, selectArea{selectArea}, collisionArea{collisionBody}, default_speed{speed}, display_name{display_name}, speed{speed}{
     texture=LoadTexture(texture_path);
-    inv = Inventory(inventory_pos, slots, 
-            LoadTexture(inventory_texture.c_str()), LoadTexture(inventory_selecting_texture.c_str()), 
-            LoadTexture(extra_inv_texture.c_str()), LoadTexture(crafting_menu_texture.c_str()));
+    inv = Inventory(inventory_pos, slots,
+
+                    LoadTexture(inventory_texture.c_str()), LoadTexture(inventory_selecting_texture.c_str()),
+                    LoadTexture(extra_inv_texture.c_str()), LoadTexture(crafting_menu_texture.c_str()));
 
     current_animation=1;
     //0=up || 1=down || 2=left || 3=right//
