@@ -146,17 +146,17 @@ void Inventory::deleteItem(int slot){
 
 //Function;
 void Inventory::addItem(InventoryItem item){
-    for(auto& inv_item:items){
-        if(inv_item.tileID==0){
-            assignInvSlot(item, inv_item.item_invslot);
-            inv_item = item;
-            break;
-        }else if(inv_item.tileID != 0 && inv_item.tileID == item.tileID && inv_item.filename == item.filename){
-            typeInChat(inv_item.filename);
-            typeInChat(item.filename);
-            inv_item.item_count++;
-            inv_item.UpdateDrawItem();
-            break;
+    if(item.item_name != "air"){
+        for(auto& inv_item:items){
+            if(inv_item.item_name == "air"){
+                assignInvSlot(item, inv_item.item_invslot);
+                inv_item = item;
+                break;
+            }else if(inv_item.item_name != "air" && inv_item.tileID == item.tileID && inv_item.filename == item.filename){
+                inv_item.item_count++;
+                inv_item.UpdateDrawItem();
+                break;
+            }
         }
     }
 }
