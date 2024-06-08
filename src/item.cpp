@@ -9,7 +9,7 @@ void assignInvSlot(InventoryItem& item, int slot){
 void InventoryItem::UpdateDrawItem(){
     drawItem = item_name + "\n";
     for(Enchant item : enchants){
-        drawItem.append(EnchantToString(item) + "\n\n");
+        drawItem.append(EnchantToString(item) + "\n");
     }
     if(filename == "res/tools.json"){
         drawItem.append("Damage: ");

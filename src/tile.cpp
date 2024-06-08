@@ -41,7 +41,7 @@ InventoryItem Tile::asItem(int total_count){
         .tileID=id,
             .item_type=type,
             .item_name=name,
-            .filename = "res/tools.json",
+            .filename = "res/yes.json",
             .item_invslot=0,
             .item_count=total_count,
             .damage=1,
@@ -60,7 +60,7 @@ void Tile::Draw(bool is_debugging){
         DrawTextureEx(debugbox, {body.x, body.y}, 0, 3, WHITE);
         //DrawText(std::to_string((int)body.x).c_str(), body.x, body.y, 25, BLACK);
         //DrawText(std::to_string((int)body.y).c_str(), body.x, body.y+30, 25, BLACK);
-        
+
         if(isTouchingPlayer){
             DrawRectangleRec(body, {0, 200, 10, 255/2});
         }

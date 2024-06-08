@@ -151,13 +151,13 @@ void Inventory::addItem(InventoryItem item){
             assignInvSlot(item, inv_item.item_invslot);
             inv_item = item;
             break;
-        }else if(inv_item.tileID!=0 && inv_item.tileID==item.tileID){
+        }else if(inv_item.tileID != 0 && inv_item.tileID == item.tileID && inv_item.filename == item.filename){
+            typeInChat(inv_item.filename);
+            typeInChat(item.filename);
             inv_item.item_count++;
+            inv_item.UpdateDrawItem();
             break;
         }
-    }
-    for(auto& item : items){
-        item.UpdateDrawItem();
     }
 }
 

@@ -137,5 +137,7 @@ enum TileID {
 
     Effectbook_Tile = 23,
 
+    Stick_Tile = 24,
+
     MaxTileID
 };

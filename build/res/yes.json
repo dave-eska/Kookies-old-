@@ -138,4 +138,9 @@
         "texture": "res/img/effect_book.png",
         "type": "Book"
     },
+    {
+        "name": "Stick",
+        "texture": "res/img/stick.png",
+        "type": "Item"
+    }
 ]
