@@ -151,6 +151,7 @@ void Inventory::addItem(InventoryItem item){
             if(inv_item.item_name == "air"){
                 assignInvSlot(item, inv_item.item_invslot);
                 inv_item = item;
+                inv_item.UpdateDrawItem();
                 break;
             }else if(inv_item.item_name != "air" && inv_item.tileID == item.tileID && inv_item.filename == item.filename){
                 inv_item.item_count++;

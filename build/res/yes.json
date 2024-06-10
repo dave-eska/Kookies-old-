@@ -139,7 +139,12 @@
         "type": "Book"
     },
     {
-        "name": "Stick",
+        "name": "Forge Craftbench",
+        "texture": "res/img/forge_workbench.png",
+        "type": "Special",
+    },
+    {
+        "name": "Wooden Stick",
         "texture": "res/img/stick.png",
         "type": "Item"
     }

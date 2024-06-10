@@ -146,9 +146,9 @@ void InitGameplayScreen(){
         "/enchant",
     };
 
-    player.addItemInv(newItem<Tool>(Sword_Tool, 1));
+    player.addItemInv(newItem<Tool>(Hoe_Tool));
     level->AddEntity<Cat>(Cat({TILE_SIZE*2, TILE_SIZE*3}, player, "res/maps/test.json"));
-    level->AddEntity<NPC>(NPC("res/maps/test.json", {TILE_SIZE*4, 0}, "Opening", "opening.json", 7));
+    level->AddEntity<NPC>(NPC("res/maps/test.json", {TILE_SIZE*5, 0}, "Opening", "opening.json", 7));
 }
 
 void UpdateGameplayScreen(){

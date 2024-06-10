@@ -106,6 +106,7 @@ Tile::Tile(int id, Vector2 pos, int z_level){
     Json::Value jsonvalue;
     jsonreader.parse(file, jsonvalue);
 
+
     if(!jsonvalue.isArray()) return;
     if(id <= jsonvalue.size() && id >= 0){
         name = jsonvalue[id]["name"].asString();
@@ -131,49 +132,5 @@ Tile::Tile(int id, Vector2 pos, int z_level){
     animation = CreateSpriteAnimation(texture, 8, animRect, 4);
 }
 
-Tile::Tile(int id){
-    //Debug Variables
-    isTouchingMouse = false;
-    isTouchingPlayer = false;
-    isTouchingSelectAreaPlayer = false;
-    isRunningAnimation = true;
-    collision = false;
-    rotation = 0;
-
-    body = {0, 0};
-
-    this->id = id;
-    this->z_level = 0;
-
-    debugbox=LoadTexture("res/img/debugbox.png");
-
-    Json::Reader jsonreader;
-
-    std::ifstream file("res/yes.json");
-    Json::Value jsonvalue;
-    jsonreader.parse(file, jsonvalue);
-
-    if(!jsonvalue.isArray()) return;
-    if(id <= jsonvalue.size() && id >= 0){
-        name = jsonvalue[id]["name"].asString();
-        type = jsonvalue[id]["type"].asString();
-        hasAnimation = jsonvalue[id]["animation"].asBool();
-
-        if(jsonvalue[id].isMember("collision")) collision = jsonvalue[id]["collision"].asBool();
-        if(jsonvalue[id].isMember("seed")) fruitID = jsonvalue[id]["seed"].asInt();
-        if(jsonvalue[id].isMember("texture")) texture = LoadTexture(jsonvalue[id]["texture"].asString().c_str());
-        else{
-            int probability=GetRandomValue(1,2);
-            if(probability==1) texture = LoadTexture(jsonvalue[id]["texture1"].asString().c_str());
-            if(probability==2) texture = LoadTexture(jsonvalue[id]["texture2"].asString().c_str());
-        }
-    }
-
-    Rectangle animRect[TOTAL_ANIM_FRAME]={
-        {0,0,32,32},
-        {TILE_SIZE,0,32,32},
-        {TILE_SIZE*2,0,32,32},
-        {TILE_SIZE*3,0,32,32}
-    };
-    animation = CreateSpriteAnimation(texture, 8, animRect, 4);
+Tile::Tile(int id) : Tile(id, {0,0}, 0){
 }

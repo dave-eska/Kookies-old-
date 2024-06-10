@@ -365,7 +365,7 @@ void DrawLevelEditorScreen(){
 
     level->Draw();
 
-    if(has_selected_tile && current_mode == Mode_One_Select) 
+    if(has_selected_tile && current_mode == Mode_One_Select)
         DrawRectangleRec(selectedTile.getBody(), {200, 200, 200, 255/2});
 
     EndMode2D();

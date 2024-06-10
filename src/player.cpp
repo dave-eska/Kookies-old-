@@ -8,6 +8,8 @@
 #include "enchant.h"
 #include"global_func.h"
 #include"inventory.h"
+#include "item.h"
+#include "tile.h"
 
 //Private functions
 void Player::move(float dt){

@@ -111,7 +111,7 @@ void Level::Update(){
     }
 
     if(!tile_interect_return_code.empty()){
-        //x001 is the code to remove that tile. For now being use only to remove SeedTIle when harved.
+        //X001 is the code to remove that tile. For now being use only to remove SeedTIle when harved.
         if(getFirstWord(tile_interect_return_code) == "x001" && !getSecondWord(tile_interect_return_code).empty()){
             tiles.erase(std::remove_if(tiles.begin(), tiles.end(), [tile_interect_return_code](const auto& tile){
                         return tile->getSlot() == std::stoi(getSecondWord(tile_interect_return_code));
