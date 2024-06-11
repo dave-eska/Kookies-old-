@@ -141,11 +141,16 @@
     {
         "name": "Forge Craftbench",
         "texture": "res/img/forge_workbench.png",
-        "type": "Special",
+        "type": "Block"
     },
     {
         "name": "Wooden Stick",
         "texture": "res/img/stick.png",
         "type": "Item"
+    },
+    {
+        "name": "Water",
+        "texture": "res/img/water.png",
+        "type": "Block"
     }
 ]

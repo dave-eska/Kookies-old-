@@ -138,6 +138,8 @@ enum TileID {
     Effectbook_Tile = 23,
 
     Forgebench_Tile = 24,
+    Woodenstick_Tile,
+    Water_Tile,
 
     MaxTileID
 };

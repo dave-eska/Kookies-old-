@@ -1,7 +1,9 @@
 #include "screens.h"
 
 #include <algorithm>
+#include <iostream>
 #include <memory>
+#include <ostream>
 #include <string>
 #include <unistd.h>
 #include <unordered_set>
@@ -117,6 +119,7 @@ static void typingCode(){
             else if(command == "/clear") texts.clear();
             else if(command == "/debug") isDebugging = !isDebugging;
             else if(command == "/save") savingCode();
+            else if(command == "/set") { currentTileID = std::stoi(argument); currentTileTexture = newItem<Tile>(currentTileID, 1).iconTexture; }
 
             else if(command == "/load"){
                 if(!argument.empty()) level->changeLevel(argument);
@@ -201,7 +204,8 @@ void InitLevelEditorScreen(){
         "/change",
         "/save",
         "/load",
-        "/del"
+        "/del",
+        "/set"
     };
 }
 
@@ -397,13 +401,15 @@ void DrawLevelEditorScreen(){
     DrawTextEx(font, zStr.c_str(), {20, 240}, font_size, 0, WHITE);
 
     Rectangle box = { 100, 85, 285, 30 };
-    if(level->tiles[selectedTile.getSlot()]->getID() == Transition_Tile){
-        if(GuiTextBox({ box.x + 170, box.y, 200, 30 }, tr_dest, 128, isEditingTD)){
-            if(isEditingTD){
-                auto transitionTile = dynamic_cast<TransitionTile*>(level->tiles[selectedTile.getSlot()].get());
-                transitionTile->attachLevel(tr_dest);
+    if(level->tiles.size() >= selectedTile.getSlot()){
+        if(level->tiles[selectedTile.getSlot()]->getID() == Transition_Tile){
+            if(GuiTextBox({ box.x + 170, box.y, 200, 30 }, tr_dest, 128, isEditingTD)){
+                if(isEditingTD){
+                    auto transitionTile = dynamic_cast<TransitionTile*>(level->tiles[selectedTile.getSlot()].get());
+                    transitionTile->attachLevel(tr_dest);
+                }
+                isEditingTD = !isEditingTD;
             }
-            isEditingTD = !isEditingTD;
         }
     }
 

@@ -1,5 +1,6 @@
 #include"tile.h"
 
+#include <typeindex>
 #include<vector>
 #include<fstream>
 #include<string>
@@ -10,6 +11,7 @@
 #include<json/json.h>
 
 #include"animation.h"
+#include "global_func.h"
 
 bool compareTiles(Tile& tile1, Tile& tile2){
     return tile1.getZ() < tile2.getZ();
@@ -106,6 +108,7 @@ Tile::Tile(int id, Vector2 pos, int z_level){
     Json::Value jsonvalue;
     jsonreader.parse(file, jsonvalue);
 
+    //typeInChat(std::to_string(jsonvalue.size()));
 
     if(!jsonvalue.isArray()) return;
     if(id <= jsonvalue.size() && id >= 0){
@@ -121,6 +124,7 @@ Tile::Tile(int id, Vector2 pos, int z_level){
             if(probability==1) texture = LoadTexture(jsonvalue[id]["texture1"].asString().c_str());
             if(probability==2) texture = LoadTexture(jsonvalue[id]["texture2"].asString().c_str());
         }
+        //typeInChat("Succesfully created a '" + name + "'");
     }
 
     Rectangle animRect[TOTAL_ANIM_FRAME]={
