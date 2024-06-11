@@ -42,7 +42,7 @@
         "name": "chest",
         "texture": "res/img/chest.png",
         "animation": true,
-        "type": "Item"
+        "type": "Block"
     },
     {
         "name": "crafting_table",
@@ -151,6 +151,6 @@
     {
         "name": "Water",
         "texture": "res/img/water.png",
-        "type": "Block"
+        "type": "Fluid"
     }
 ]

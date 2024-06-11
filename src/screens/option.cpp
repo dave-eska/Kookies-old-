@@ -2,6 +2,7 @@
 
 #include <fstream>
 
+#include <ios>
 #include <raylib.h>
 
 #define RAYGUI_IMPLEMENTATION
@@ -19,6 +20,9 @@ bool isEditingPDN;
 char font_path[128] = "res/fonts/Minecraft.ttf";
 bool isEditingFP;
 
+char default_map[128] = "res/maps/test.json";
+bool isEditingDM;
+
 float fullscreenOnLaunch;
 
 static void SaveConfigToJson(){
@@ -27,6 +31,7 @@ static void SaveConfigToJson(){
     root["fullscreen"] = (bool)fullscreenOnLaunch;
     root["DisplayName"] = plr_display_name;
     root["FontPath"] = font_path;
+    root["defaultMap"] = default_map;
 
     std::ofstream file_id("config.json");
     file_id << root;
@@ -93,6 +98,16 @@ void DrawOptionsScreen(){
     DrawText((fullscreenOnLaunch == true) ? "True" : "False", box.x + 260, box.y + 5, 20, BLACK);
 
     GuiSlider({ box.x + 20, box.y + 40, 260, 20 }, "False", "True", &fullscreenOnLaunch, 0, 1);
+
+    // Draw "default map patp" text
+    box = { 10, 200, 320, 30 };
+    DrawRectangleRec(box, GRAY);
+
+    DrawText("Default Map", box.x + 10, box.y + 5, 20, BLACK);
+
+    if(GuiTextBox({ box.x + 170, box.y, 150, 30 }, default_map, 128, isEditingDM)){
+        isEditingDM = !isEditingDM;
+    }
 
     // Draw Save button
     if (GuiButton((Rectangle){ (float)GetScreenWidth() - 100, (float)GetScreenHeight() - 50, 80, 30 }, "Save"))

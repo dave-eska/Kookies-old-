@@ -13,7 +13,7 @@ SpriteAnimation CreateSpriteAnimation(Texture2D atlas, int framesPerSecond, Rect
 		.rectangles = NULL,
 		.rectanglesLength = length
 	};
-	
+
 	Rectangle* mem = (Rectangle*)malloc(sizeof(Rectangle) * length);
 	if (mem == NULL)
 	{
@@ -26,7 +26,7 @@ SpriteAnimation CreateSpriteAnimation(Texture2D atlas, int framesPerSecond, Rect
 
 	for (int i = 0; i < length; i++)
 	{
-		spriteAnimation.rectangles[i] = rectangles[i];		
+		spriteAnimation.rectangles[i] = rectangles[i];
 	}
 
 	return spriteAnimation;

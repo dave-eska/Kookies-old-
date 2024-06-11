@@ -2,5 +2,6 @@
 	"DisplayName" : "Daveeska",
 	"FontPath" : "res/fonts/Minecraft.ttf",
 	"camera_zoom" : 0.60000002384185791,
+	"defaultMap" : "save.json",
 	"fullscreen" : true
 }

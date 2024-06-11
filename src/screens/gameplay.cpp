@@ -127,7 +127,7 @@ void InitGameplayScreen(){
         /*display_name=*/config["DisplayName"].asString()
     );
 
-    level = new Level("res/maps/test.json");
+    level = new Level(config["defaultMap"].asString());
 
     camera = { 0 };
     camera.target = {player.getBody().x + (player.getBody().width/2), player.getBody().y + (player.getBody().height/2)};

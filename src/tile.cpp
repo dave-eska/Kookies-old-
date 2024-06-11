@@ -91,7 +91,7 @@ Tile::Tile(int id, Vector2 pos, int z_level){
     isTouchingMouse = false;
     isTouchingPlayer = false;
     isTouchingSelectAreaPlayer = false;
-    isRunningAnimation = true;
+    isRunningAnimation = false;
     collision = false;
     rotation = 0;
 
