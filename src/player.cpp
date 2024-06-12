@@ -112,7 +112,13 @@ void Player::Draw(bool isDebuggin, Camera2D& camera){
             32 * 3,
             32 * 3
         };
-        DrawTexturePro(inv.getItemFromCurrentSlot().iconTexture, {0, 0, (float)32*flip, 32}, dest, {32, 32}, 80*flip, WHITE);
+        InventoryItem item = inv.getItemFromCurrentSlot();
+        int rotation = 80;
+
+        if(item.item_type == "fishing_rod"){
+            flip *= -1;
+        }
+        DrawTexturePro(item.iconTexture, {0, 0, (float)32*flip, 32}, dest, {32, 32}, rotation * flip, WHITE);
     }
 
     if(isDebuggin) {

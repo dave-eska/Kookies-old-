@@ -16,5 +16,14 @@
         "durability": 150,
 
         "type": "Hoe"
+    },
+    {
+        "name": "Wooden Fishing Rod",
+        "texture": "res/img/tools/fishing_rod.png",
+
+        "damage": 3,
+        "durability": 150,
+
+        "type": "fishing_rod"
     }
 ]

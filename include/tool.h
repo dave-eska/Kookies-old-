@@ -27,5 +27,6 @@ class Tool{
 
 enum ToolID{
     Hoe_Tool,
-    Sword_Tool
+    Sword_Tool,
+    WoodenFishingRod_Tool
 };

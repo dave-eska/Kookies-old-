@@ -32,6 +32,8 @@ static std::string user_input;
 
 static std::vector<std::string> commands;
 
+static bool isOnEscMenu;
+
 void changeMainLevel(std::string levelName){
     level->changeLevel(levelName);
 }
@@ -99,6 +101,8 @@ static void typingCode(){
         isTyping=false;
     }
     for(auto &text:texts) text.Update();
+
+    isOnEscMenu = false;
 }
 
 static void drawInCamMode(){
@@ -146,7 +150,7 @@ void InitGameplayScreen(){
         "/enchant",
     };
 
-    player.addItemInv(newItem<Tool>(Hoe_Tool));
+    player.addItemInv(newItem<Tool>(WoodenFishingRod_Tool));
     level->AddEntity<Cat>(Cat({TILE_SIZE*2, TILE_SIZE*3}, player, "res/maps/test.json"));
     level->AddEntity<NPC>(NPC("res/maps/test.json", {TILE_SIZE*5, 0}, "Opening", "opening.json", 7));
 }
@@ -171,7 +175,8 @@ void UpdateGameplayScreen(){
 
 
     if(IsKeyPressed(KEY_ESCAPE))
-        finish_screen = 1;
+        isOnEscMenu = true;
+        //finish_screen = 1;
 }
 
 void DrawGameplayScreen(){
