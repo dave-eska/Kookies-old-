@@ -21,6 +21,8 @@ class Level{
         void UseCraftingTable(std::unique_ptr<Tile>& tile);
         void PlaceItem(std::unique_ptr<Tile>& tile);
         void PlantSeed(std::unique_ptr<Tile>& tile);
+        void AnimateTile(std::unique_ptr<Tile>& tile);
+
     public:
         Vector2 getStartingPos(){return starting_pos;}
         Vector2 getCanvasSize(){return canvas_size;}

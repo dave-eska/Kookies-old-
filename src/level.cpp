@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "raylib.h"
 #include "screens.h"
 #include "global_func.h"
 #include "tiling_util.h"
@@ -75,6 +76,11 @@ void Level::PlantSeed(std::unique_ptr<Tile>& tile){
     }
 }
 
+void Level::AnimateTile(std::unique_ptr<Tile>& tile){
+    if(tile->HasAnimFrame() && tile->getIsTouchinSelectAreaPlayer() && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT))
+        tile->runAnimation();
+}
+
 void Level::Update(){
     std::string tile_interect_return_code;
     for(auto& tile : tiles){
@@ -108,6 +114,7 @@ void Level::Update(){
         UseCraftingTable(tile);
         PlaceItem(tile);
         PlantSeed(tile);
+        AnimateTile(tile);
     }
 
     if(!tile_interect_return_code.empty()){
