@@ -121,15 +121,17 @@ Tile::Tile(int id, Vector2 pos, int z_level){
 
         if(jsonvalue[id].isMember("collision")) collision = jsonvalue[id]["collision"].asBool();
         if(jsonvalue[id].isMember("seed")) fruitID = jsonvalue[id]["seed"].asInt();
-        if(jsonvalue[id].isMember("texture")) texture = LoadTexture(jsonvalue[id]["texture"].asString().c_str());
-        else{
-            int probability=GetRandomValue(1,2);
-            if(probability==1) texture = LoadTexture(jsonvalue[id]["texture1"].asString().c_str());
-            if(probability==2) texture = LoadTexture(jsonvalue[id]["texture2"].asString().c_str());
-        }
+        if(jsonvalue[id].isMember("animateByDefault")) runningAnimationOnDefault = jsonvalue[id]["animateByDefault"].asBool();
 
-        if(jsonvalue[id].isMember("animateByDefault")){
-            runningAnimationOnDefault = jsonvalue[id]["animateByDefault"].asBool();
+        if(jsonvalue[id].isMember("texture")){
+            if(jsonvalue[id]["texture"].isArray()){
+                int probability = GetRandomValue(0,1);
+                texture = LoadTexture(jsonvalue[id]["texture"][probability].asString().c_str());
+            }
+            else
+                texture = LoadTexture(jsonvalue[id]["texture"].asString().c_str());
+        }else{
+            texture = LoadTexture("");
         }
     }
     hasAnimation = texture.width/32 > 1 ? true : false;

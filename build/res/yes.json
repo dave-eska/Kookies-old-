@@ -6,8 +6,7 @@
     },
     {
         "name": "grass",
-        "texture1": "res/img/grass1.png",
-        "texture2": "res/img/grass2.png",
+        "texture": ["res/img/grass1.png", "res/img/grass2.png"],
         "type": "Block",
         "collision": false
     },
@@ -150,8 +149,7 @@
     },
     {
         "name": "Water",
-        "texture1": "res/img/water.png",
-        "texture2": "res/img/water1.png",
+        "texture": ["res/img/water.png", "res/img/water1.png"],
         "animateByDefault": true,
         "type": "Fluid"
     }
