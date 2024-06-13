@@ -11,7 +11,6 @@
 #include"animation.h"
 
 #define TILE_SIZE 96
-#define TOTAL_ANIM_FRAME (4)
 
 class Tile{
     protected:
@@ -37,8 +36,10 @@ class Tile{
         bool collision;
 
         //animations
+        int totalFrame;
         bool hasAnimation;
         bool isRunningAnimation;
+        bool runningAnimationOnDefault;
         SpriteAnimation animation;
 
         //Debug var

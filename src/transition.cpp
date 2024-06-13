@@ -66,11 +66,8 @@ TransitionTile::TransitionTile(int id, Vector2 pos, int z_level){
         }
     }
 
-    Rectangle animRect[TOTAL_ANIM_FRAME]={
+    Rectangle animRect[1]={
         {0,0,32,32},
-        {TILE_SIZE,0,32,32},
-        {TILE_SIZE*2,0,32,32},
-        {TILE_SIZE*3,0,32,32}
     };
 
     animation = CreateSpriteAnimation(texture, 8, animRect, 4);

@@ -1,6 +1,5 @@
 #include"tile.h"
 
-#include <typeindex>
 #include<vector>
 #include<fstream>
 #include<string>
@@ -53,7 +52,10 @@ InventoryItem Tile::asItem(int total_count){
 }
 
 void Tile::Draw(bool is_debugging){
-    if(isRunningAnimation) {
+    if(runningAnimationOnDefault){
+        DrawSpriteAnimationPro(animation, {body.x, body.y, TILE_SIZE, TILE_SIZE}, {0, 0}, rotation, WHITE);
+    }
+    else if(isRunningAnimation) {
         DrawSpriteAnimationPro(animation, {body.x, body.y, TILE_SIZE, TILE_SIZE}, {0, 0}, rotation, WHITE, isRunningAnimation);
     }
     else DrawTexturePro(texture, {0,0,32,32}, {body.x,body.y,TILE_SIZE,TILE_SIZE}, {0,0}, rotation, WHITE);
@@ -94,6 +96,8 @@ Tile::Tile(int id, Vector2 pos, int z_level){
     isRunningAnimation = false;
     collision = false;
     rotation = 0;
+    totalFrame = 1;
+    runningAnimationOnDefault = false;
 
     body = { pos.x, pos.y, TILE_SIZE, TILE_SIZE };
 
@@ -114,7 +118,6 @@ Tile::Tile(int id, Vector2 pos, int z_level){
     if(id <= jsonvalue.size() && id >= 0){
         name = jsonvalue[id]["name"].asString();
         type = jsonvalue[id]["type"].asString();
-        hasAnimation = jsonvalue[id]["animation"].asBool();
 
         if(jsonvalue[id].isMember("collision")) collision = jsonvalue[id]["collision"].asBool();
         if(jsonvalue[id].isMember("seed")) fruitID = jsonvalue[id]["seed"].asInt();
@@ -124,16 +127,20 @@ Tile::Tile(int id, Vector2 pos, int z_level){
             if(probability==1) texture = LoadTexture(jsonvalue[id]["texture1"].asString().c_str());
             if(probability==2) texture = LoadTexture(jsonvalue[id]["texture2"].asString().c_str());
         }
-        //typeInChat("Succesfully created a '" + name + "'");
+
+        if(jsonvalue[id].isMember("animateByDefault")){
+            runningAnimationOnDefault = jsonvalue[id]["animateByDefault"].asBool();
+        }
+    }
+    hasAnimation = texture.width/32 > 1 ? true : false;
+    totalFrame = texture.width/32;
+
+    Rectangle animRect[totalFrame];
+    for(int i=0;i<totalFrame;i++){
+        animRect[i] = {(float)32*i, 0, 32, 32};
     }
 
-    Rectangle animRect[TOTAL_ANIM_FRAME]={
-        {0,0,32,32},
-        {TILE_SIZE,0,32,32},
-        {TILE_SIZE*2,0,32,32},
-        {TILE_SIZE*3,0,32,32}
-    };
-    animation = CreateSpriteAnimation(texture, 8, animRect, 4);
+    animation = CreateSpriteAnimation(texture, 4, animRect, totalFrame);
 }
 
 Tile::Tile(int id) : Tile(id, {0,0}, 0){

@@ -33,6 +33,7 @@ static std::string user_input;
 static std::vector<std::string> commands;
 
 static bool isOnEscMenu;
+static Texture2D escButtonTexture;
 
 void changeMainLevel(std::string levelName){
     level->changeLevel(levelName);
@@ -131,6 +132,8 @@ void InitGameplayScreen(){
         /*display_name=*/config["DisplayName"].asString()
     );
 
+    escButtonTexture = LoadTexture("res/img/EscMenu.png");
+
     level = new Level(config["defaultMap"].asString());
 
     camera = { 0 };
@@ -173,10 +176,8 @@ void UpdateGameplayScreen(){
     if(isTyping)
         typingCode();
 
-
     if(IsKeyPressed(KEY_ESCAPE))
         isOnEscMenu = true;
-        //finish_screen = 1;
 }
 
 void DrawGameplayScreen(){
