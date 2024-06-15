@@ -86,7 +86,7 @@ void Message::Draw(){
             DrawText(text[i+scroll_level].c_str(), text_pos.x, text_pos.y+(i*64), 30, BLACK);
         }
     }else if(text.size() < 3){
-        for(int i=0;i<3;i++){
+        for(int i=0;i<text.size();i++){
             DrawText(text[i].c_str(), text_pos.x, text_pos.y+(i*64), 30, BLACK);
         }
     }

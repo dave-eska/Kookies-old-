@@ -10,7 +10,6 @@
 #include<json/json.h>
 
 #include"animation.h"
-#include "global_func.h"
 
 bool compareTiles(Tile& tile1, Tile& tile2){
     return tile1.getZ() < tile2.getZ();
@@ -98,6 +97,7 @@ Tile::Tile(int id, Vector2 pos, int z_level){
     rotation = 0;
     totalFrame = 1;
     runningAnimationOnDefault = false;
+    fps = 4;
 
     body = { pos.x, pos.y, TILE_SIZE, TILE_SIZE };
 
@@ -116,20 +116,31 @@ Tile::Tile(int id, Vector2 pos, int z_level){
 
     if(!jsonvalue.isArray()) return;
     if(id <= jsonvalue.size() && id >= 0){
-        name = jsonvalue[id]["name"].asString();
-        type = jsonvalue[id]["type"].asString();
+        auto tileData = jsonvalue[id];
 
-        if(jsonvalue[id].isMember("collision")) collision = jsonvalue[id]["collision"].asBool();
-        if(jsonvalue[id].isMember("seed")) fruitID = jsonvalue[id]["seed"].asInt();
-        if(jsonvalue[id].isMember("animateByDefault")) runningAnimationOnDefault = jsonvalue[id]["animateByDefault"].asBool();
+        name = tileData["name"].asString();
+        type = tileData["type"].asString();
 
-        if(jsonvalue[id].isMember("texture")){
-            if(jsonvalue[id]["texture"].isArray()){
-                int probability = GetRandomValue(0,1);
-                texture = LoadTexture(jsonvalue[id]["texture"][probability].asString().c_str());
+        if(tileData.isMember("collision")) collision = jsonvalue[id]["collision"].asBool();
+        if(tileData.isMember("seed")) fruitID = jsonvalue[id]["seed"].asInt();
+        if(tileData.isMember("animateByDefault")) runningAnimationOnDefault = jsonvalue[id]["animateByDefault"].asBool();
+
+        if(tileData.isMember("fps")){
+            if(tileData["fps"].isArray()){
+                int probability = GetRandomValue(0,tileData["fps"].size()-1);
+                fps = tileData["fps"][probability].asInt();
+            }else{
+                fps = tileData["fps"].asInt();
+            }
+        }
+
+        if(tileData.isMember("texture")){
+            if(tileData["texture"].isArray()){
+                int probability = GetRandomValue(0,tileData["texture"].size()-1);
+                texture = LoadTexture(tileData["texture"][probability].asString().c_str());
             }
             else
-                texture = LoadTexture(jsonvalue[id]["texture"].asString().c_str());
+                texture = LoadTexture(tileData["texture"].asString().c_str());
         }else{
             texture = LoadTexture("");
         }
@@ -142,7 +153,7 @@ Tile::Tile(int id, Vector2 pos, int z_level){
         animRect[i] = {(float)32*i, 0, 32, 32};
     }
 
-    animation = CreateSpriteAnimation(texture, 4, animRect, totalFrame);
+    animation = CreateSpriteAnimation(texture, fps, animRect, totalFrame);
 }
 
 Tile::Tile(int id) : Tile(id, {0,0}, 0){

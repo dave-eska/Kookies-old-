@@ -37,6 +37,7 @@ class Tile{
 
         //animations
         int totalFrame;
+        int fps;
         bool hasAnimation;
         bool isRunningAnimation;
         bool runningAnimationOnDefault;

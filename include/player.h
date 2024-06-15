@@ -35,6 +35,8 @@ class Player{
 
         std::string display_name;
 
+        int toolRotation;
+
         //Debug variable
         bool isToucingItem;
     public:
@@ -72,6 +74,7 @@ class Player{
         void attack(int &health, int& gDammage);
 
         void UpdateVariables();
+        void UpdateTools(Camera2D& camera);
         void animate();
 
         void UpdateInventory();

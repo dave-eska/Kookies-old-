@@ -1,5 +1,6 @@
 #include"player.h"
 
+#include <X11/extensions/randr.h>
 #include <algorithm>
 #include<raylib.h>
 
@@ -10,6 +11,7 @@
 #include"inventory.h"
 #include "item.h"
 #include "tile.h"
+#include "tool.h"
 
 //Private functions
 void Player::move(float dt){
@@ -97,6 +99,20 @@ void Player::toggleInvenCrafting(){
     inv.toggleCrafting();
 }
 
+void Player::UpdateTools(Camera2D& camera){
+    toolRotation = 80;
+    if(inv.getItemFromCurrentSlot().filename == "res/tools.json"){
+        if(IsMouseButtonDown(MOUSE_BUTTON_LEFT))
+            toolRotation = 110;
+        if(IsMouseButtonDown(MOUSE_BUTTON_RIGHT))
+            toolRotation = 50;
+        switch(inv.getItemFromCurrentSlot().tileID){
+            default:
+                break;
+        }
+    }
+}
+
 void Player::Draw(bool isDebuggin, Camera2D& camera){
     animate();
     DrawRectangleV({(body.x-(float)display_name.size()+20)-60, body.y-40}, {(float)display_name.size()*30+40,45}, {50,50,50,100});
@@ -108,17 +124,17 @@ void Player::Draw(bool isDebuggin, Camera2D& camera){
         if(GetScreenToWorld2D(GetMousePosition(), camera).x < body.x + body.width/2) flip = -1;
         Rectangle dest = {
             GetScreenToWorld2D(GetMousePosition(), camera).x,
-            GetScreenToWorld2D(GetMousePosition(), camera).y,
+            GetScreenToWorld2D(GetMousePosition(), camera).y + 96,
             32 * 3,
             32 * 3
         };
         InventoryItem item = inv.getItemFromCurrentSlot();
-        int rotation = 80;
 
         if(item.item_type == "fishing_rod"){
             flip *= -1;
         }
-        DrawTexturePro(item.iconTexture, {0, 0, (float)32*flip, 32}, dest, {32, 32}, rotation * flip, WHITE);
+        //DrawRectanglePro(dest, {48, 48}, toolRotation * flip, WHITE);
+        DrawTexturePro(item.iconTexture, {0, 0, (float)32*flip, 32}, dest, {32, 32}, toolRotation * flip, WHITE);
     }
 
     if(isDebuggin) {
@@ -262,6 +278,7 @@ Player::Player(Rectangle body, int speed, const char* texture_path, Rectangle se
     newPos = body;
     newPos.width /= 2;
     newPos.height = TILE_SIZE;
+    toolRotation = 80;
 }
 
 Player::Player(){

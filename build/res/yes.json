@@ -40,6 +40,7 @@
     {
         "name": "chest",
         "texture": "res/img/chest.png",
+        "fps": 8,
         "animateByDefault": false,
         "type": "Block"
     },
@@ -149,7 +150,8 @@
     },
     {
         "name": "Water",
-        "texture": ["res/img/water.png", "res/img/water1.png"],
+        "texture": ["res/img/water.png", "res/img/water1.png", "res/img/water2.png"],
+        "fps": [1, 2, 1, 2, 1, 1],
         "animateByDefault": true,
         "type": "Fluid"
     }

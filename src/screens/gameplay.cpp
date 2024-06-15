@@ -153,9 +153,9 @@ void InitGameplayScreen(){
         "/enchant",
     };
 
-    player.addItemInv(newItem<Tool>(WoodenFishingRod_Tool));
-    level->AddEntity<Cat>(Cat({TILE_SIZE*2, TILE_SIZE*3}, player, "res/maps/test.json"));
-    level->AddEntity<NPC>(NPC("res/maps/test.json", {TILE_SIZE*5, 0}, "Opening", "opening.json", 7));
+    player.addItemInv(newItem<Tool>(Sword_Tool));
+    level->AddEntity<Cat>(Cat({TILE_SIZE*2, TILE_SIZE*3}, player, "save.json"));
+    level->AddEntity<NPC>(NPC("save.json", {TILE_SIZE*8, -TILE_SIZE}, "Opening", "opening.json", 7));
 }
 
 void UpdateGameplayScreen(){
@@ -164,6 +164,7 @@ void UpdateGameplayScreen(){
         player.move(GetFrameTime());
     }
 
+    player.UpdateTools(camera);
     player.UpdateInventory();
     player.UpdateVariables();
 
