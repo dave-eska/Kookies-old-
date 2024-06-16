@@ -10,6 +10,7 @@
 
 #include "json/writer.h"
 
+#include "fluid.h"
 #include"tile.h"
 #include"transition.h"
 #include"seed.h"
@@ -76,19 +77,25 @@ std::vector<std::unique_ptr<Tile>> loadLevelFromFile(std::string file_path, int&
         for (const auto& e : layer.asString()) {
             if((e == ' ' or e == '\n' or e == ',') && !id.empty()){
                 int tile_id = std::stoi(id);
+                Vector2 tile_pos = {starting_pos.x+x*TILE_SIZE, starting_pos.y+(y*TILE_SIZE)};
                 if(tile_id == Cherryseeds_Tile){
-                    SeedTile tile = SeedTile(tile_id, {starting_pos.x+x*TILE_SIZE, starting_pos.y+(y*TILE_SIZE)}, z);
+                    SeedTile tile = SeedTile(tile_id, tile_pos, z);
                     tile.setSlot(vec.size());
                     vec.push_back(std::make_unique<SeedTile>(tile));
                     id.clear();
                 }else if(tile_id == Transition_Tile){
-                    TransitionTile tile = TransitionTile(tile_id, {starting_pos.x+x*TILE_SIZE, starting_pos.y+(y*TILE_SIZE)}, z);
+                    TransitionTile tile = TransitionTile(tile_id, tile_pos, z);
                     tile.setSlot(vec.size());
                     if(!destination.empty()){
                         tile.attachLevel(destination);
                         destination.clear();
                     }
                     vec.push_back(std::make_unique<TransitionTile>(tile));
+                    id.clear();
+                }else if(tile_id == Water_Tile){
+                    FluidTile tile = FluidTile(tile_id, tile_pos, z);
+                    tile.setSlot(vec.size());
+                    vec.push_back(std::make_unique<FluidTile>(tile));
                     id.clear();
                 }else{
                     if(isStrDigit(id)){

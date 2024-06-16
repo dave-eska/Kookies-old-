@@ -154,6 +154,7 @@ void InitGameplayScreen(){
     };
 
     player.addItemInv(newItem<Tool>(Sword_Tool));
+    player.addItemInv(newItem<Tool>(WoodenFishingRod_Tool));
     level->AddEntity<Cat>(Cat({TILE_SIZE*2, TILE_SIZE*3}, player, "save.json"));
     level->AddEntity<NPC>(NPC("save.json", {TILE_SIZE*8, -TILE_SIZE}, "Opening", "opening.json", 7));
 }

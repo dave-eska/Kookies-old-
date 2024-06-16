@@ -16,7 +16,7 @@ void Level::changeLevel(std::string levelName){
 }
 
 void Level::Interact(std::unique_ptr<Tile>& tile, std::string& tile_interect_return_code){
-    if(tile->getIsTouchingPlayer() && tile->getIsTouchingMouse() && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
+    if(tile->getIsTouchinSelectAreaPlayer() && tile->getIsTouchingMouse() && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT)){
         if(auto ret = tile->Interact(); !ret.empty())
         {
             tile_interect_return_code = ret;

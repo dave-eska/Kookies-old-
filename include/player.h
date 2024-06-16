@@ -49,6 +49,8 @@ class Player{
         std::string getDisplayName(){return display_name;}
         Inventory getInv(){return inv;}
 
+        bool isFishing();
+
         //Setters
         void setTouchingBool(bool value){isToucingItem=value;}
         void setPos(Vector2 pos){body.x=pos.x; body.y=pos.y;}

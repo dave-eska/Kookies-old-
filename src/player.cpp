@@ -11,7 +11,6 @@
 #include"inventory.h"
 #include "item.h"
 #include "tile.h"
-#include "tool.h"
 
 //Private functions
 void Player::move(float dt){
@@ -133,7 +132,6 @@ void Player::Draw(bool isDebuggin, Camera2D& camera){
         if(item.item_type == "fishing_rod"){
             flip *= -1;
         }
-        //DrawRectanglePro(dest, {48, 48}, toolRotation * flip, WHITE);
         DrawTexturePro(item.iconTexture, {0, 0, (float)32*flip, 32}, dest, {32, 32}, toolRotation * flip, WHITE);
     }
 
@@ -141,6 +139,10 @@ void Player::Draw(bool isDebuggin, Camera2D& camera){
         DrawRectangleRec(selectArea, {150,150,150,100});
         DrawRectangleRec(newPos, {255, 255, 255, 255/2});
     }
+}
+
+bool Player::isFishing(){
+    return inv.getItemFromCurrentSlot().item_type ==  "fishing_rod" && IsMouseButtonDown(MOUSE_BUTTON_RIGHT);
 }
 
 bool Player::invHas(int id){
