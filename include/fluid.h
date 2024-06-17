@@ -8,8 +8,13 @@
 
 class FluidTile: public Tile{
     private:
+        bool hasWave;
         bool hasFish;
+
         float timer;
+        int fishSlot;
+
+        int old_fps;
     public:
         void Update() override;
         std::string Interact() override;

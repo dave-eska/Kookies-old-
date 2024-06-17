@@ -116,7 +116,7 @@ void InitGameplayScreen(){
     isTyping = false;
 
     player = Player(
-        /*Body*/{100,200,18*9, 35*9},
+        /*Body*/{TILE_SIZE*14, -TILE_SIZE, 18*9, 35*9},
         /*Speed*/500,
         /*texture_path=*/"res/img/player_atlas.png",
         /*selectArea*/{0,0,430, 430},
@@ -156,7 +156,9 @@ void InitGameplayScreen(){
     player.addItemInv(newItem<Tool>(Sword_Tool));
     player.addItemInv(newItem<Tool>(WoodenFishingRod_Tool));
     level->AddEntity<Cat>(Cat({TILE_SIZE*2, TILE_SIZE*3}, player, "save.json"));
-    level->AddEntity<NPC>(NPC("save.json", {TILE_SIZE*8, -TILE_SIZE}, "Opening", "opening.json", 7));
+    level->AddEntity<NPC>(NPC("save.json", {TILE_SIZE*10, -TILE_SIZE}, "Opening", "opening.json", 7));
+
+    typeInChat(std::to_string(level->totalEntity()));
 }
 
 void UpdateGameplayScreen(){

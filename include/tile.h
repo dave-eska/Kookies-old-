@@ -142,6 +142,7 @@ enum TileID {
     Forgebench_Tile = 24,
     Woodenstick_Tile,
     Water_Tile,
+    RawFish_Tile,
 
     MaxTileID
 };

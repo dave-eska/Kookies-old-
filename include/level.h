@@ -23,10 +23,15 @@ class Level{
         void PlantSeed(std::unique_ptr<Tile>& tile);
         void AnimateTile(std::unique_ptr<Tile>& tile);
 
+        void FishingMechanic();
+
     public:
         Vector2 getStartingPos(){return starting_pos;}
         Vector2 getCanvasSize(){return canvas_size;}
         int getTotalLayers(){return total_layers;}
+        std::string getLevelName(){return level_name;}
+
+        int totalEntity(){return entities.size();}
 
         std::vector<std::unique_ptr<Tile>> tiles;
         int getTotalTiles(){return tiles.size();}
@@ -36,7 +41,16 @@ class Level{
         void setTotalLayers(int val){total_layers = val;}
 
         template<typename T>
-            void AddEntity(T entity){entities.push_back(std::make_unique<T>(entity));}
+            void AddEntity(T entity, int& slot){
+                entities.push_back(std::make_unique<T>(entity));
+                slot = entities.size()-1;
+            }
+        template<typename T>
+            void AddEntity(T entity){
+                entities.push_back(std::make_unique<T>(entity));
+            }
+
+        void removeEntity(int slot);
 
         void changeLevel(std::string levelName);
 

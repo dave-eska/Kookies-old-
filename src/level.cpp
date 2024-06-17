@@ -56,6 +56,9 @@ void Level::PlaceItem(std::unique_ptr<Tile>& tile){
     }
 }
 
+void Level::FishingMechanic(){
+}
+
 void Level::PlantSeed(std::unique_ptr<Tile>& tile){
     if(tile->getID() == Farmland_Tile && tile->getIsTouchinSelectAreaPlayer() && getPlayer().getInv().getItemFromCurrentSlot().item_type == "BagOfSeed"){
         if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) && tile->getIsTouchingMouse()){
@@ -79,6 +82,10 @@ void Level::PlantSeed(std::unique_ptr<Tile>& tile){
 void Level::AnimateTile(std::unique_ptr<Tile>& tile){
     if(tile->HasAnimFrame() && tile->getIsTouchinSelectAreaPlayer() && IsMouseButtonPressed(MOUSE_BUTTON_RIGHT))
         tile->runAnimation();
+}
+
+void Level::removeEntity(int slot){
+    entities.erase(entities.begin() + slot);
 }
 
 void Level::Update(){

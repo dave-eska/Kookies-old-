@@ -154,5 +154,10 @@
         "fps": [1, 2, 1, 2, 1, 1],
         "animateByDefault": true,
         "type": "Fluid"
-    }
+    },
+    {
+        "name": "Raw Fish",
+        "texture": "res/img/jerry.png",
+        "type": "Item"
+    },
 ]

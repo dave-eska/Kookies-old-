@@ -1,16 +1,32 @@
 #include "fluid.h"
 
 #include <raylib.h>
+#include <string>
 
+#include "fish.h"
 #include "global_func.h"
+#include "item.h"
+#include "tile.h"
 
 void FluidTile::Update(){
-    if(getPlayer().isFishing() && isTouchingMouse && !hasFish){
+    if(getPlayer().isFishing() && isTouchingMouse && !hasWave){
         timer -= GetFrameTime();
         if(timer <= 0){
-            hasFish = GetRandomValue(false, true);
+            hasWave = GetRandomValue(false, true);
             timer = 2.0f;
         }
+    }
+    if(getPlayer().isFishing() && hasWave && IsKeyPressed(KEY_SPACE)){
+        hasFish = true;
+        getCurrentLevel().AddEntity<Fish>((Fish({body.x, body.y}, "save.json")), fishSlot);
+    }
+
+    if(hasFish && isTouchingMouse && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
+        getCurrentLevel().removeEntity(fishSlot);
+        getPlayer().addItemInv(newItem<Tile>(RawFish_Tile));
+        hasWave = false;
+        hasFish = false;
+        animation.framesPerSecond = old_fps;
     }
 }
 
@@ -24,7 +40,7 @@ void FluidTile::Draw(bool is_debugging){
     }
     else DrawTexturePro(texture, {0,0,32,32}, {body.x,body.y,TILE_SIZE,TILE_SIZE}, {0,0}, rotation, WHITE);
 
-    if(hasFish)
+    if(hasWave)
         animation.framesPerSecond = 8;
 
     if(is_debugging){
@@ -47,5 +63,7 @@ FluidTile::FluidTile(){
 
 FluidTile::FluidTile(int id, Vector2 pos, int z_level) : Tile(id, pos, z_level){
     hasFish = false;
+    hasWave = false;
     timer = 2.0f;
+    old_fps = animation.framesPerSecond;
 }
