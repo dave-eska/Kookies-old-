@@ -23,8 +23,6 @@ class Level{
         void PlantSeed(std::unique_ptr<Tile>& tile);
         void AnimateTile(std::unique_ptr<Tile>& tile);
 
-        void FishingMechanic();
-
     public:
         Vector2 getStartingPos(){return starting_pos;}
         Vector2 getCanvasSize(){return canvas_size;}

@@ -56,9 +56,6 @@ void Level::PlaceItem(std::unique_ptr<Tile>& tile){
     }
 }
 
-void Level::FishingMechanic(){
-}
-
 void Level::PlantSeed(std::unique_ptr<Tile>& tile){
     if(tile->getID() == Farmland_Tile && tile->getIsTouchinSelectAreaPlayer() && getPlayer().getInv().getItemFromCurrentSlot().item_type == "BagOfSeed"){
         if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) && tile->getIsTouchingMouse()){
