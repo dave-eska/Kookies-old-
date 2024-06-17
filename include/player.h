@@ -5,9 +5,9 @@
 
 #include<raylib.h>
 
-#include"animation.h"
+#include "animation.h"
 #include "enchant.h"
-#include"inventory.h"
+#include "inventory.h"
 
 #define DIRECTION_UP 1
 #define DIRECTION_DOWN 2
@@ -82,7 +82,7 @@ class Player{
         void UpdateInventory();
 
         void Draw(bool isDebuggin, Camera2D& camera);
-        void InventoryDraw(Camera2D& camera);
+        void Draw_UI(Camera2D& camera);
 
         Player();
 

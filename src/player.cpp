@@ -187,7 +187,7 @@ void Player::decreaseItemInv(int slot){
     inv.decreaseItemCount(slot);
 }
 
-void Player::InventoryDraw(Camera2D& camera){
+void Player::Draw_UI(Camera2D& camera){
     inv.Draw(camera);
 }
 

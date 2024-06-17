@@ -193,7 +193,7 @@ void DrawGameplayScreen(){
 
     level->DrawUI();
 
-    player.InventoryDraw(camera);
+    player.Draw_UI(camera);
 
     for(auto e:texts) e.Draw();
 

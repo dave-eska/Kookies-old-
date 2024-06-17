@@ -244,6 +244,11 @@ void Inventory::Draw(Camera2D& camera){
                     {1228, 727}, 0, 1.3, WHITE);
         }
     }
+
+    DrawTextureEx(MoneySquare, {13, (float)GetScreenHeight()-47}, 0, 3, WHITE);
+    DrawTextEx(font, "Money: ", {30, (float)GetScreenHeight()-35}, 25, 0, WHITE);
+    std::string temp = std::to_string(money) + " $$";
+    DrawTextEx(font, temp.c_str(), {114, (float)GetScreenHeight()-35}, 25, 0, GREEN);
 }
 
 void Inventory::readCraftAbleFile(){
@@ -269,7 +274,7 @@ Inventory::Inventory(){
 }
 
 Inventory::Inventory(Vector2 pos, int slots, Texture2D Outline_texture,
-        Texture2D SelectOutline_texture, Texture2D Extra_Inv_Texture, Texture2D CraftingMenu_texture)
+                     Texture2D SelectOutline_texture, Texture2D Extra_Inv_Texture, Texture2D CraftingMenu_texture)
     :pos{pos},
     Outline_texture{Outline_texture},SelectOutline_texture{SelectOutline_texture},Extra_Inv_Texture{Extra_Inv_Texture},
     CraftingMenu_texture{CraftingMenu_texture}
@@ -281,16 +286,19 @@ Inventory::Inventory(Vector2 pos, int slots, Texture2D Outline_texture,
     isDrawingUI = false;
     isCrafting = false;
 
+    MoneySquare = LoadTexture("res/img/MoneySquare.png");
+    money = 210;
+
     readCraftAbleFile();
 
     for(int i=0;i<slots;i++){
         items.push_back({
-                .tileID=0,
-                .item_type="Block",
-                .item_name="air",
+            .tileID=0,
+            .item_type="Block",
+            .item_name="air",
 
-                .item_invslot=i,
-                .item_count=0,
-                });
+            .item_invslot=i,
+            .item_count=0,
+        });
     }
 }

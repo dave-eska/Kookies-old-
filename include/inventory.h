@@ -21,11 +21,14 @@ class Inventory{
         Texture2D Extra_Inv_Texture;
         Texture2D SelectOutline_texture;
         Texture2D CraftingMenu_texture;
+        Texture2D MoneySquare;
 
         Vector2 pos;
         int current_slot;
 
         Timer drawingNameTimer;
+
+        int money;
 
         InventoryItem crafting_item;
 
