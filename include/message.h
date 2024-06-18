@@ -19,11 +19,11 @@ class Message{
 
         bool isDrawingDarkButton;
 
-        std::string jsonfile;
-
+        int id;
         std::vector<std::string> text;
         std::vector<std::string> responses;
         std::vector<int> next_file;
+        bool hasResponse ;
 
         Vector2 text_pos;
         int timer;
@@ -39,11 +39,13 @@ class Message{
         int getUserResponse();
         bool hasResponded();
 
+        int getID(){return id;}
+
         std::vector<int> getNextFiles();
 
         void respond();
         void Draw();
 
         Message();
-        Message(std::string filename);
+        Message(std::string filename, int id);
 };

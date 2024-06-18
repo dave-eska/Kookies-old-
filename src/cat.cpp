@@ -1,8 +1,8 @@
 #include "cat.h"
 #include "screens.h"
 
-#include <algorithm>
 #include <raylib.h>
+#include <string>
 
 #define REDBOX_TIMER 1.0f
 
@@ -13,7 +13,7 @@ Cat::Cat(Vector2 max_diff_pos, Player& player, std::string levelName){
     speed = 200;
     isFollowing = true;
 
-    health = 30000;
+    health = 17;
     drawRedBoxTimer = REDBOX_TIMER;
     isDrawingRedBox = false;
 

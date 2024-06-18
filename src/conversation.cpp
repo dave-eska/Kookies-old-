@@ -1,11 +1,10 @@
 #include"conversation.h"
 
 #include"global_func.h"
-#include <iostream>
 #include <string>
 
 void Conversation::restart(){
-    current_message = Message("res/texts/" + directory + "/" + first_file);
+    current_message = Message("res/texts/" + directory + "/" + first_file, 0);
     has_finished = false;
 }
 
@@ -17,7 +16,7 @@ void Conversation::respond(){
         }else{
             int next_file = current_message.getUserResponse();
             std::string file = "res/texts/" + directory + "/" + std::to_string(next_file) + ".json";
-            current_message = Message(file);
+            current_message = Message(file, next_file+1);
         }
     }
 }
@@ -33,7 +32,7 @@ Conversation::Conversation(std::string dir, std::string first_message, int last_
     directory = dir;
     filenames = getAllFileNamesInDirectory("res/texts/" + dir);
     first_file = first_message;
-    current_message = Message("res/texts/" + dir + "/" + first_message);
+    current_message = Message("res/texts/" + dir + "/" + first_message, 0);
 
     has_finished = false;
 }
