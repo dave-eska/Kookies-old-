@@ -6,6 +6,7 @@
 
 #include "enchant.h"
 #include"item.h"
+#include "tile.h"
 #include"timer.h"
 
 class Inventory{
@@ -69,6 +70,12 @@ class Inventory{
         void addItem(InventoryItem item);
         void decreaseItemCount(int slot, int count);
         void decreaseItemCount(int slot);
+        void decreaseItemCount(TileID id);
+
+        int getMoney(){return money;}
+        void setMoney(int val){money = val;}
+        void AddMoney(int val){money += val;}
+        void decreaseMoney(int val){money -= val;}
 
         void toggleDrawUI();
         void toggleCrafting();

@@ -67,6 +67,11 @@ class Player{
         int getCurrentInvSlot();
         int getCurrentInvCraftAbleID();
 
+        void decreaseItemCount(TileID id){inv.decreaseItemCount(id);}
+
+        void setMoney(int val){inv.setMoney(val);}
+        void AddMoney(int val){inv.AddMoney(val);}
+        void decreaseMoney(int val){inv.decreaseMoney(val);}
 
         bool invHas(int id);
         bool invHas(RecipeItem criteria);

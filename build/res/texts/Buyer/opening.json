@@ -1,0 +1,11 @@
+{
+    "text": "Me sell fishes for 300G",
+    "response": [
+        ["Imma Buy", 1, {
+            "type": "buy",
+            "itemID": 27,
+            "price": 300
+        }],
+        ["No Thanks", 2]
+    ]
+}

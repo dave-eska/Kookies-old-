@@ -1,7 +1,11 @@
 {
     "text": "Hello there fella! Yo fish lookin' REAL FINE there !",
     "response": [
-        ["OKAY SOLD!!", 1, "sell"],
+        ["OKAY SOLD!!", 1, {
+            "type": "sell",
+            "itemID": 27,
+            "price": 300
+        }],
         ["How Much?", 2]
     ]
 }

@@ -157,6 +157,7 @@ void InitGameplayScreen(){
     player.addItemInv(newItem<Tool>(WoodenFishingRod_Tool));
     level->AddEntity<Cat>(Cat({TILE_SIZE*2, TILE_SIZE*3}, player, "save.json"));
     level->AddEntity<NPC>(NPC("save.json", {TILE_SIZE*10, -TILE_SIZE}, "Seller", "opening.json", 3));
+    level->AddEntity<NPC>(NPC("save.json", {TILE_SIZE*12, -TILE_SIZE}, "Buyer", "opening.json", 2));
 }
 
 void UpdateGameplayScreen(){

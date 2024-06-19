@@ -5,8 +5,10 @@
 #include  <string>
 
 #include "global_func.h"
+#include "item.h"
 #include "raylib.h"
 #include "screens.h"
+#include "tile.h"
 
 Message::Message(){
 }
@@ -34,7 +36,18 @@ Message::Message(std::string filename, int id): id{id}{
     this->scroll_level = 0;
 
     for(int i=0;i<root["response"].size();i++){
-        responses.push_back(root["response"][i][0].asString());
+        auto jsondata = root["response"][i];
+
+        MessageResponse response;
+        response.response = jsondata[0].asString();
+        if(jsondata.size() >= 3){
+            auto responseDetail = jsondata[2];
+            response.type = responseDetail["type"].asString();
+            response.itemID = responseDetail["itemID"].asInt();
+            response.price = responseDetail["price"].asInt();
+        }
+
+        responses.push_back(response);
         next_file.push_back(root["response"][i][1].asInt());
     }
 
@@ -65,6 +78,15 @@ void Message::respond(){
             isDrawingDarkButton = true;
             dark_button_pos = {604, 811};
             if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+                auto &plr = getPlayer();
+                if(responses[0].type == "sell" && plr.getInv().has(responses[0].itemID)){
+                    plr.AddMoney(responses[0].price);
+                    plr.decreaseItemCount((TileID)responses[0].itemID);
+                }else if(responses[0].type == "buy" && plr.getInv().getMoney() >= responses[0].price){
+                    plr.decreaseMoney(responses[0].price);
+                    plr.addItemInv(newItem<Tile>(responses[0].itemID));
+                }
+
                 user_response = next_file[0];;
                 scroll_level = 0;
                 has_responded = true;
@@ -107,7 +129,7 @@ void Message::Draw(){
         scroll_level++;
 
     if(hasResponse){
-        DrawText(responses[0].c_str(), 604, 814, 30, BLACK);
-        DrawText(responses[1].c_str(), 926, 814, 30, BLACK);
+        DrawText(responses[0].response.c_str(), 604, 814, 30, BLACK);
+        DrawText(responses[1].response.c_str(), 926, 814, 30, BLACK);
     }
 }

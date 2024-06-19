@@ -5,6 +5,13 @@
 
 #include<raylib.h>
 
+struct MessageResponse{
+    std::string response;
+    std::string type;
+    int itemID;
+    int price;
+};
+
 class Message{
     private:
         Rectangle body;
@@ -21,12 +28,14 @@ class Message{
 
         int id;
         std::vector<std::string> text;
-        std::vector<std::string> responses;
+        std::vector<MessageResponse> responses;
         std::vector<int> next_file;
         bool hasResponse ;
 
         Vector2 text_pos;
         int timer;
+
+        int type;
 
         bool animationDone;
 

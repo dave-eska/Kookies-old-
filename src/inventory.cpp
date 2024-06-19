@@ -184,6 +184,14 @@ void Inventory::toggleDrawUI(){
         */
 }
 
+void Inventory::decreaseItemCount(TileID id){
+    for(int i=0;i<items.size();i++){
+        if(items[i].tileID == id){
+            items.erase(items.begin() + i);
+            typeInChat("niggers");
+        }
+    }
+}
 
 void Inventory::toggleCrafting(){
     isCrafting = !isCrafting;

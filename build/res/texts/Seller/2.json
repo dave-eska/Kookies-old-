@@ -1,4 +1,13 @@
 {
     "text": "I'm offering you THREE HUNDRED GOLD for that Normie Fish !",
-    "response": [["Okay??", 1], ["Sold !!", 1]]
+    "response": [["Okay??", 1, {
+                    "type": "sell",
+                    "itemID": 27,
+                    "price": 300
+                }],
+                ["Sold !!", 1, {
+                    "type": "sell",
+                    "itemID": 27,
+                    "price": 300
+                }]
 }
