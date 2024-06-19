@@ -197,8 +197,8 @@ void DrawGameplayScreen(){
     for(auto e:texts) e.Draw();
 
     if(isTyping){
-        DrawRectangleRec({30,(float)GetScreenHeight()-50, (float)(GetScreenWidth()-60), 35}, {20,20,20,130});
-        DrawText(user_input.c_str(), 30, (float)GetScreenHeight()-50, 35, BLACK);
+        DrawRectangleRec({(float)GetScreenWidth()-520, 10, 500, 35}, {20,20,20,130});
+        DrawText(user_input.c_str(), (float)GetScreenWidth()-500, 10, 35, BLACK);
     }
 }
 
