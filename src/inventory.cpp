@@ -188,7 +188,10 @@ void Inventory::toggleDrawUI(){
 void Inventory::decreaseItemCount(TileID id){
     for(auto& item : items){
         if(item.tileID == id){
-            item.item_count--;
+            if(item.item_count > 1)
+                item.item_count--;
+            else
+                deleteItem(item.item_invslot);
             break;
         }
     }
