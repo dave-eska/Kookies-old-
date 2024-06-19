@@ -67,7 +67,7 @@ class Player{
         int getCurrentInvSlot();
         int getCurrentInvCraftAbleID();
 
-        void decreaseItemCount(TileID id){inv.decreaseItemCount(id);}
+        void decreaseItemCount(TileID id){inv.decreaseItemCount((TileID)id);}
 
         void setMoney(int val){inv.setMoney(val);}
         void AddMoney(int val){inv.AddMoney(val);}

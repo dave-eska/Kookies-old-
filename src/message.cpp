@@ -95,6 +95,15 @@ void Message::respond(){
             isDrawingDarkButton = true;
             dark_button_pos = {926, 811};
             if(IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+                auto &plr = getPlayer();
+                if(responses[1].type == "sell" && plr.getInv().has(responses[1].itemID)){
+                    plr.AddMoney(responses[1].price);
+                    plr.decreaseItemCount((TileID)responses[1].itemID);
+                }else if(responses[1].type == "buy" && plr.getInv().getMoney() >= responses[1].price){
+                    plr.decreaseMoney(responses[1].price);
+                    plr.addItemInv(newItem<Tile>(responses[1].itemID));
+                }
+
                 user_response = next_file[1];
                 scroll_level = 0;
                 has_responded = true;

@@ -1,9 +1,7 @@
 #include "screens.h"
 
 #include <algorithm>
-#include <iostream>
 #include <memory>
-#include <ostream>
 #include <string>
 #include <unistd.h>
 #include <unordered_set>

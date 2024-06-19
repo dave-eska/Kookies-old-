@@ -64,8 +64,10 @@ static void typingCode(){
     if(IsKeyPressed(KEY_ENTER) && !user_input.empty()){
         if(isStringInVector(commands, getFirstWord(user_input))){
             std::string command = getFirstWord(user_input);
-            if(command == "/reset")
+            if(command == "/reset"){
+                UnloadGameplayScreen();
                 InitGameplayScreen();
+            }
             else if(command ==  "/clear")
                 texts.clear();
             else if(command == "/debug")
@@ -155,6 +157,7 @@ void InitGameplayScreen(){
 
     player.addItemInv(newItem<Tool>(Sword_Tool));
     player.addItemInv(newItem<Tool>(WoodenFishingRod_Tool));
+
     level->AddEntity<Cat>(Cat({TILE_SIZE*2, TILE_SIZE*3}, player, "save.json"));
     level->AddEntity<NPC>(NPC("save.json", {TILE_SIZE*10, -TILE_SIZE}, "Seller", "opening.json", 3));
     level->AddEntity<NPC>(NPC("save.json", {TILE_SIZE*12, -TILE_SIZE}, "Buyer", "opening.json", 2));
@@ -204,6 +207,7 @@ void DrawGameplayScreen(){
 
 void UnloadGameplayScreen(){
     delete level;
+    texts.clear();
 }
 
 void ResetGameplayFinishScreen(){

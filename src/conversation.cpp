@@ -11,7 +11,7 @@ void Conversation::restart(){
 void Conversation::respond(){
     current_message.respond();
     if(current_message.hasResponded()){
-        if(current_message.getUserResponse() == last_message_id){
+        if(current_message.getUserResponse() >= last_message_id){
             has_finished = true;
         }else{
             int next_file = current_message.getUserResponse();

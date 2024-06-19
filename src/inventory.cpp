@@ -9,6 +9,7 @@
 
 #include<raylib.h>
 #include<utility>
+#include <vector>
 
 #include"global_func.h"
 
@@ -185,10 +186,10 @@ void Inventory::toggleDrawUI(){
 }
 
 void Inventory::decreaseItemCount(TileID id){
-    for(int i=0;i<items.size();i++){
-        if(items[i].tileID == id){
-            items.erase(items.begin() + i);
-            typeInChat("niggers");
+    for(auto& item : items){
+        if(item.tileID == id){
+            item.item_count--;
+            break;
         }
     }
 }
@@ -209,7 +210,7 @@ void Inventory::Draw(Camera2D& camera){
 
         DrawText(std::to_string(items[i].item_count).c_str(), (float)i*OUTLINE_SIZE+pos.x+20, pos.y+45, 20, LIGHTGRAY);
         if(CheckCollisionPointRec(GetMousePosition(), {(float)i*OUTLINE_SIZE+pos.x, pos.y,
-                    OUTLINE_SIZE, OUTLINE_SIZE}) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
+            OUTLINE_SIZE, OUTLINE_SIZE}) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
             outline_transparancy = 255;
             current_slot = i;
         }
@@ -228,7 +229,7 @@ void Inventory::Draw(Camera2D& camera){
                 DrawTextureEx(Extra_Inv_Texture, {x, y}, 0, 2, WHITE);
 
                 if(CheckCollisionPointRec(GetMousePosition(), {x,y,OUTLINE_SIZE,OUTLINE_SIZE}) &&
-                        IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
+                    IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
                     outline_transparancy = 150;
                 }
             }
@@ -246,10 +247,10 @@ void Inventory::Draw(Camera2D& camera){
             DrawText(target_item.item_name.c_str(), 1242, 612, 33, BLACK);
 
             DrawTextureEx(Tile(target_item.recipe[1].id, {0,0}, 0).getTexture(),
-                    {1167, 727}, 0, 1.3, WHITE);
+                          {1167, 727}, 0, 1.3, WHITE);
 
             DrawTextureEx(Tile(target_item.recipe[0].id, {0,0}, 0).getTexture(),
-                    {1228, 727}, 0, 1.3, WHITE);
+                          {1228, 727}, 0, 1.3, WHITE);
         }
     }
 
