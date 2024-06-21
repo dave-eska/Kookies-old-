@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include "screens.h"
 
+#include <cmath>
 #include<iostream>
 #include<fstream>
 #include<filesystem>
@@ -219,4 +220,28 @@ bool isWalkableY(Rectangle newPos, Rectangle body){
     }
 
     return true;
+}
+
+std::string floatToTime(float value) {
+    // Clamp value to be within the range 0.0 to 255.0
+    if (value < 0.0f) value = 0.0f;
+    if (value > 255.0f) value = 255.0f;
+
+    // Convert the value to a range between 0 and 24 hours
+    float hours = (value / 255.0f) * 24.0f;
+
+    // Extract whole hours and minutes
+    int wholeHours = static_cast<int>(hours);
+    int minutes = static_cast<int>(std::round((hours - wholeHours) * 60));
+
+    // Handle edge case where minutes round up to 60
+    if (minutes == 60) {
+        wholeHours += 1;
+        minutes = 0;
+    }
+
+    // Format the time as HH:MM
+    std::ostringstream oss;
+    oss << std::setfill('0') << std::setw(2) << wholeHours << ":" << std::setfill('0') << std::setw(2) << minutes;
+    return oss.str();
 }

@@ -143,12 +143,26 @@ void Level::Update(){
         }
     }
 
+    if(igTime < 255)
+        igTime += GetFrameTime()*4;
 }
 
 void Level::DrawUI(){
     for(auto& entity : entities){
         if(entity->getLevelName() == level_name) entity->Draw_UI();
     }
+
+    DrawTextureEx(timeSquare, {13, (float)GetScreenHeight()/2}, 0, 3, WHITE);
+
+    DrawTextEx(font, "Time: ", {30, (float)GetScreenHeight()/2+12}, 25, 0, WHITE);
+
+    DrawTextEx(font, floatToTime(igTime).c_str(), {114, (float)GetScreenHeight()/2+12}, 25, 0, GREEN);
+}
+
+void Level::DrawSKY(){
+    Color skyColor = BLACK;
+    skyColor.a = igTime;
+    DrawRectangleRec({0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()}, skyColor);
 }
 
 void Level::Draw(){
@@ -165,6 +179,10 @@ void Level::Draw(){
 Level::Level(std::string levelName){
     level_name = levelName;
     tiles = loadLevelFromFile(levelName, total_layers, canvas_size, starting_pos);
+
+    timeSquare = LoadTexture("res/img/MoneySquare.png");
+    igTime = 0.0f;
+
     std::cout<<"Created Level: "<<level_name<<std::endl;
 }
 

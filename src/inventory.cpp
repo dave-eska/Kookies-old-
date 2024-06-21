@@ -257,10 +257,10 @@ void Inventory::Draw(Camera2D& camera){
         }
     }
 
-    DrawTextureEx(MoneySquare, {13, (float)GetScreenHeight()-47}, 0, 3, WHITE);
-    DrawTextEx(font, "Money: ", {30, (float)GetScreenHeight()-35}, 25, 0, WHITE);
+    DrawTextureEx(MoneySquare, {13, (float)GetScreenHeight()/2-47}, 0, 3, WHITE);
+    DrawTextEx(font, "Money: ", {30, (float)GetScreenHeight()/2-35}, 25, 0, WHITE);
     std::string temp = std::to_string(money) + " $$";
-    DrawTextEx(font, temp.c_str(), {114, (float)GetScreenHeight()-35}, 25, 0, GREEN);
+    DrawTextEx(font, temp.c_str(), {114, (float)GetScreenHeight()/2-35}, 25, 0, GREEN);
 }
 
 void Inventory::readCraftAbleFile(){

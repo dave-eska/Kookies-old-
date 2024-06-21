@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 
+#include "raylib.h"
 #include "tile.h"
 #include "entity.h"
 
@@ -15,6 +16,10 @@ class Level{
         Vector2 starting_pos;
         Vector2 canvas_size;
         int total_layers;
+
+        Texture2D timeSquare;
+
+        float igTime;
 
         //! Update Tile Functions
         void Interact(std::unique_ptr<Tile>& tile, std::string& tile_interect_return_code);
@@ -53,7 +58,9 @@ class Level{
         void changeLevel(std::string levelName);
 
         void Update();
+
         void DrawUI();
+        void DrawSKY();
         void Draw();
 
         Level();

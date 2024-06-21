@@ -1,3 +1,5 @@
+#include <iostream>
+#include <ostream>
 #include <vector>
 #include <string>
 
@@ -192,6 +194,8 @@ void DrawGameplayScreen(){
     drawInCamMode();
 
     EndMode2D();
+
+    level->DrawSKY();
 
     level->DrawUI();
 

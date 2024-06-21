@@ -35,3 +35,5 @@ bool AABBy(Rectangle rec1, Rectangle rec2);
 
 bool isWalkableX(Rectangle newPos, Rectangle body);
 bool isWalkableY(Rectangle newPos, Rectangle body);
+
+std::string floatToTime(float value);
