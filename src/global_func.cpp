@@ -227,8 +227,8 @@ std::string floatToTime(float value) {
     if (value < 0.0f) value = 0.0f;
     if (value > 255.0f) value = 255.0f;
 
-    // Convert the value to a range between 0 and 24 hours
-    float hours = (value / 255.0f) * 24.0f;
+    // Convert the value to a range between 6 and 24 hours
+    float hours = 6.0f + (value / 255.0f) * 18.0f;
 
     // Extract whole hours and minutes
     int wholeHours = static_cast<int>(hours);

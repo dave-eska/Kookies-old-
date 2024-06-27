@@ -143,8 +143,8 @@ void Level::Update(){
         }
     }
 
-    if(igTime < 255)
-        igTime += GetFrameTime()*4;
+    igTime += GetFrameTime() * 6;
+
 }
 
 void Level::DrawUI(){
