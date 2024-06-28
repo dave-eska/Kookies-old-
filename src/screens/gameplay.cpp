@@ -1,5 +1,3 @@
-#include <iostream>
-#include <ostream>
 #include <vector>
 #include <string>
 
@@ -185,7 +183,7 @@ void UpdateGameplayScreen(){
         typingCode();
 
     if(IsKeyPressed(KEY_ESCAPE))
-        isOnEscMenu = true;
+        finish_screen = 0;
 }
 
 void DrawGameplayScreen(){
