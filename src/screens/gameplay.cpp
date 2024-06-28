@@ -183,7 +183,7 @@ void UpdateGameplayScreen(){
         typingCode();
 
     if(IsKeyPressed(KEY_ESCAPE))
-        finish_screen = 0;
+        finish_screen = 1;
 }
 
 void DrawGameplayScreen(){

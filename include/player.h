@@ -9,8 +9,6 @@
 #include "enchant.h"
 #include "inventory.h"
 
-#include <iostream>
-
 #define DIRECTION_UP 1
 #define DIRECTION_DOWN 2
 #define DIRECTION_LEFT 3
