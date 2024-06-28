@@ -11,6 +11,8 @@
 
 #include "global_func.h"
 
+#include <iostream>
+
 #include "level.h"
 
 #include "player.h"
